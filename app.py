@@ -661,7 +661,13 @@ def answer_question(question: str, asked_by_voice: bool = False):
                     answer,
                     LANGUAGES[selected_language]["gtts_code"]
                 )
-    st.session_state.last_audio = {"bytes": audio, "fresh": True} if audio else None
+    st.session_state.last_audio = {
+        "bytes": audio,
+        "fresh": True,
+        # Voice questions: played by the recorder's tap-unlocked channel
+        "via_recorder": asked_by_voice,
+        "id": uuid.uuid4().hex,
+    } if audio else None
 
 
 with tab2:
@@ -676,7 +682,15 @@ with tab2:
             f"{selected_language}"
         )
         # Ask by voice: stops by itself when you pause, then answers
-        spoken = voice_recorder(key="voice_recorder", turn=st.session_state.voice_q_n)
+        last = st.session_state.last_audio
+        spoken = voice_recorder(
+            key="voice_recorder",
+            turn=st.session_state.voice_q_n,
+            play=(
+                {"id": last["id"], "audio": last["bytes"]}
+                if last and last["fresh"] and last.get("via_recorder") else None
+            ),
+        )
         if st.session_state.pop("voice_warning", None):
             st.warning("I didn't catch a question. Tap the mic and try again, or type it below.")
         # Backup: Streamlit's basic recorder (tap stop yourself).
@@ -742,7 +756,8 @@ with tab2:
                 st.audio(
                     last["bytes"],
                     format="audio/mp3",
-                    autoplay=last["fresh"]
+                    # Voice answers already play through the recorder
+                    autoplay=last["fresh"] and not last.get("via_recorder")
                 )
                 # Only autoplay once, not on every rerun
                 last["fresh"] = False

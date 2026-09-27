@@ -43,6 +43,39 @@ export default function (component) {
   const NO_SPEECH_MS = 8000;  // give up if nothing is said
   const MAX_MS = 30000;       // longest question
 
+  // Answer player. Safari (iPhone/iPad) only allows sound that starts from
+  // a tap, so the audio channel is unlocked when the mic is tapped and the
+  // spoken answer is played through it later.
+  const P = window.__iraayaPlayer || (window.__iraayaPlayer = { ctx: null, src: null, last: null });
+  const unlock = () => {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!P.ctx) P.ctx = new AC();
+    if (P.ctx.resume) P.ctx.resume();
+    const silence = P.ctx.createBufferSource();
+    silence.buffer = P.ctx.createBuffer(1, 1, 22050);
+    silence.connect(P.ctx.destination);
+    silence.start(0);
+  };
+  const stopPlayback = () => {
+    if (P.src) { try { P.src.stop(); } catch (e) {} P.src = null; }
+  };
+  const playAnswer = async (b64) => {
+    if (!P.ctx) return;
+    try {
+      const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+      const buffer = await P.ctx.decodeAudioData(bytes.buffer);
+      stopPlayback();
+      const src = P.ctx.createBufferSource();
+      src.buffer = buffer;
+      src.connect(P.ctx.destination);
+      src.onended = () => { if (P.src === src) P.src = null; };
+      src.start(0);
+      P.src = src;
+    } catch (e) { /* the ▶ player below the answer still works */ }
+  };
+  const play = component.data && component.data.play;
+  if (play && play.id !== P.last) { P.last = play.id; playAnswer(play.b64); }
+
   const idle = (msg) => {
     btn.textContent = '🎤 Tap and ask your question';
     btn.className = '';
@@ -59,6 +92,7 @@ export default function (component) {
 
   async function start() {
     // Stop iRaaya's own voice first, so the mic can't hear it
+    stopPlayback();
     document.querySelectorAll('audio, video').forEach((m) => { try { m.pause(); } catch (e) {} });
     let stream;
     try {
@@ -129,6 +163,7 @@ export default function (component) {
 
   btn.onclick = () => {
     if (btn.className === 'busy') return;
+    unlock();   // must happen during the tap itself
     if (s.recording) stop(true); else start();
   };
 }
@@ -136,19 +171,41 @@ export default function (component) {
 
 EXTENSIONS = {"webm": "webm", "mp4": "m4a", "mpeg": "mp3", "ogg": "ogg", "wav": "wav"}
 
-_component = st.components.v2.component(
-    "iraaya_voice_recorder", html=HTML, css=CSS, js=JS
-)
+def _register():
+    return st.components.v2.component(
+        "iraaya_voice_recorder", html=HTML, css=CSS, js=JS
+    )
 
 
-def voice_recorder(key: str = "voice_recorder", turn: int = 0):
+_component = _register()
+
+
+def _mount(**kwargs):
+    """Mount the recorder, registering it again if Streamlit has lost it
+    (registration normally happens once, when this file is first loaded)."""
+    global _component
+    try:
+        return _component(**kwargs)
+    except Exception as e:
+        if "not registered" not in str(e):
+            raise
+        _component = _register()
+        return _component(**kwargs)
+
+
+def voice_recorder(key: str = "voice_recorder", turn: int = 0, play=None):
     """Show the recorder. Returns (audio_bytes, filename) once per question,
     otherwise None.
 
     turn: change it after each question so the recorder redraws and
     resets from "Thinking..." to ready.
+    play: optional {"id": ..., "audio": mp3 bytes} spoken answer to play
+    through the tap-unlocked channel (works on iPhone/iPad Safari).
     """
-    result = _component(key=key, data={"turn": turn}, on_audio_change=lambda: None)
+    data = {"turn": turn}
+    if play:
+        data["play"] = {"id": play["id"], "b64": base64.b64encode(play["audio"]).decode()}
+    result = _mount(key=key, data=data, on_audio_change=lambda: None)
     audio = result.get("audio") if hasattr(result, "get") else getattr(result, "audio", None)
     if not audio or not audio.get("b64"):
         return None
