@@ -58,6 +58,8 @@ export default function (component) {
   });
 
   async function start() {
+    // Stop iRaaya's own voice first, so the mic can't hear it
+    document.querySelectorAll('audio, video').forEach((m) => { try { m.pause(); } catch (e) {} });
     let stream;
     try {
       stream = await navigator.mediaDevices.getUserMedia(

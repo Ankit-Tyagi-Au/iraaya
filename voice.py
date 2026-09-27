@@ -200,6 +200,20 @@ def cleanup_old_clones(api_key: str) -> int:
     return deleted
 
 
+# Whisper is known to "hear" these phrases in silence or background noise
+WHISPER_FILLERS = {
+    "", "you", "thank you", "thanks", "thank you very much", "thanks for watching",
+    "thank you for watching", "bye", "bye bye", "okay", "ok", "so", "hmm",
+    "please subscribe", "subtitles by the amara org community",
+}
+
+
+def is_filler(text: str) -> bool:
+    """True if a transcript is empty or a typical Whisper phantom phrase."""
+    t = re.sub(r"[^a-z ]", "", (text or "").lower()).strip()
+    return t in WHISPER_FILLERS
+
+
 def transcribe_audio_file(
     audio_bytes: bytes,
     api_key: str,
@@ -226,7 +240,8 @@ def transcribe_audio_file(
             response_format="text"
         )
         # response_format="text" returns a plain string
-        return (result if isinstance(result, str) else getattr(result, "text", "")).strip()
+        text = (result if isinstance(result, str) else getattr(result, "text", "")).strip()
+        return "" if is_filler(text) else text
     except Exception as e:
         print(
             f"Transcription error: {e}"

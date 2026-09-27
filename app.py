@@ -3,6 +3,7 @@
 Run: streamlit run app.py
 """
 
+import difflib
 import hashlib
 import os
 import re
@@ -605,6 +606,20 @@ QUICK_QUESTIONS = {
 }
 
 
+def is_own_echo(heard: str) -> bool:
+    """True if a 'question' is really iRaaya's last answer picked up by the mic."""
+    answers = [m["content"] for m in st.session_state.chat_history if m["role"] == "assistant"]
+    if not answers:
+        return False
+    last = re.sub(r"[^\w ]", "", answers[-1].lower())
+    words = re.sub(r"[^\w ]", "", heard.lower()).split()
+    if len(words) < 3:
+        return False
+    in_answer = sum(w in last.split() for w in words) / len(words)
+    similar = difflib.SequenceMatcher(None, " ".join(words), last).ratio()
+    return in_answer >= 0.8 or similar >= 0.6
+
+
 def answer_question(question: str, asked_by_voice: bool = False):
     try:
         with st.spinner("iRaaya is thinking..."):
@@ -663,7 +678,7 @@ with tab2:
         # Ask by voice: stops by itself when you pause, then answers
         spoken = voice_recorder(key="voice_recorder", turn=st.session_state.voice_q_n)
         if st.session_state.pop("voice_warning", None):
-            st.warning("Sorry, I couldn't hear that. Please try again or type your question.")
+            st.warning("I didn't catch a question. Tap the mic and try again, or type it below.")
         # Backup: Streamlit's basic recorder (tap stop yourself).
         # A new key after each question resets it.
         with st.expander("Mic not working? Use the basic recorder"):
@@ -700,6 +715,8 @@ with tab2:
                     filename=audio_name,
                     vocabulary=vocabulary_hint(st.session_state.df),
                 ) if GROQ_KEY else ""
+            if heard and is_own_echo(heard):
+                heard = ""   # the mic picked up iRaaya's own spoken answer
             if heard:
                 pending_question = heard
                 asked_by_voice = True
