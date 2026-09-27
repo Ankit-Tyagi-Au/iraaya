@@ -16,7 +16,9 @@ import streamlit as st
 from dotenv import load_dotenv
 
 from analyser import (
+    find_relevant_rows,
     load_data,
+    vocabulary_hint,
     validate_data,
     get_summary,
     get_data_context,
@@ -42,6 +44,7 @@ from insights import (
 )
 from languages import LANGUAGES
 from pdf_report import generate_pdf
+from recorder import voice_recorder
 from voice import (
     DEFAULT_VOICE_ID,
     VoiceCloneError,
@@ -605,9 +608,10 @@ QUICK_QUESTIONS = {
 def answer_question(question: str, asked_by_voice: bool = False):
     try:
         with st.spinner("iRaaya is thinking..."):
+            rows = find_relevant_rows(st.session_state.df, question)
             answer = ask_iraaya(
                 question=question,
-                data_context=data_context(),
+                data_context=data_context() + (f"\n{rows}\n" if rows else ""),
                 language=selected_language,
                 mode=selected_mode,
                 api_key=GROQ_KEY,
@@ -656,12 +660,18 @@ with tab2:
             f"Ask iRaaya in "
             f"{selected_language}"
         )
-        # Ask by voice: answering starts as soon as the recording stops.
-        # A new key after each question resets the recorder.
-        recording = st.audio_input(
-            "🎤 Ask by voice — tap the mic, speak, then tap stop",
-            key=f"voice_q_{st.session_state.voice_q_n}",
-        )
+        # Ask by voice: stops by itself when you pause, then answers
+        spoken = voice_recorder(key="voice_recorder", turn=st.session_state.voice_q_n)
+        if st.session_state.pop("voice_warning", None):
+            st.warning("Sorry, I couldn't hear that. Please try again or type your question.")
+        # Backup: Streamlit's basic recorder (tap stop yourself).
+        # A new key after each question resets it.
+        with st.expander("Mic not working? Use the basic recorder"):
+            basic = st.audio_input(
+                "Tap the mic, speak, then tap stop",
+                key=f"voice_q_{st.session_state.voice_q_n}",
+            )
+        recording = spoken or ((basic.getvalue(), "question.wav") if basic else None)
 
         st.caption("Or tap a quick question, or type below:")
         cols = st.columns(len(QUICK_QUESTIONS))
@@ -682,22 +692,25 @@ with tab2:
         if recording is not None:
             st.session_state.voice_q_n += 1
             with st.spinner("Listening..."):
+                audio_bytes, audio_name = recording
                 heard = transcribe_audio_file(
-                    recording.getvalue(),
+                    audio_bytes,
                     GROQ_KEY,
-                    language=LANGUAGES[selected_language]["gtts_code"].split("-")[0]
+                    language=LANGUAGES[selected_language]["gtts_code"].split("-")[0],
+                    filename=audio_name,
+                    vocabulary=vocabulary_hint(st.session_state.df),
                 ) if GROQ_KEY else ""
             if heard:
                 pending_question = heard
                 asked_by_voice = True
             else:
-                st.warning("Sorry, I couldn't hear that. Please try again or type your question.")
+                st.session_state.voice_warning = True
 
         if pending_question:
             answer_question(pending_question, asked_by_voice)
-            if asked_by_voice:
-                # Clear the used recording so the mic is ready again
-                st.rerun()
+        if recording is not None:
+            # Redraw so both recorders reset and are ready for the next question
+            st.rerun()
 
         if st.session_state.chat_history:
             for msg in st.session_state.chat_history[-10:]:

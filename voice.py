@@ -204,11 +204,14 @@ def transcribe_audio_file(
     audio_bytes: bytes,
     api_key: str,
     language: str = None,
-    filename: str = "question.wav"
+    filename: str = "question.wav",
+    vocabulary: str = None
 ) -> str:
     """Speech to text with Groq Whisper. Returns "" if it fails.
 
     language: optional ISO-639-1 hint (e.g. "hi"), improves accuracy.
+    vocabulary: names from the user's data, so Whisper spells them right
+    (e.g. "Nexthink" rather than "next thing").
     """
     client = Groq(api_key=api_key)
     try:
@@ -216,6 +219,10 @@ def transcribe_audio_file(
             file=(filename, audio_bytes),
             model=os.getenv("GROQ_WHISPER_MODEL") or DEFAULT_WHISPER_MODEL,
             language=language or groq.NOT_GIVEN,
+            prompt=(
+                f"Names that may be mentioned: {vocabulary}." if vocabulary
+                else groq.NOT_GIVEN
+            ),
             response_format="text"
         )
         # response_format="text" returns a plain string

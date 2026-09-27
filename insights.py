@@ -108,7 +108,8 @@ def ask_iraaya(
         "content": question
     })
 
-    return _chat(api_key, messages, temperature=0.3, max_tokens=600)
+    # Short answers (read aloud); the prompt asks for 2 to 5 sentences
+    return _chat(api_key, messages, temperature=0.3, max_tokens=500)
 
 
 def _parse_insights(raw: str) -> list:

@@ -1,6 +1,8 @@
 """Load, validate and summarise business sales data with pandas."""
 
+import difflib
 import os
+import re
 
 import numpy as np
 import pandas as pd
@@ -13,6 +15,16 @@ MAX_MONTHS_IN_CONTEXT = 24
 
 # A month must be at least this far from the trend to count as unusual
 MIN_ANOMALY_PCT = 30
+
+# Individual records sent to the AI: every row for small files, otherwise
+# only the rows that match the question (dates or names mentioned in it)
+ALL_ROWS_LIMIT = 40
+MATCHED_ROWS_LIMIT = 25
+
+MONTHS = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun",
+     "jul", "aug", "sep", "oct", "nov", "dec"], start=1)}
+_MON = r"(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?"
 
 
 def load_data(file) -> pd.DataFrame:
@@ -168,6 +180,108 @@ def _pivot_by_month(df, column: str, keep: list) -> str:
     return table.round(0).astype(int).to_string()
 
 
+def _rows_as_text(rows: pd.DataFrame) -> str:
+    rows = rows.copy()
+    rows["Date"] = rows["Date"].dt.strftime("%Y-%m-%d")
+    return rows.to_csv(index=False).strip()
+
+
+def _dates_in(text: str):
+    """Exact dates and whole months mentioned in the text."""
+    t = text.lower()
+    days, months = set(), set()
+    for y, m, d in re.findall(r"\b(\d{4})-(\d{1,2})-(\d{1,2})\b", t):
+        days.add((int(y), int(m), int(d)))
+    for d, m, y in re.findall(r"\b(\d{1,2})/(\d{1,2})/(\d{4})\b", t):
+        days.add((int(y), int(m), int(d)))      # day/month/year
+    for d, mon, y in re.findall(r"\b(\d{1,2})(?:st|nd|rd|th)?\s+(?:of\s+)?" + _MON + r",?\s+(\d{4})\b", t):
+        days.add((int(y), MONTHS[mon], int(d)))
+    for mon, d, y in re.findall(r"\b" + _MON + r"\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})\b", t):
+        days.add((int(y), MONTHS[mon], int(d)))
+    for mon, y in re.findall(r"\b" + _MON + r"\s+(\d{4})\b", t):
+        months.add((int(y), MONTHS[mon]))
+    # "15 April 2024" also contains "April 2024": the exact day wins
+    months -= {(y, m) for y, m, _ in days}
+    return days, months
+
+
+def _names_in(df: pd.DataFrame, text: str) -> dict:
+    """Text values (products, regions...) mentioned in the text, allowing
+    for small spelling or speech-to-text differences ("next thing" -> Nexthink)."""
+    t = re.sub(r"[^a-z0-9 ]", " ", text.lower())
+    words = t.split()
+    grams = set(words) | {a + b for a, b in zip(words, words[1:])}
+    found = {}
+    for col in df.select_dtypes(include=["object", "string"]).columns:
+        values = [str(v) for v in df[col].dropna().unique()[:2000]]
+        exact = {v for v in values if v.lower() in t}
+        if exact:
+            found[col] = exact
+            continue
+        # Near matches only on words that identify a single value
+        # ("india" is shared by four regions, so it can't pick one)
+        word_owner = {}
+        for v in values:
+            for w in set(re.sub(r"[^a-z0-9 ]", " ", v.lower()).split()):
+                word_owner.setdefault(w, set()).add(v)
+        near = set()
+        for w, owners in word_owner.items():
+            if len(w) >= 5 and len(owners) == 1 and \
+                    difflib.get_close_matches(w, grams, n=1, cutoff=0.8):
+                near |= owners
+        if near:
+            found[col] = near
+    return found
+
+
+def find_relevant_rows(df: pd.DataFrame, question: str) -> str:
+    """Records matching the question, for files too big to send in full."""
+    if len(df) <= ALL_ROWS_LIMIT:
+        return ""   # every row is already in the data context
+    days, months = _dates_in(question)
+    mask = pd.Series(False, index=df.index)
+    for y, m, d in days:
+        mask |= (df.Date.dt.year == y) & (df.Date.dt.month == m) & (df.Date.dt.day == d)
+    for y, m in months:
+        mask |= (df.Date.dt.year == y) & (df.Date.dt.month == m)
+    names = _names_in(df, question)
+    # Broad columns like Region match too many rows on their own, so
+    # names only narrow things down when no date was mentioned
+    for col, values in names.items():
+        col_mask = df[col].astype(str).isin(values)
+        mask = (mask & col_mask) if (days or months) and mask.any() else (mask | col_mask)
+    rows = df[mask]
+    if rows.empty:
+        return ""
+    if len(rows) > MATCHED_ROWS_LIMIT and not (days or months):
+        return ""   # broad question: the summaries already answer it
+    shown = rows.head(MATCHED_ROWS_LIMIT)
+    # Exact totals, so the AI never has to add numbers up itself
+    totals = (
+        "EXACT TOTALS (use these for any total; a single row is only one "
+        f"region or customer):\nAll {len(rows)} matching rows: "
+        f"{rows.Total_Revenue.sum():,.2f}"
+    )
+    for col in ("Product", "Region"):
+        if col in rows.columns and rows[col].nunique() > 1:
+            top = rows.groupby(col).Total_Revenue.sum().sort_values(ascending=False).head(5)
+            totals += f"\nTotal by {col.lower()} (all matching rows): " + "; ".join(
+                f"{k} {v:,.2f}" for k, v in top.items())
+    return (
+        f"RECORDS MATCHING THIS QUESTION ({len(shown)} of {len(rows)} "
+        f"matching rows shown):\n{totals}\n{_rows_as_text(shown)}"
+    )
+
+
+def vocabulary_hint(df: pd.DataFrame, max_chars: int = 600) -> str:
+    """Names from the data, to help speech-to-text spell them correctly."""
+    names = []
+    for col in ("Product", "Region", "Customer_Type"):
+        if col in df.columns:
+            names += [str(v) for v in df[col].dropna().unique()]
+    return ", ".join(names)[:max_chars]
+
+
 def _breakdown(df, column: str) -> str:
     if column not in df.columns:
         return ""
@@ -207,6 +321,10 @@ def get_data_context(df) -> str:
     ) or "  None detected"
 
     health = calculate_health_score(df)
+    all_rows = (
+        f"\nALL RECORDS ({len(df)} rows):\n{_rows_as_text(df)}\n"
+        if len(df) <= ALL_ROWS_LIMIT else ""
+    )
     n_products = len(summary["top_products"])
     shown_note = (
         f"; top {len(top_products)} of {n_products} shown"
@@ -258,7 +376,7 @@ MONTHLY REVENUE BY REGION:
 
 UNUSUAL MONTHS (compared with the overall trend):
 {anomaly_text}
-"""
+{all_rows}"""
 
 
 def detect_anomalies(df) -> list:
