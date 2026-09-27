@@ -17,6 +17,7 @@ import streamlit as st
 from dotenv import load_dotenv
 
 from analyser import (
+    clean_dataframe,
     find_relevant_rows,
     load_data,
     vocabulary_hint,
@@ -37,8 +38,10 @@ from forecaster import (
     forecast_revenue,
     forecast_chart
 )
+from documents import DOCUMENT_TYPES, document_context, read_document
 from insights import (
     IRaayaError,
+    ask_document,
     ask_iraaya,
     generate_insights,
     generate_whatsapp_summary
@@ -109,6 +112,10 @@ DEFAULTS = {
     "insights": [],
     "whatsapp": None,
     "voice_q_n": 0,
+    # PDF / Word documents without a sales table
+    "doc_text": None,
+    "doc_name": None,
+    "doc_pages": None,
 }
 for key, value in DEFAULTS.items():
     if key not in st.session_state:
@@ -124,6 +131,7 @@ SAVED_KEYS = [
     "df", "summary", "context", "health", "anomalies", "data_key",
     "data_name", "warnings", "chat_history", "cloned_voice_id",
     "cloned_voice_name", "insights", "whatsapp", "main_tab",
+    "doc_text", "doc_name", "doc_pages",
     # sidebar settings (widget keys)
     "lang", "style", "currency", "speak", "premium",
 ]
@@ -221,6 +229,30 @@ def set_data(df, name: str, data_key: str):
     st.session_state.last_audio = None
     st.session_state.insights = []
     st.session_state.whatsapp = None
+    st.session_state.doc_text = None
+    st.session_state.doc_name = None
+    st.session_state.doc_pages = None
+
+
+def set_document(text: str, name: str, pages, data_key: str):
+    """Keep a PDF/Word document (no sales table) to answer questions about."""
+    for key in ("df", "summary", "context", "health"):
+        st.session_state[key] = None
+    st.session_state.anomalies = []
+    st.session_state.warnings = []
+    st.session_state.doc_text = text
+    st.session_state.doc_name = name
+    st.session_state.doc_pages = pages
+    st.session_state.data_key = data_key
+    st.session_state.data_name = name
+    st.session_state.chat_history = []
+    st.session_state.last_audio = None
+    st.session_state.insights = []
+    st.session_state.whatsapp = None
+
+
+def is_document() -> bool:
+    return st.session_state.df is None and bool(st.session_state.doc_text)
 
 
 def show_error(e: Exception):
@@ -235,9 +267,13 @@ st.sidebar.caption(
 st.sidebar.divider()
 
 uploaded_file = st.sidebar.file_uploader(
-    "Upload your business data",
-    type=["csv", "xlsx", "xls"],
-    help="CSV or Excel with Date, Product, Region and Total_Revenue columns"
+    "Upload your business data or a document",
+    type=["csv", "xlsx", "xls", "pdf", "docx"],
+    help=(
+        "Sales data: CSV, Excel, or a PDF/Word file with a table that has "
+        "Date, Product, Region and Total_Revenue columns. "
+        "Any other PDF or Word document: ask questions about it."
+    )
 )
 
 if uploaded_file is not None:
@@ -245,13 +281,32 @@ if uploaded_file is not None:
     data_key = hashlib.md5(file_bytes).hexdigest()
     if data_key != st.session_state.data_key:
         try:
-            set_data(load_data(uploaded_file), uploaded_file.name, data_key)
+            if os.path.splitext(uploaded_file.name)[1].lower() in DOCUMENT_TYPES:
+                with st.spinner("Reading your document..."):
+                    doc = read_document(uploaded_file)
+                if doc["kind"] == "table":
+                    set_data(clean_dataframe(doc["df"]), uploaded_file.name, data_key)
+                else:
+                    set_document(doc["text"], uploaded_file.name, doc["pages"], data_key)
+            else:
+                set_data(load_data(uploaded_file), uploaded_file.name, data_key)
         except ValueError as e:
             st.sidebar.error(str(e))
 elif st.session_state.data_key is None:
     if st.sidebar.button("✨ Try with sample data", width="stretch"):
         set_data(load_data(SAMPLE_FILE), "Sample data", "sample")
         st.rerun()
+
+if is_document():
+    pages = st.session_state.doc_pages
+    st.sidebar.success(
+        f"Loaded document: {st.session_state.doc_name}"
+        + (f" ({pages} page{'s' if pages != 1 else ''})" if pages else "")
+    )
+    st.sidebar.caption(
+        "Ask anything about it in 💬 Ask iRaaya. Charts, forecasts and "
+        "insights need sales data (CSV, Excel, or a PDF/Word sales table)."
+    )
 
 if st.session_state.df is not None:
     health = st.session_state.health
@@ -463,14 +518,15 @@ with st.sidebar.expander(
 
 st.sidebar.divider()
 st.sidebar.caption(
-    "🔒 To answer questions, a summary of your data is sent to Groq (AI). "
+    "🔒 To answer questions, a summary of your data (or your document's "
+    "text) is sent to Groq (AI). "
     "Spoken answers use Google TTS or ElevenLabs. So a page refresh doesn't "
     "lose your work, iRaaya keeps it in memory for up to 24 hours under a "
     "private code in this page's address — it is never saved to disk, and "
     "anyone with your full link could see it, so share only "
     "iraaya.streamlit.app. Cloned voices are private to the person who made them."
 )
-if st.session_state.df is not None or st.session_state.chat_history:
+if st.session_state.df is not None or is_document() or st.session_state.chat_history:
     if st.sidebar.button("🧹 Start fresh (forget my data now)", width="stretch"):
         forget_session()
         st.rerun()
@@ -494,7 +550,13 @@ tab1, tab2, tab3 = st.tabs(TAB_LABELS, key="main_tab", on_change="rerun")
 
 # ---------- Tab 1: Dashboard ----------
 with tab1:
-    if st.session_state.df is None:
+    if is_document():
+        st.info(
+            f"📄 **{st.session_state.doc_name}** is a document, not sales "
+            "data, so there are no charts for it. Go to **💬 Ask iRaaya** "
+            "and ask anything about it."
+        )
+    elif st.session_state.df is None:
         st.info(
             "👈 Upload your business data in the sidebar, "
             "or click **Try with sample data** to explore."
@@ -604,6 +666,13 @@ QUICK_QUESTIONS = {
     "Unusual months?": "Were there any unusual months?",
     "What to focus on?": "What should I focus on next?",
 }
+DOC_QUICK_QUESTIONS = {
+    "Summary?": "Summarise this document in a few sentences.",
+    "Key points?": "What are the key points?",
+    "Dates?": "What important dates or deadlines are mentioned?",
+    "Amounts?": "What amounts, prices or totals are mentioned?",
+    "Actions?": "What actions or next steps does it ask for?",
+}
 
 
 def is_own_echo(heard: str) -> bool:
@@ -623,15 +692,26 @@ def is_own_echo(heard: str) -> bool:
 def answer_question(question: str, asked_by_voice: bool = False):
     try:
         with st.spinner("iRaaya is thinking..."):
-            rows = find_relevant_rows(st.session_state.df, question)
-            answer = ask_iraaya(
-                question=question,
-                data_context=data_context() + (f"\n{rows}\n" if rows else ""),
-                language=selected_language,
-                mode=selected_mode,
-                api_key=GROQ_KEY,
-                chat_history=st.session_state.chat_history
-            )
+            if is_document():
+                answer = ask_document(
+                    question=question,
+                    document_text=document_context(st.session_state.doc_text, question),
+                    document_name=st.session_state.doc_name,
+                    language=selected_language,
+                    mode=selected_mode,
+                    api_key=GROQ_KEY,
+                    chat_history=st.session_state.chat_history
+                )
+            else:
+                rows = find_relevant_rows(st.session_state.df, question)
+                answer = ask_iraaya(
+                    question=question,
+                    data_context=data_context() + (f"\n{rows}\n" if rows else ""),
+                    language=selected_language,
+                    mode=selected_mode,
+                    api_key=GROQ_KEY,
+                    chat_history=st.session_state.chat_history
+                )
     except Exception as e:
         show_error(e)
         return
@@ -671,9 +751,9 @@ def answer_question(question: str, asked_by_voice: bool = False):
 
 
 with tab2:
-    if st.session_state.df is None:
+    if st.session_state.df is None and not is_document():
         st.info(
-            "Upload data first "
+            "Upload data or a document first "
             "to ask iRaaya questions!"
         )
     else:
@@ -703,10 +783,11 @@ with tab2:
         recording = spoken or ((basic.getvalue(), "question.wav") if basic else None)
 
         st.caption("Or tap a quick question, or type below:")
-        cols = st.columns(len(QUICK_QUESTIONS))
+        quick = DOC_QUICK_QUESTIONS if is_document() else QUICK_QUESTIONS
+        cols = st.columns(len(quick))
         pending_question = None
         asked_by_voice = False
-        for col, (label, q) in zip(cols, QUICK_QUESTIONS.items()):
+        for col, (label, q) in zip(cols, quick.items()):
             if col.button(label, width="stretch"):
                 pending_question = q
 
@@ -727,7 +808,10 @@ with tab2:
                     GROQ_KEY,
                     language=LANGUAGES[selected_language]["gtts_code"].split("-")[0],
                     filename=audio_name,
-                    vocabulary=vocabulary_hint(st.session_state.df),
+                    vocabulary=(
+                        None if is_document()
+                        else vocabulary_hint(st.session_state.df)
+                    ),
                 ) if GROQ_KEY else ""
             if heard and is_own_echo(heard):
                 heard = ""   # the mic picked up iRaaya's own spoken answer
@@ -774,7 +858,13 @@ with tab2:
 
 # ---------- Tab 3: Insights ----------
 with tab3:
-    if st.session_state.df is None:
+    if is_document():
+        st.info(
+            "Insights, forecasts and the health score work with sales data. "
+            "For your document, ask questions in **💬 Ask iRaaya** — try "
+            "\"Summary?\" or \"Key points?\"."
+        )
+    elif st.session_state.df is None:
         st.info(
             "Upload data first!"
         )

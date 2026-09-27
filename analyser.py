@@ -51,6 +51,23 @@ def load_data(file) -> pd.DataFrame:
     except Exception as e:
         raise ValueError(f"Could not read the file: {e}") from e
 
+    return clean_dataframe(df)
+
+
+def _to_number(series: pd.Series) -> pd.Series:
+    """Numbers written as text ("₹1,000", "$ 500", "1 200") -> numbers."""
+    if not pd.api.types.is_numeric_dtype(series):
+        series = series.astype(str).str.replace(r"[^0-9.\-]", "", regex=True)
+    return pd.to_numeric(series, errors="coerce")
+
+
+def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """Tidy a table from any source (CSV, Excel, PDF, Word).
+
+    Rows with an unreadable date or revenue are dropped; how many is
+    stored in df.attrs["dropped_rows"] so validate_data can warn about it.
+    """
+    df = df.copy()
     df.columns = [str(c).strip() for c in df.columns]
 
     rows_before = len(df)
@@ -58,10 +75,11 @@ def load_data(file) -> pd.DataFrame:
         df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
         df = df.dropna(subset=["Date"])
     if "Total_Revenue" in df.columns:
-        df["Total_Revenue"] = pd.to_numeric(
-            df["Total_Revenue"], errors="coerce"
-        )
+        df["Total_Revenue"] = _to_number(df["Total_Revenue"])
         df = df.dropna(subset=["Total_Revenue"])
+    for col in ("Units_Sold", "Unit_Price"):
+        if col in df.columns:
+            df[col] = _to_number(df[col])
 
     df = df.sort_values("Date") if "Date" in df.columns else df
     df = df.reset_index(drop=True)

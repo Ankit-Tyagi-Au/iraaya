@@ -7,6 +7,7 @@ import groq
 from groq import Groq
 
 from prompts import (
+    get_document_prompt,
     get_system_prompt,
     get_insights_prompt,
     get_whatsapp_prompt
@@ -110,6 +111,25 @@ def ask_iraaya(
 
     # Short answers (read aloud); the prompt asks for 2 to 5 sentences
     return _chat(api_key, messages, temperature=0.3, max_tokens=500)
+
+
+def ask_document(
+    question: str,
+    document_text: str,
+    document_name: str,
+    language: str,
+    mode: str,
+    api_key: str,
+    chat_history: list = None
+) -> str:
+    """Answer a question about an uploaded PDF or Word document."""
+    messages = [{
+        "role": "system",
+        "content": get_document_prompt(document_text, document_name, language, mode),
+    }]
+    messages += (chat_history or [])[-HISTORY_MESSAGES:]
+    messages.append({"role": "user", "content": question})
+    return _chat(api_key, messages, temperature=0.2, max_tokens=500)
 
 
 def _parse_insights(raw: str) -> list:

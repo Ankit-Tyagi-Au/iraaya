@@ -15,7 +15,8 @@ to be understood clearly,
 in any language.
 
 ## Features
-- Upload CSV or Excel business data
+- Upload CSV or Excel business data, or a PDF/Word file with a sales table
+- Ask questions about any PDF or Word document (reports, invoices, letters)
 - Ask questions by voice or text
 - Get answers in 13 languages
 - Voice cloning — speak in any voice
@@ -38,10 +39,16 @@ in any language.
 No data yet? Click **Try with sample data** in the sidebar.
 
 ## Your data file
+Sales data: CSV, Excel, or a PDF/Word file containing a table.
 Required columns: `Date`, `Product`, `Region`, `Total_Revenue`
 
 Optional columns that give richer answers:
 `Units_Sold`, `Unit_Price`, `Customer_Type`, `Payment_Method`, `Month`, `Quarter`
+
+Any other PDF or Word (.docx) file opens as a **document**: ask questions about
+it by voice or text. Long documents are sent in parts (the parts most related to
+each question). Scanned PDFs (photos of pages) have no readable text and are not
+supported yet.
 
 `sample_data.csv` is made by `generate_sample_data.py` (fixed seed, same output every run).
 
