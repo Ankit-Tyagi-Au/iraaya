@@ -272,60 +272,60 @@ with st.sidebar.expander(
         "Record someone's voice and "
         "iRaaya will speak in that voice!"
     )
-    st.warning(
-        "Requires an ElevenLabs paid plan (Starter or above). "
-        "Only clone a voice with that person's permission.",
-        icon="💳"
-    )
-    voice_name = st.text_input(
-        "Voice name",
-        placeholder="e.g. Manisha"
-    )
-    audio_sample = st.file_uploader(
-        "Upload audio sample (1-2 minutes of clear speech)",
-        type=["mp3", "wav", "m4a"],
-        key="voice_clone_upload"
-    )
-    consent = st.checkbox(
-        "I have this person's permission to clone their voice"
-    )
     plan = cached_plan(EL_KEY) if EL_KEY else {"tier": "none", "can_clone": False}
-    if EL_KEY and not plan["can_clone"]:
+    if not EL_KEY:
+        st.info("Add ELEVENLABS_API_KEY to use voice cloning.")
+    elif not plan["can_clone"]:
+        # Say so up front, before anyone uploads a voice recording
         st.info(
-            f"Your ElevenLabs plan ({plan['tier']}) does not include voice "
-            "cloning. Upgrade to Starter or above to use this."
+            f"Voice cloning needs an ElevenLabs paid plan (Starter or above). "
+            f"Your current plan: {plan['tier']}."
         )
-    if st.button(
-        "Clone this voice",
-        key="clone_btn",
-        disabled=not (EL_KEY and plan["can_clone"])
-    ):
-        if not (audio_sample and voice_name):
-            st.warning(
-                "Please enter a name "
-                "and upload audio."
-            )
-        elif not consent:
-            st.warning("Please confirm you have permission first.")
-        else:
-            with st.spinner("Cloning voice..."):
-                voice_id = clone_voice(
-                    EL_KEY,
-                    voice_name,
-                    audio_sample.getvalue(),
-                    audio_sample.name
+    else:
+        st.caption("Only clone a voice with that person's permission.")
+        voice_name = st.text_input(
+            "Voice name",
+            placeholder="e.g. Manisha"
+        )
+        audio_sample = st.file_uploader(
+            "Upload audio sample (1-2 minutes of clear speech)",
+            type=["mp3", "wav", "m4a"],
+            key="voice_clone_upload"
+        )
+        consent = st.checkbox(
+            "I have this person's permission to clone their voice"
+        )
+        if st.button(
+            "Clone this voice",
+            key="clone_btn"
+        ):
+            if not (audio_sample and voice_name):
+                st.warning(
+                    "Please enter a name "
+                    "and upload audio."
                 )
-            if voice_id:
-                st.session_state.cloned_voice_id = voice_id
-                st.session_state.cloned_voice_name = voice_name
-                st.success(
-                    f"Voice '{voice_name}' cloned! Turn on Premium voice to use it."
-                )
+            elif not consent:
+                st.warning("Please confirm you have permission first.")
             else:
-                st.error(
-                    "Clone failed. Check that your "
-                    "ElevenLabs plan includes voice cloning."
-                )
+                with st.spinner("Cloning voice..."):
+                    voice_id = clone_voice(
+                        EL_KEY,
+                        voice_name,
+                        audio_sample.getvalue(),
+                        audio_sample.name
+                    )
+                if voice_id:
+                    st.session_state.cloned_voice_id = voice_id
+                    st.session_state.cloned_voice_name = voice_name
+                    cached_voices.clear()
+                    st.success(
+                        f"Voice '{voice_name}' cloned! Turn on Premium voice to use it."
+                    )
+                else:
+                    st.error(
+                        "Clone failed. Please try a clearer recording, "
+                        "or check your ElevenLabs plan."
+                    )
     if st.session_state.cloned_voice_id:
         st.caption(f"Using cloned voice: {st.session_state.cloned_voice_name}")
 

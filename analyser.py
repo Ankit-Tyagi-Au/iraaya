@@ -207,6 +207,11 @@ def get_data_context(df) -> str:
     ) or "  None detected"
 
     health = calculate_health_score(df)
+    n_products = len(summary["top_products"])
+    shown_note = (
+        f"; top {len(top_products)} of {n_products} shown"
+        if n_products > len(top_products) else ""
+    )
 
     def fmt(d):
         return "\n".join(f"  {k}: {v:,.0f}" for k, v in d.items())
@@ -223,16 +228,17 @@ Total Revenue: {summary['total_revenue']:,.2f}
 Total Transactions: {summary['total_transactions']}
 Date Range: {summary['date_range']}
 Best Month: {summary['best_month']}
-Best Product: {summary['best_product']}
-Worst Product: {summary['worst_product']}
-Best Region: {summary['best_region']}
+Best Product: {summary['best_product']} ({summary['top_products'][summary['best_product']]:,.0f})
+Worst Product: {summary['worst_product']} ({summary['top_products'][summary['worst_product']]:,.0f})
+Number of products: {len(summary['top_products'])}
+Best Region: {summary['best_region']} ({summary['regional_revenue'][summary['best_region']]:,.0f})
 Overall growth (typical month of last 3 vs first 3): {fmt_pct(_growth_pct(monthly))}
 Business Health Score: {health['score']}/100 ({health['label']})
 
 MONTHLY REVENUE:
 {fmt(summary['monthly_revenue'])}
 
-REVENUE BY PRODUCT (highest first):
+REVENUE BY PRODUCT (highest first{shown_note}):
 {fmt({k: summary['top_products'][k] for k in top_products})}
 
 PRODUCT GROWTH (typical month of last 3 vs first 3):
