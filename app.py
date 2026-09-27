@@ -101,6 +101,7 @@ DEFAULTS = {
     "cloned_voice_name": None,
     "insights": [],
     "whatsapp": None,
+    "voice_q_n": 0,
 }
 for key, value in DEFAULTS.items():
     if key not in st.session_state:
@@ -229,7 +230,17 @@ def data_context() -> str:
     return f"{line}\n{st.session_state.context}"
 
 
-speak_answers = st.sidebar.toggle("🔊 Speak answers aloud", value=True)
+SPEAK_MODES = {
+    "Match my question": "Spoken answer when you ask by voice, text when you type",
+    "Always": "Every answer is spoken",
+    "Never": "Text answers only",
+}
+speak_mode = st.sidebar.radio(
+    "🔊 Spoken answers",
+    list(SPEAK_MODES),
+    index=0,
+    captions=list(SPEAK_MODES.values()),
+)
 
 use_elevenlabs = st.sidebar.toggle(
     "🎙️ Premium voice",
@@ -498,7 +509,7 @@ QUICK_QUESTIONS = {
 }
 
 
-def answer_question(question: str):
+def answer_question(question: str, asked_by_voice: bool = False):
     try:
         with st.spinner("iRaaya is thinking..."):
             answer = ask_iraaya(
@@ -519,7 +530,10 @@ def answer_question(question: str):
     ]
 
     audio = None
-    if speak_answers:
+    speak = speak_mode == "Always" or (
+        speak_mode == "Match my question" and asked_by_voice
+    )
+    if speak:
         with st.spinner("Preparing voice..."):
             if use_elevenlabs and EL_KEY:
                 audio = speak_elevenlabs(
@@ -549,43 +563,48 @@ with tab2:
             f"Ask iRaaya in "
             f"{selected_language}"
         )
-        st.caption(
-            "Type a question, or tap the 🎤 mic in the box below to speak. "
-            "Voice works in Chrome, Edge and Safari."
+        # Ask by voice: answering starts as soon as the recording stops.
+        # A new key after each question resets the recorder.
+        recording = st.audio_input(
+            "🎤 Ask by voice — tap the mic, speak, then tap stop",
+            key=f"voice_q_{st.session_state.voice_q_n}",
         )
 
-        st.caption("Quick questions:")
+        st.caption("Or tap a quick question, or type below:")
         cols = st.columns(len(QUICK_QUESTIONS))
         pending_question = None
+        asked_by_voice = False
         for col, (label, q) in zip(cols, QUICK_QUESTIONS.items()):
             if col.button(label, width="stretch"):
                 pending_question = q
 
-        submission = st.chat_input(
-            "Ask about your business...",
-            accept_audio=True,
+        typed = st.chat_input(
+            "Type your question...",
             submit_mode="disable",
             key="ask_input"
         )
+        if typed and typed.strip():
+            pending_question = typed.strip()
 
-        if submission:
-            text = (submission.text or "").strip()
-            if submission.audio is not None:
-                with st.spinner("Listening..."):
-                    heard = transcribe_audio_file(
-                        submission.audio.getvalue(),
-                        GROQ_KEY,
-                        language=LANGUAGES[selected_language]["gtts_code"].split("-")[0]
-                    ) if GROQ_KEY else ""
-                if heard:
-                    text = f"{text} {heard}".strip()
-                elif not text:
-                    st.warning("Sorry, I couldn't hear that. Please try again or type your question.")
-            if text:
-                pending_question = text
+        if recording is not None:
+            st.session_state.voice_q_n += 1
+            with st.spinner("Listening..."):
+                heard = transcribe_audio_file(
+                    recording.getvalue(),
+                    GROQ_KEY,
+                    language=LANGUAGES[selected_language]["gtts_code"].split("-")[0]
+                ) if GROQ_KEY else ""
+            if heard:
+                pending_question = heard
+                asked_by_voice = True
+            else:
+                st.warning("Sorry, I couldn't hear that. Please try again or type your question.")
 
         if pending_question:
-            answer_question(pending_question)
+            answer_question(pending_question, asked_by_voice)
+            if asked_by_voice:
+                # Clear the used recording so the mic is ready again
+                st.rerun()
 
         if st.session_state.chat_history:
             for msg in st.session_state.chat_history[-10:]:
@@ -604,6 +623,11 @@ with tab2:
                 )
                 # Only autoplay once, not on every rerun
                 last["fresh"] = False
+                st.caption(
+                    "Didn't hear it? Tap ▶. Safari, iPhone and iPad block sound "
+                    "that starts by itself. On a Mac you can allow it: Safari → "
+                    "Settings for this website → Auto-Play → Allow All Auto-Play."
+                )
 
             if st.button("Clear conversation"):
                 st.session_state.chat_history = []
