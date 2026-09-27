@@ -1,0 +1,12 @@
+streamlit==1.64.0
+pandas==3.0.6
+plotly==7.1.0
+groq==1.7.0
+elevenlabs==2.69.0
+gTTS==2.5.4
+scikit-learn==1.9.1
+reportlab==5.0.1
+openpyxl==3.1.5
+python-dotenv==1.2.3
+numpy==2.5.3
+requests==2.34.2

@@ -1,0 +1,1729 @@
+Date,Product,Region,Units_Sold,Unit_Price,Total_Revenue,Customer_Type,Payment_Method,Month,Quarter
+2024-01-01,Floor Cleaner,North India,166,108.0,17928.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-01,Floor Cleaner,South India,68,108.0,7344.0,Wholesale,Cash,2024-01,2024-Q1
+2024-01-01,Floor Cleaner,West India,108,108.0,11664.0,Wholesale,Credit,2024-01,2024-Q1
+2024-01-01,Floor Cleaner,East India,51,120.0,6120.0,Retail,UPI,2024-01,2024-Q1
+2024-01-01,Toilet Cleaner,North India,149,85.5,12739.5,Wholesale,Credit,2024-01,2024-Q1
+2024-01-01,Toilet Cleaner,South India,36,95.0,3420.0,Retail,UPI,2024-01,2024-Q1
+2024-01-01,Toilet Cleaner,West India,98,85.5,8379.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-01,Toilet Cleaner,East India,43,95.0,4085.0,Retail,Credit,2024-01,2024-Q1
+2024-01-01,Dishwash,North India,190,72.0,13680.0,Wholesale,Cash,2024-01,2024-Q1
+2024-01-01,Dishwash,South India,51,80.0,4080.0,Retail,Cash,2024-01,2024-Q1
+2024-01-01,Dishwash,West India,121,72.0,8712.0,Wholesale,Credit,2024-01,2024-Q1
+2024-01-01,Dishwash,East India,61,80.0,4880.0,Retail,UPI,2024-01,2024-Q1
+2024-01-01,Hand Wash,North India,68,65.0,4420.0,Retail,UPI,2024-01,2024-Q1
+2024-01-01,Hand Wash,South India,66,58.5,3861.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-01,Hand Wash,West India,91,58.5,5323.5,Wholesale,Credit,2024-01,2024-Q1
+2024-01-01,Hand Wash,East India,41,65.0,2665.0,Retail,UPI,2024-01,2024-Q1
+2024-01-01,Glass Cleaner,North India,52,90.0,4680.0,Retail,Cash,2024-01,2024-Q1
+2024-01-01,Glass Cleaner,South India,43,81.0,3483.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-01,Glass Cleaner,West India,34,90.0,3060.0,Retail,UPI,2024-01,2024-Q1
+2024-01-01,Glass Cleaner,East India,30,90.0,2700.0,Retail,UPI,2024-01,2024-Q1
+2024-01-01,White Phenyl,North India,172,49.5,8514.0,Wholesale,Credit,2024-01,2024-Q1
+2024-01-01,White Phenyl,South India,87,49.5,4306.5,Wholesale,UPI,2024-01,2024-Q1
+2024-01-01,White Phenyl,West India,69,55.0,3795.0,Retail,UPI,2024-01,2024-Q1
+2024-01-01,White Phenyl,East India,47,55.0,2585.0,Retail,Credit,2024-01,2024-Q1
+2024-01-08,Floor Cleaner,North India,88,120.0,10560.0,Retail,Cash,2024-01,2024-Q1
+2024-01-08,Floor Cleaner,South India,77,108.0,8316.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-08,Floor Cleaner,West India,112,108.0,12096.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-08,Floor Cleaner,East India,47,120.0,5640.0,Retail,Cash,2024-01,2024-Q1
+2024-01-08,Toilet Cleaner,North India,138,85.5,11799.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-08,Toilet Cleaner,South India,40,95.0,3800.0,Retail,Cash,2024-01,2024-Q1
+2024-01-08,Toilet Cleaner,West India,53,95.0,5035.0,Retail,UPI,2024-01,2024-Q1
+2024-01-08,Toilet Cleaner,East India,70,85.5,5985.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-08,Dishwash,North India,105,80.0,8400.0,Retail,Credit,2024-01,2024-Q1
+2024-01-08,Dishwash,South India,97,72.0,6984.0,Wholesale,Cash,2024-01,2024-Q1
+2024-01-08,Dishwash,West India,117,72.0,8424.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-08,Dishwash,East India,54,80.0,4320.0,Retail,Cash,2024-01,2024-Q1
+2024-01-08,Hand Wash,North India,75,65.0,4875.0,Retail,Cash,2024-01,2024-Q1
+2024-01-08,Hand Wash,South India,56,58.5,3276.0,Wholesale,Cash,2024-01,2024-Q1
+2024-01-08,Hand Wash,West India,92,58.5,5382.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-08,Hand Wash,East India,71,58.5,4153.5,Wholesale,UPI,2024-01,2024-Q1
+2024-01-08,Glass Cleaner,North India,52,90.0,4680.0,Retail,UPI,2024-01,2024-Q1
+2024-01-08,Glass Cleaner,South India,25,90.0,2250.0,Retail,UPI,2024-01,2024-Q1
+2024-01-08,Glass Cleaner,West India,33,90.0,2970.0,Retail,UPI,2024-01,2024-Q1
+2024-01-08,Glass Cleaner,East India,37,76.5,2830.5,Institutional,UPI,2024-01,2024-Q1
+2024-01-08,White Phenyl,North India,150,49.5,7425.0,Wholesale,Cash,2024-01,2024-Q1
+2024-01-08,White Phenyl,South India,49,55.0,2695.0,Retail,Credit,2024-01,2024-Q1
+2024-01-08,White Phenyl,West India,67,55.0,3685.0,Retail,UPI,2024-01,2024-Q1
+2024-01-08,White Phenyl,East India,96,49.5,4752.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-15,Floor Cleaner,North India,83,120.0,9960.0,Retail,UPI,2024-01,2024-Q1
+2024-01-15,Floor Cleaner,South India,43,120.0,5160.0,Retail,Credit,2024-01,2024-Q1
+2024-01-15,Floor Cleaner,West India,52,120.0,6240.0,Retail,UPI,2024-01,2024-Q1
+2024-01-15,Floor Cleaner,East India,88,108.0,9504.0,Wholesale,Cash,2024-01,2024-Q1
+2024-01-15,Toilet Cleaner,North India,155,85.5,13252.5,Wholesale,Credit,2024-01,2024-Q1
+2024-01-15,Toilet Cleaner,South India,53,80.75,4279.75,Institutional,Cash,2024-01,2024-Q1
+2024-01-15,Toilet Cleaner,West India,92,85.5,7866.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-15,Toilet Cleaner,East India,85,85.5,7267.5,Wholesale,UPI,2024-01,2024-Q1
+2024-01-15,Dishwash,North India,101,80.0,8080.0,Retail,UPI,2024-01,2024-Q1
+2024-01-15,Dishwash,South India,71,68.0,4828.0,Institutional,Cash,2024-01,2024-Q1
+2024-01-15,Dishwash,West India,71,80.0,5680.0,Retail,Credit,2024-01,2024-Q1
+2024-01-15,Dishwash,East India,100,72.0,7200.0,Wholesale,Credit,2024-01,2024-Q1
+2024-01-15,Hand Wash,North India,74,65.0,4810.0,Retail,UPI,2024-01,2024-Q1
+2024-01-15,Hand Wash,South India,65,58.5,3802.5,Wholesale,UPI,2024-01,2024-Q1
+2024-01-15,Hand Wash,West India,81,58.5,4738.5,Wholesale,Cash,2024-01,2024-Q1
+2024-01-15,Hand Wash,East India,46,65.0,2990.0,Retail,Cash,2024-01,2024-Q1
+2024-01-15,Glass Cleaner,North India,57,90.0,5130.0,Retail,Cash,2024-01,2024-Q1
+2024-01-15,Glass Cleaner,South India,34,76.5,2601.0,Institutional,Cash,2024-01,2024-Q1
+2024-01-15,Glass Cleaner,West India,63,81.0,5103.0,Wholesale,Credit,2024-01,2024-Q1
+2024-01-15,Glass Cleaner,East India,31,90.0,2790.0,Retail,Cash,2024-01,2024-Q1
+2024-01-15,White Phenyl,North India,79,55.0,4345.0,Retail,UPI,2024-01,2024-Q1
+2024-01-15,White Phenyl,South India,41,55.0,2255.0,Retail,UPI,2024-01,2024-Q1
+2024-01-15,White Phenyl,West India,70,55.0,3850.0,Retail,Credit,2024-01,2024-Q1
+2024-01-15,White Phenyl,East India,90,49.5,4455.0,Wholesale,Cash,2024-01,2024-Q1
+2024-01-22,Floor Cleaner,North India,91,120.0,10920.0,Retail,UPI,2024-01,2024-Q1
+2024-01-22,Floor Cleaner,South India,59,102.0,6018.0,Institutional,Cash,2024-01,2024-Q1
+2024-01-22,Floor Cleaner,West India,61,120.0,7320.0,Retail,UPI,2024-01,2024-Q1
+2024-01-22,Floor Cleaner,East India,49,120.0,5880.0,Retail,Cash,2024-01,2024-Q1
+2024-01-22,Toilet Cleaner,North India,111,80.75,8963.25,Institutional,UPI,2024-01,2024-Q1
+2024-01-22,Toilet Cleaner,South India,66,85.5,5643.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-22,Toilet Cleaner,West India,52,95.0,4940.0,Retail,Cash,2024-01,2024-Q1
+2024-01-22,Toilet Cleaner,East India,78,85.5,6669.0,Wholesale,Cash,2024-01,2024-Q1
+2024-01-22,Dishwash,North India,215,72.0,15480.0,Wholesale,Credit,2024-01,2024-Q1
+2024-01-22,Dishwash,South India,53,80.0,4240.0,Retail,UPI,2024-01,2024-Q1
+2024-01-22,Dishwash,West India,111,72.0,7992.0,Wholesale,Credit,2024-01,2024-Q1
+2024-01-22,Dishwash,East India,51,80.0,4080.0,Retail,Cash,2024-01,2024-Q1
+2024-01-22,Hand Wash,North India,118,58.5,6903.0,Wholesale,Cash,2024-01,2024-Q1
+2024-01-22,Hand Wash,South India,72,58.5,4212.0,Wholesale,Cash,2024-01,2024-Q1
+2024-01-22,Hand Wash,West India,53,65.0,3445.0,Retail,Cash,2024-01,2024-Q1
+2024-01-22,Hand Wash,East India,40,65.0,2600.0,Retail,Cash,2024-01,2024-Q1
+2024-01-22,Glass Cleaner,North India,50,90.0,4500.0,Retail,Cash,2024-01,2024-Q1
+2024-01-22,Glass Cleaner,South India,25,90.0,2250.0,Retail,Cash,2024-01,2024-Q1
+2024-01-22,Glass Cleaner,West India,65,81.0,5265.0,Wholesale,UPI,2024-01,2024-Q1
+2024-01-22,Glass Cleaner,East India,26,90.0,2340.0,Retail,Credit,2024-01,2024-Q1
+2024-01-22,White Phenyl,North India,115,55.0,6325.0,Retail,Cash,2024-01,2024-Q1
+2024-01-22,White Phenyl,South India,47,55.0,2585.0,Retail,UPI,2024-01,2024-Q1
+2024-01-22,White Phenyl,West India,66,55.0,3630.0,Retail,UPI,2024-01,2024-Q1
+2024-01-22,White Phenyl,East India,53,55.0,2915.0,Retail,Credit,2024-01,2024-Q1
+2024-02-01,Floor Cleaner,North India,146,102.0,14892.0,Institutional,Cash,2024-02,2024-Q1
+2024-02-01,Floor Cleaner,South India,65,102.0,6630.0,Institutional,Credit,2024-02,2024-Q1
+2024-02-01,Floor Cleaner,West India,110,108.0,11880.0,Wholesale,UPI,2024-02,2024-Q1
+2024-02-01,Floor Cleaner,East India,51,120.0,6120.0,Retail,UPI,2024-02,2024-Q1
+2024-02-01,Toilet Cleaner,North India,119,80.75,9609.25,Institutional,UPI,2024-02,2024-Q1
+2024-02-01,Toilet Cleaner,South India,70,85.5,5985.0,Wholesale,Cash,2024-02,2024-Q1
+2024-02-01,Toilet Cleaner,West India,63,95.0,5985.0,Retail,UPI,2024-02,2024-Q1
+2024-02-01,Toilet Cleaner,East India,43,95.0,4085.0,Retail,UPI,2024-02,2024-Q1
+2024-02-01,Dishwash,North India,100,80.0,8000.0,Retail,UPI,2024-02,2024-Q1
+2024-02-01,Dishwash,South India,87,68.0,5916.0,Institutional,Credit,2024-02,2024-Q1
+2024-02-01,Dishwash,West India,81,80.0,6480.0,Retail,UPI,2024-02,2024-Q1
+2024-02-01,Dishwash,East India,99,72.0,7128.0,Wholesale,Credit,2024-02,2024-Q1
+2024-02-01,Hand Wash,North India,143,58.5,8365.5,Wholesale,Cash,2024-02,2024-Q1
+2024-02-01,Hand Wash,South India,36,65.0,2340.0,Retail,UPI,2024-02,2024-Q1
+2024-02-01,Hand Wash,West India,105,58.5,6142.5,Wholesale,Cash,2024-02,2024-Q1
+2024-02-01,Hand Wash,East India,40,65.0,2600.0,Retail,Credit,2024-02,2024-Q1
+2024-02-01,Glass Cleaner,North India,86,76.5,6579.0,Institutional,Credit,2024-02,2024-Q1
+2024-02-01,Glass Cleaner,South India,42,81.0,3402.0,Wholesale,Credit,2024-02,2024-Q1
+2024-02-01,Glass Cleaner,West India,33,90.0,2970.0,Retail,UPI,2024-02,2024-Q1
+2024-02-01,Glass Cleaner,East India,55,81.0,4455.0,Wholesale,Cash,2024-02,2024-Q1
+2024-02-01,White Phenyl,North India,169,49.5,8365.5,Wholesale,UPI,2024-02,2024-Q1
+2024-02-01,White Phenyl,South India,93,49.5,4603.5,Wholesale,Credit,2024-02,2024-Q1
+2024-02-01,White Phenyl,West India,119,49.5,5890.5,Wholesale,Credit,2024-02,2024-Q1
+2024-02-01,White Phenyl,East India,52,55.0,2860.0,Retail,Cash,2024-02,2024-Q1
+2024-02-08,Floor Cleaner,North India,96,120.0,11520.0,Retail,Credit,2024-02,2024-Q1
+2024-02-08,Floor Cleaner,South India,46,120.0,5520.0,Retail,Credit,2024-02,2024-Q1
+2024-02-08,Floor Cleaner,West India,62,120.0,7440.0,Retail,UPI,2024-02,2024-Q1
+2024-02-08,Floor Cleaner,East India,54,120.0,6480.0,Retail,Cash,2024-02,2024-Q1
+2024-02-08,Toilet Cleaner,North India,90,95.0,8550.0,Retail,UPI,2024-02,2024-Q1
+2024-02-08,Toilet Cleaner,South India,73,85.5,6241.5,Wholesale,Credit,2024-02,2024-Q1
+2024-02-08,Toilet Cleaner,West India,62,95.0,5890.0,Retail,UPI,2024-02,2024-Q1
+2024-02-08,Toilet Cleaner,East India,84,85.5,7182.0,Wholesale,Credit,2024-02,2024-Q1
+2024-02-08,Dishwash,North India,129,68.0,8772.0,Institutional,UPI,2024-02,2024-Q1
+2024-02-08,Dishwash,South India,93,72.0,6696.0,Wholesale,UPI,2024-02,2024-Q1
+2024-02-08,Dishwash,West India,64,80.0,5120.0,Retail,Credit,2024-02,2024-Q1
+2024-02-08,Dishwash,East India,59,80.0,4720.0,Retail,UPI,2024-02,2024-Q1
+2024-02-08,Hand Wash,North India,98,55.25,5414.5,Institutional,Credit,2024-02,2024-Q1
+2024-02-08,Hand Wash,South India,53,55.25,2928.25,Institutional,Credit,2024-02,2024-Q1
+2024-02-08,Hand Wash,West India,92,58.5,5382.0,Wholesale,Cash,2024-02,2024-Q1
+2024-02-08,Hand Wash,East India,42,65.0,2730.0,Retail,Credit,2024-02,2024-Q1
+2024-02-08,Glass Cleaner,North India,52,90.0,4680.0,Retail,Cash,2024-02,2024-Q1
+2024-02-08,Glass Cleaner,South India,26,90.0,2340.0,Retail,Credit,2024-02,2024-Q1
+2024-02-08,Glass Cleaner,West India,38,90.0,3420.0,Retail,Cash,2024-02,2024-Q1
+2024-02-08,Glass Cleaner,East India,45,81.0,3645.0,Wholesale,Credit,2024-02,2024-Q1
+2024-02-08,White Phenyl,North India,175,49.5,8662.5,Wholesale,Cash,2024-02,2024-Q1
+2024-02-08,White Phenyl,South India,75,46.75,3506.25,Institutional,Credit,2024-02,2024-Q1
+2024-02-08,White Phenyl,West India,107,49.5,5296.5,Wholesale,Cash,2024-02,2024-Q1
+2024-02-08,White Phenyl,East India,56,55.0,3080.0,Retail,UPI,2024-02,2024-Q1
+2024-02-15,Floor Cleaner,North India,155,108.0,16740.0,Wholesale,Credit,2024-02,2024-Q1
+2024-02-15,Floor Cleaner,South India,79,108.0,8532.0,Wholesale,Cash,2024-02,2024-Q1
+2024-02-15,Floor Cleaner,West India,100,108.0,10800.0,Wholesale,Credit,2024-02,2024-Q1
+2024-02-15,Floor Cleaner,East India,52,120.0,6240.0,Retail,UPI,2024-02,2024-Q1
+2024-02-15,Toilet Cleaner,North India,130,80.75,10497.5,Institutional,UPI,2024-02,2024-Q1
+2024-02-15,Toilet Cleaner,South India,37,95.0,3515.0,Retail,Cash,2024-02,2024-Q1
+2024-02-15,Toilet Cleaner,West India,55,95.0,5225.0,Retail,Credit,2024-02,2024-Q1
+2024-02-15,Toilet Cleaner,East India,89,85.5,7609.5,Wholesale,Cash,2024-02,2024-Q1
+2024-02-15,Dishwash,North India,111,80.0,8880.0,Retail,UPI,2024-02,2024-Q1
+2024-02-15,Dishwash,South India,95,72.0,6840.0,Wholesale,Credit,2024-02,2024-Q1
+2024-02-15,Dishwash,West India,82,80.0,6560.0,Retail,UPI,2024-02,2024-Q1
+2024-02-15,Dishwash,East India,57,80.0,4560.0,Retail,Cash,2024-02,2024-Q1
+2024-02-15,Hand Wash,North India,76,65.0,4940.0,Retail,UPI,2024-02,2024-Q1
+2024-02-15,Hand Wash,South India,61,58.5,3568.5,Wholesale,UPI,2024-02,2024-Q1
+2024-02-15,Hand Wash,West India,46,65.0,2990.0,Retail,UPI,2024-02,2024-Q1
+2024-02-15,Hand Wash,East India,47,65.0,3055.0,Retail,UPI,2024-02,2024-Q1
+2024-02-15,Glass Cleaner,North India,53,90.0,4770.0,Retail,UPI,2024-02,2024-Q1
+2024-02-15,Glass Cleaner,South India,46,81.0,3726.0,Wholesale,UPI,2024-02,2024-Q1
+2024-02-15,Glass Cleaner,West India,38,90.0,3420.0,Retail,Credit,2024-02,2024-Q1
+2024-02-15,Glass Cleaner,East India,34,90.0,3060.0,Retail,UPI,2024-02,2024-Q1
+2024-02-15,White Phenyl,North India,93,55.0,5115.0,Retail,UPI,2024-02,2024-Q1
+2024-02-15,White Phenyl,South India,68,46.75,3179.0,Institutional,UPI,2024-02,2024-Q1
+2024-02-15,White Phenyl,West India,106,49.5,5247.0,Wholesale,UPI,2024-02,2024-Q1
+2024-02-15,White Phenyl,East India,53,55.0,2915.0,Retail,Cash,2024-02,2024-Q1
+2024-02-22,Floor Cleaner,North India,159,108.0,17172.0,Wholesale,Cash,2024-02,2024-Q1
+2024-02-22,Floor Cleaner,South India,48,120.0,5760.0,Retail,Cash,2024-02,2024-Q1
+2024-02-22,Floor Cleaner,West India,94,108.0,10152.0,Wholesale,Cash,2024-02,2024-Q1
+2024-02-22,Floor Cleaner,East India,80,102.0,8160.0,Institutional,UPI,2024-02,2024-Q1
+2024-02-22,Toilet Cleaner,North India,111,85.5,9490.5,Wholesale,Cash,2024-02,2024-Q1
+2024-02-22,Toilet Cleaner,South India,62,80.75,5006.5,Institutional,Credit,2024-02,2024-Q1
+2024-02-22,Toilet Cleaner,West India,49,95.0,4655.0,Retail,UPI,2024-02,2024-Q1
+2024-02-22,Toilet Cleaner,East India,44,95.0,4180.0,Retail,UPI,2024-02,2024-Q1
+2024-02-22,Dishwash,North India,108,80.0,8640.0,Retail,UPI,2024-02,2024-Q1
+2024-02-22,Dishwash,South India,58,80.0,4640.0,Retail,Credit,2024-02,2024-Q1
+2024-02-22,Dishwash,West India,141,72.0,10152.0,Wholesale,Credit,2024-02,2024-Q1
+2024-02-22,Dishwash,East India,55,80.0,4400.0,Retail,UPI,2024-02,2024-Q1
+2024-02-22,Hand Wash,North India,75,65.0,4875.0,Retail,Credit,2024-02,2024-Q1
+2024-02-22,Hand Wash,South India,34,65.0,2210.0,Retail,Cash,2024-02,2024-Q1
+2024-02-22,Hand Wash,West India,67,55.25,3701.75,Institutional,Cash,2024-02,2024-Q1
+2024-02-22,Hand Wash,East India,44,65.0,2860.0,Retail,UPI,2024-02,2024-Q1
+2024-02-22,Glass Cleaner,North India,44,90.0,3960.0,Retail,Cash,2024-02,2024-Q1
+2024-02-22,Glass Cleaner,South India,45,81.0,3645.0,Wholesale,UPI,2024-02,2024-Q1
+2024-02-22,Glass Cleaner,West India,65,81.0,5265.0,Wholesale,Credit,2024-02,2024-Q1
+2024-02-22,Glass Cleaner,East India,30,90.0,2700.0,Retail,UPI,2024-02,2024-Q1
+2024-02-22,White Phenyl,North India,169,49.5,8365.5,Wholesale,UPI,2024-02,2024-Q1
+2024-02-22,White Phenyl,South India,67,46.75,3132.25,Institutional,UPI,2024-02,2024-Q1
+2024-02-22,White Phenyl,West India,103,49.5,5098.5,Wholesale,Credit,2024-02,2024-Q1
+2024-02-22,White Phenyl,East India,47,55.0,2585.0,Retail,UPI,2024-02,2024-Q1
+2024-03-01,Floor Cleaner,North India,47,120.0,5640.0,Retail,Credit,2024-03,2024-Q1
+2024-03-01,Floor Cleaner,South India,25,120.0,3000.0,Retail,UPI,2024-03,2024-Q1
+2024-03-01,Floor Cleaner,West India,34,120.0,4080.0,Retail,Credit,2024-03,2024-Q1
+2024-03-01,Floor Cleaner,East India,26,120.0,3120.0,Retail,UPI,2024-03,2024-Q1
+2024-03-01,Toilet Cleaner,North India,41,95.0,3895.0,Retail,UPI,2024-03,2024-Q1
+2024-03-01,Toilet Cleaner,South India,34,80.75,2745.5,Institutional,UPI,2024-03,2024-Q1
+2024-03-01,Toilet Cleaner,West India,41,85.5,3505.5,Wholesale,Credit,2024-03,2024-Q1
+2024-03-01,Toilet Cleaner,East India,31,80.75,2503.25,Institutional,Credit,2024-03,2024-Q1
+2024-03-01,Dishwash,North India,47,80.0,3760.0,Retail,UPI,2024-03,2024-Q1
+2024-03-01,Dishwash,South India,54,72.0,3888.0,Wholesale,UPI,2024-03,2024-Q1
+2024-03-01,Dishwash,West India,61,68.0,4148.0,Institutional,Cash,2024-03,2024-Q1
+2024-03-01,Dishwash,East India,45,72.0,3240.0,Wholesale,UPI,2024-03,2024-Q1
+2024-03-01,Hand Wash,North India,36,65.0,2340.0,Retail,Credit,2024-03,2024-Q1
+2024-03-01,Hand Wash,South India,25,55.25,1381.25,Institutional,UPI,2024-03,2024-Q1
+2024-03-01,Hand Wash,West India,28,65.0,1820.0,Retail,Credit,2024-03,2024-Q1
+2024-03-01,Hand Wash,East India,39,58.5,2281.5,Wholesale,Credit,2024-03,2024-Q1
+2024-03-01,Glass Cleaner,North India,40,81.0,3240.0,Wholesale,Cash,2024-03,2024-Q1
+2024-03-01,Glass Cleaner,South India,13,90.0,1170.0,Retail,Cash,2024-03,2024-Q1
+2024-03-01,Glass Cleaner,West India,30,81.0,2430.0,Wholesale,Credit,2024-03,2024-Q1
+2024-03-01,Glass Cleaner,East India,26,81.0,2106.0,Wholesale,Credit,2024-03,2024-Q1
+2024-03-01,White Phenyl,North India,43,55.0,2365.0,Retail,UPI,2024-03,2024-Q1
+2024-03-01,White Phenyl,South India,22,55.0,1210.0,Retail,UPI,2024-03,2024-Q1
+2024-03-01,White Phenyl,West India,30,55.0,1650.0,Retail,UPI,2024-03,2024-Q1
+2024-03-01,White Phenyl,East India,36,49.5,1782.0,Wholesale,Cash,2024-03,2024-Q1
+2024-03-08,Floor Cleaner,North India,46,120.0,5520.0,Retail,Credit,2024-03,2024-Q1
+2024-03-08,Floor Cleaner,South India,42,108.0,4536.0,Wholesale,UPI,2024-03,2024-Q1
+2024-03-08,Floor Cleaner,West India,51,102.0,5202.0,Institutional,Cash,2024-03,2024-Q1
+2024-03-08,Floor Cleaner,East India,27,120.0,3240.0,Retail,UPI,2024-03,2024-Q1
+2024-03-08,Toilet Cleaner,North India,60,80.75,4845.0,Institutional,Cash,2024-03,2024-Q1
+2024-03-08,Toilet Cleaner,South India,18,95.0,1710.0,Retail,UPI,2024-03,2024-Q1
+2024-03-08,Toilet Cleaner,West India,32,95.0,3040.0,Retail,Credit,2024-03,2024-Q1
+2024-03-08,Toilet Cleaner,East India,21,95.0,1995.0,Retail,UPI,2024-03,2024-Q1
+2024-03-08,Dishwash,North India,48,80.0,3840.0,Retail,Cash,2024-03,2024-Q1
+2024-03-08,Dishwash,South India,46,72.0,3312.0,Wholesale,UPI,2024-03,2024-Q1
+2024-03-08,Dishwash,West India,50,68.0,3400.0,Institutional,Credit,2024-03,2024-Q1
+2024-03-08,Dishwash,East India,25,80.0,2000.0,Retail,Credit,2024-03,2024-Q1
+2024-03-08,Hand Wash,North India,36,65.0,2340.0,Retail,Credit,2024-03,2024-Q1
+2024-03-08,Hand Wash,South India,35,58.5,2047.5,Wholesale,UPI,2024-03,2024-Q1
+2024-03-08,Hand Wash,West India,27,65.0,1755.0,Retail,Cash,2024-03,2024-Q1
+2024-03-08,Hand Wash,East India,21,65.0,1365.0,Retail,Credit,2024-03,2024-Q1
+2024-03-08,Glass Cleaner,North India,46,81.0,3726.0,Wholesale,Credit,2024-03,2024-Q1
+2024-03-08,Glass Cleaner,South India,15,90.0,1350.0,Retail,UPI,2024-03,2024-Q1
+2024-03-08,Glass Cleaner,West India,31,81.0,2511.0,Wholesale,Credit,2024-03,2024-Q1
+2024-03-08,Glass Cleaner,East India,27,81.0,2187.0,Wholesale,Cash,2024-03,2024-Q1
+2024-03-08,White Phenyl,North India,43,55.0,2365.0,Retail,UPI,2024-03,2024-Q1
+2024-03-08,White Phenyl,South India,25,55.0,1375.0,Retail,UPI,2024-03,2024-Q1
+2024-03-08,White Phenyl,West India,43,46.75,2010.25,Institutional,Cash,2024-03,2024-Q1
+2024-03-08,White Phenyl,East India,23,55.0,1265.0,Retail,Cash,2024-03,2024-Q1
+2024-03-15,Floor Cleaner,North India,46,120.0,5520.0,Retail,UPI,2024-03,2024-Q1
+2024-03-15,Floor Cleaner,South India,26,120.0,3120.0,Retail,UPI,2024-03,2024-Q1
+2024-03-15,Floor Cleaner,West India,61,108.0,6588.0,Wholesale,Cash,2024-03,2024-Q1
+2024-03-15,Floor Cleaner,East India,26,120.0,3120.0,Retail,UPI,2024-03,2024-Q1
+2024-03-15,Toilet Cleaner,North India,41,95.0,3895.0,Retail,Credit,2024-03,2024-Q1
+2024-03-15,Toilet Cleaner,South India,18,95.0,1710.0,Retail,UPI,2024-03,2024-Q1
+2024-03-15,Toilet Cleaner,West India,26,95.0,2470.0,Retail,Credit,2024-03,2024-Q1
+2024-03-15,Toilet Cleaner,East India,18,95.0,1710.0,Retail,UPI,2024-03,2024-Q1
+2024-03-15,Dishwash,North India,58,80.0,4640.0,Retail,UPI,2024-03,2024-Q1
+2024-03-15,Dishwash,South India,24,80.0,1920.0,Retail,Credit,2024-03,2024-Q1
+2024-03-15,Dishwash,West India,36,80.0,2880.0,Retail,UPI,2024-03,2024-Q1
+2024-03-15,Dishwash,East India,29,80.0,2320.0,Retail,Cash,2024-03,2024-Q1
+2024-03-15,Hand Wash,North India,40,65.0,2600.0,Retail,Cash,2024-03,2024-Q1
+2024-03-15,Hand Wash,South India,21,65.0,1365.0,Retail,UPI,2024-03,2024-Q1
+2024-03-15,Hand Wash,West India,39,58.5,2281.5,Wholesale,UPI,2024-03,2024-Q1
+2024-03-15,Hand Wash,East India,24,65.0,1560.0,Retail,Credit,2024-03,2024-Q1
+2024-03-15,Glass Cleaner,North India,24,90.0,2160.0,Retail,Credit,2024-03,2024-Q1
+2024-03-15,Glass Cleaner,South India,12,90.0,1080.0,Retail,Credit,2024-03,2024-Q1
+2024-03-15,Glass Cleaner,West India,35,81.0,2835.0,Wholesale,Credit,2024-03,2024-Q1
+2024-03-15,Glass Cleaner,East India,27,81.0,2187.0,Wholesale,UPI,2024-03,2024-Q1
+2024-03-15,White Phenyl,North India,85,49.5,4207.5,Wholesale,Cash,2024-03,2024-Q1
+2024-03-15,White Phenyl,South India,24,55.0,1320.0,Retail,Cash,2024-03,2024-Q1
+2024-03-15,White Phenyl,West India,30,55.0,1650.0,Retail,Cash,2024-03,2024-Q1
+2024-03-15,White Phenyl,East India,51,49.5,2524.5,Wholesale,UPI,2024-03,2024-Q1
+2024-03-22,Floor Cleaner,North India,52,120.0,6240.0,Retail,Credit,2024-03,2024-Q1
+2024-03-22,Floor Cleaner,South India,22,120.0,2640.0,Retail,Cash,2024-03,2024-Q1
+2024-03-22,Floor Cleaner,West India,29,120.0,3480.0,Retail,UPI,2024-03,2024-Q1
+2024-03-22,Floor Cleaner,East India,30,120.0,3600.0,Retail,Cash,2024-03,2024-Q1
+2024-03-22,Toilet Cleaner,North India,75,85.5,6412.5,Wholesale,Cash,2024-03,2024-Q1
+2024-03-22,Toilet Cleaner,South India,29,80.75,2341.75,Institutional,UPI,2024-03,2024-Q1
+2024-03-22,Toilet Cleaner,West India,25,95.0,2375.0,Retail,Cash,2024-03,2024-Q1
+2024-03-22,Toilet Cleaner,East India,19,95.0,1805.0,Retail,UPI,2024-03,2024-Q1
+2024-03-22,Dishwash,North India,56,80.0,4480.0,Retail,UPI,2024-03,2024-Q1
+2024-03-22,Dishwash,South India,37,68.0,2516.0,Institutional,Cash,2024-03,2024-Q1
+2024-03-22,Dishwash,West India,66,72.0,4752.0,Wholesale,UPI,2024-03,2024-Q1
+2024-03-22,Dishwash,East India,51,72.0,3672.0,Wholesale,UPI,2024-03,2024-Q1
+2024-03-22,Hand Wash,North India,57,55.25,3149.25,Institutional,UPI,2024-03,2024-Q1
+2024-03-22,Hand Wash,South India,19,65.0,1235.0,Retail,Credit,2024-03,2024-Q1
+2024-03-22,Hand Wash,West India,26,65.0,1690.0,Retail,Cash,2024-03,2024-Q1
+2024-03-22,Hand Wash,East India,21,65.0,1365.0,Retail,UPI,2024-03,2024-Q1
+2024-03-22,Glass Cleaner,North India,43,76.5,3289.5,Institutional,Cash,2024-03,2024-Q1
+2024-03-22,Glass Cleaner,South India,18,76.5,1377.0,Institutional,Credit,2024-03,2024-Q1
+2024-03-22,Glass Cleaner,West India,18,90.0,1620.0,Retail,UPI,2024-03,2024-Q1
+2024-03-22,Glass Cleaner,East India,16,90.0,1440.0,Retail,UPI,2024-03,2024-Q1
+2024-03-22,White Phenyl,North India,91,49.5,4504.5,Wholesale,Credit,2024-03,2024-Q1
+2024-03-22,White Phenyl,South India,22,55.0,1210.0,Retail,Credit,2024-03,2024-Q1
+2024-03-22,White Phenyl,West India,62,49.5,3069.0,Wholesale,Cash,2024-03,2024-Q1
+2024-03-22,White Phenyl,East India,51,49.5,2524.5,Wholesale,Cash,2024-03,2024-Q1
+2024-04-01,Floor Cleaner,North India,97,120.0,11640.0,Retail,UPI,2024-04,2024-Q2
+2024-04-01,Floor Cleaner,South India,65,120.0,7800.0,Retail,UPI,2024-04,2024-Q2
+2024-04-01,Floor Cleaner,West India,131,108.0,14148.0,Wholesale,UPI,2024-04,2024-Q2
+2024-04-01,Floor Cleaner,East India,87,102.0,8874.0,Institutional,UPI,2024-04,2024-Q2
+2024-04-01,Toilet Cleaner,North India,83,95.0,7885.0,Retail,UPI,2024-04,2024-Q2
+2024-04-01,Toilet Cleaner,South India,37,95.0,3515.0,Retail,UPI,2024-04,2024-Q2
+2024-04-01,Toilet Cleaner,West India,76,80.75,6137.0,Institutional,Cash,2024-04,2024-Q2
+2024-04-01,Toilet Cleaner,East India,78,85.5,6669.0,Wholesale,Credit,2024-04,2024-Q2
+2024-04-01,Dishwash,North India,101,80.0,8080.0,Retail,Cash,2024-04,2024-Q2
+2024-04-01,Dishwash,South India,56,80.0,4480.0,Retail,Cash,2024-04,2024-Q2
+2024-04-01,Dishwash,West India,72,80.0,5760.0,Retail,Credit,2024-04,2024-Q2
+2024-04-01,Dishwash,East India,58,80.0,4640.0,Retail,Cash,2024-04,2024-Q2
+2024-04-01,Hand Wash,North India,76,65.0,4940.0,Retail,Credit,2024-04,2024-Q2
+2024-04-01,Hand Wash,South India,55,55.25,3038.75,Institutional,Credit,2024-04,2024-Q2
+2024-04-01,Hand Wash,West India,80,55.25,4420.0,Institutional,Cash,2024-04,2024-Q2
+2024-04-01,Hand Wash,East India,33,65.0,2145.0,Retail,UPI,2024-04,2024-Q2
+2024-04-01,Glass Cleaner,North India,89,81.0,7209.0,Wholesale,UPI,2024-04,2024-Q2
+2024-04-01,Glass Cleaner,South India,27,90.0,2430.0,Retail,Cash,2024-04,2024-Q2
+2024-04-01,Glass Cleaner,West India,50,76.5,3825.0,Institutional,UPI,2024-04,2024-Q2
+2024-04-01,Glass Cleaner,East India,30,90.0,2700.0,Retail,UPI,2024-04,2024-Q2
+2024-04-01,White Phenyl,North India,177,49.5,8761.5,Wholesale,Credit,2024-04,2024-Q2
+2024-04-01,White Phenyl,South India,68,46.75,3179.0,Institutional,Cash,2024-04,2024-Q2
+2024-04-01,White Phenyl,West India,55,55.0,3025.0,Retail,Cash,2024-04,2024-Q2
+2024-04-01,White Phenyl,East India,50,55.0,2750.0,Retail,UPI,2024-04,2024-Q2
+2024-04-08,Floor Cleaner,North India,107,120.0,12840.0,Retail,UPI,2024-04,2024-Q2
+2024-04-08,Floor Cleaner,South India,80,102.0,8160.0,Institutional,UPI,2024-04,2024-Q2
+2024-04-08,Floor Cleaner,West India,66,120.0,7920.0,Retail,Cash,2024-04,2024-Q2
+2024-04-08,Floor Cleaner,East India,77,102.0,7854.0,Institutional,Credit,2024-04,2024-Q2
+2024-04-08,Toilet Cleaner,North India,82,95.0,7790.0,Retail,UPI,2024-04,2024-Q2
+2024-04-08,Toilet Cleaner,South India,44,95.0,4180.0,Retail,UPI,2024-04,2024-Q2
+2024-04-08,Toilet Cleaner,West India,62,95.0,5890.0,Retail,Credit,2024-04,2024-Q2
+2024-04-08,Toilet Cleaner,East India,72,80.75,5814.0,Institutional,Cash,2024-04,2024-Q2
+2024-04-08,Dishwash,North India,112,80.0,8960.0,Retail,Cash,2024-04,2024-Q2
+2024-04-08,Dishwash,South India,59,80.0,4720.0,Retail,Credit,2024-04,2024-Q2
+2024-04-08,Dishwash,West India,133,72.0,9576.0,Wholesale,UPI,2024-04,2024-Q2
+2024-04-08,Dishwash,East India,44,80.0,3520.0,Retail,Cash,2024-04,2024-Q2
+2024-04-08,Hand Wash,North India,118,58.5,6903.0,Wholesale,UPI,2024-04,2024-Q2
+2024-04-08,Hand Wash,South India,36,65.0,2340.0,Retail,Credit,2024-04,2024-Q2
+2024-04-08,Hand Wash,West India,50,65.0,3250.0,Retail,UPI,2024-04,2024-Q2
+2024-04-08,Hand Wash,East India,78,58.5,4563.0,Wholesale,Credit,2024-04,2024-Q2
+2024-04-08,Glass Cleaner,North India,48,90.0,4320.0,Retail,Credit,2024-04,2024-Q2
+2024-04-08,Glass Cleaner,South India,44,81.0,3564.0,Wholesale,Cash,2024-04,2024-Q2
+2024-04-08,Glass Cleaner,West India,38,90.0,3420.0,Retail,Cash,2024-04,2024-Q2
+2024-04-08,Glass Cleaner,East India,28,90.0,2520.0,Retail,Cash,2024-04,2024-Q2
+2024-04-08,White Phenyl,North India,80,55.0,4400.0,Retail,Credit,2024-04,2024-Q2
+2024-04-08,White Phenyl,South India,80,49.5,3960.0,Wholesale,UPI,2024-04,2024-Q2
+2024-04-08,White Phenyl,West India,112,49.5,5544.0,Wholesale,UPI,2024-04,2024-Q2
+2024-04-08,White Phenyl,East India,51,55.0,2805.0,Retail,Cash,2024-04,2024-Q2
+2024-04-15,Floor Cleaner,North India,156,108.0,16848.0,Wholesale,Cash,2024-04,2024-Q2
+2024-04-15,Floor Cleaner,South India,81,102.0,8262.0,Institutional,UPI,2024-04,2024-Q2
+2024-04-15,Floor Cleaner,West India,72,120.0,8640.0,Retail,UPI,2024-04,2024-Q2
+2024-04-15,Floor Cleaner,East India,90,102.0,9180.0,Institutional,UPI,2024-04,2024-Q2
+2024-04-15,Toilet Cleaner,North India,88,95.0,8360.0,Retail,UPI,2024-04,2024-Q2
+2024-04-15,Toilet Cleaner,South India,46,95.0,4370.0,Retail,Credit,2024-04,2024-Q2
+2024-04-15,Toilet Cleaner,West India,99,85.5,8464.5,Wholesale,UPI,2024-04,2024-Q2
+2024-04-15,Toilet Cleaner,East India,47,95.0,4465.0,Retail,Cash,2024-04,2024-Q2
+2024-04-15,Dishwash,North India,200,72.0,14400.0,Wholesale,UPI,2024-04,2024-Q2
+2024-04-15,Dishwash,South India,61,80.0,4880.0,Retail,UPI,2024-04,2024-Q2
+2024-04-15,Dishwash,West India,119,72.0,8568.0,Wholesale,Credit,2024-04,2024-Q2
+2024-04-15,Dishwash,East India,102,72.0,7344.0,Wholesale,Cash,2024-04,2024-Q2
+2024-04-15,Hand Wash,North India,78,65.0,5070.0,Retail,Cash,2024-04,2024-Q2
+2024-04-15,Hand Wash,South India,63,55.25,3480.75,Institutional,Cash,2024-04,2024-Q2
+2024-04-15,Hand Wash,West India,78,58.5,4563.0,Wholesale,Credit,2024-04,2024-Q2
+2024-04-15,Hand Wash,East India,45,65.0,2925.0,Retail,UPI,2024-04,2024-Q2
+2024-04-15,Glass Cleaner,North India,75,76.5,5737.5,Institutional,UPI,2024-04,2024-Q2
+2024-04-15,Glass Cleaner,South India,27,90.0,2430.0,Retail,UPI,2024-04,2024-Q2
+2024-04-15,Glass Cleaner,West India,69,81.0,5589.0,Wholesale,UPI,2024-04,2024-Q2
+2024-04-15,Glass Cleaner,East India,46,76.5,3519.0,Institutional,UPI,2024-04,2024-Q2
+2024-04-15,White Phenyl,North India,82,55.0,4510.0,Retail,UPI,2024-04,2024-Q2
+2024-04-15,White Phenyl,South India,48,55.0,2640.0,Retail,Credit,2024-04,2024-Q2
+2024-04-15,White Phenyl,West India,98,49.5,4851.0,Wholesale,Credit,2024-04,2024-Q2
+2024-04-15,White Phenyl,East India,104,49.5,5148.0,Wholesale,Credit,2024-04,2024-Q2
+2024-04-22,Floor Cleaner,North India,99,120.0,11880.0,Retail,Cash,2024-04,2024-Q2
+2024-04-22,Floor Cleaner,South India,53,120.0,6360.0,Retail,Cash,2024-04,2024-Q2
+2024-04-22,Floor Cleaner,West India,65,120.0,7800.0,Retail,Cash,2024-04,2024-Q2
+2024-04-22,Floor Cleaner,East India,81,102.0,8262.0,Institutional,Cash,2024-04,2024-Q2
+2024-04-22,Toilet Cleaner,North India,92,95.0,8740.0,Retail,Credit,2024-04,2024-Q2
+2024-04-22,Toilet Cleaner,South India,40,95.0,3800.0,Retail,Credit,2024-04,2024-Q2
+2024-04-22,Toilet Cleaner,West India,53,95.0,5035.0,Retail,Credit,2024-04,2024-Q2
+2024-04-22,Toilet Cleaner,East India,56,95.0,5320.0,Retail,UPI,2024-04,2024-Q2
+2024-04-22,Dishwash,North India,160,68.0,10880.0,Institutional,Credit,2024-04,2024-Q2
+2024-04-22,Dishwash,South India,55,80.0,4400.0,Retail,Credit,2024-04,2024-Q2
+2024-04-22,Dishwash,West India,96,68.0,6528.0,Institutional,UPI,2024-04,2024-Q2
+2024-04-22,Dishwash,East India,102,72.0,7344.0,Wholesale,Cash,2024-04,2024-Q2
+2024-04-22,Hand Wash,North India,145,58.5,8482.5,Wholesale,UPI,2024-04,2024-Q2
+2024-04-22,Hand Wash,South India,79,58.5,4621.5,Wholesale,Credit,2024-04,2024-Q2
+2024-04-22,Hand Wash,West India,56,65.0,3640.0,Retail,UPI,2024-04,2024-Q2
+2024-04-22,Hand Wash,East India,44,65.0,2860.0,Retail,UPI,2024-04,2024-Q2
+2024-04-22,Glass Cleaner,North India,47,90.0,4230.0,Retail,UPI,2024-04,2024-Q2
+2024-04-22,Glass Cleaner,South India,46,81.0,3726.0,Wholesale,Credit,2024-04,2024-Q2
+2024-04-22,Glass Cleaner,West India,40,90.0,3600.0,Retail,UPI,2024-04,2024-Q2
+2024-04-22,Glass Cleaner,East India,51,81.0,4131.0,Wholesale,UPI,2024-04,2024-Q2
+2024-04-22,White Phenyl,North India,95,55.0,5225.0,Retail,Credit,2024-04,2024-Q2
+2024-04-22,White Phenyl,South India,43,55.0,2365.0,Retail,UPI,2024-04,2024-Q2
+2024-04-22,White Phenyl,West India,57,55.0,3135.0,Retail,Cash,2024-04,2024-Q2
+2024-04-22,White Phenyl,East India,85,49.5,4207.5,Wholesale,Cash,2024-04,2024-Q2
+2024-05-01,Floor Cleaner,North India,180,108.0,19440.0,Wholesale,Cash,2024-05,2024-Q2
+2024-05-01,Floor Cleaner,South India,81,102.0,8262.0,Institutional,Credit,2024-05,2024-Q2
+2024-05-01,Floor Cleaner,West India,125,108.0,13500.0,Wholesale,Cash,2024-05,2024-Q2
+2024-05-01,Floor Cleaner,East India,101,108.0,10908.0,Wholesale,Cash,2024-05,2024-Q2
+2024-05-01,Toilet Cleaner,North India,95,95.0,9025.0,Retail,Credit,2024-05,2024-Q2
+2024-05-01,Toilet Cleaner,South India,43,95.0,4085.0,Retail,Cash,2024-05,2024-Q2
+2024-05-01,Toilet Cleaner,West India,108,85.5,9234.0,Wholesale,Cash,2024-05,2024-Q2
+2024-05-01,Toilet Cleaner,East India,50,95.0,4750.0,Retail,Cash,2024-05,2024-Q2
+2024-05-01,Dishwash,North India,108,80.0,8640.0,Retail,Credit,2024-05,2024-Q2
+2024-05-01,Dishwash,South India,104,72.0,7488.0,Wholesale,UPI,2024-05,2024-Q2
+2024-05-01,Dishwash,West India,88,68.0,5984.0,Institutional,Credit,2024-05,2024-Q2
+2024-05-01,Dishwash,East India,57,80.0,4560.0,Retail,Cash,2024-05,2024-Q2
+2024-05-01,Hand Wash,North India,71,65.0,4615.0,Retail,UPI,2024-05,2024-Q2
+2024-05-01,Hand Wash,South India,86,58.5,5031.0,Wholesale,Credit,2024-05,2024-Q2
+2024-05-01,Hand Wash,West India,48,65.0,3120.0,Retail,Cash,2024-05,2024-Q2
+2024-05-01,Hand Wash,East India,39,65.0,2535.0,Retail,Cash,2024-05,2024-Q2
+2024-05-01,Glass Cleaner,North India,89,81.0,7209.0,Wholesale,Credit,2024-05,2024-Q2
+2024-05-01,Glass Cleaner,South India,29,90.0,2610.0,Retail,Cash,2024-05,2024-Q2
+2024-05-01,Glass Cleaner,West India,34,90.0,3060.0,Retail,UPI,2024-05,2024-Q2
+2024-05-01,Glass Cleaner,East India,26,90.0,2340.0,Retail,Cash,2024-05,2024-Q2
+2024-05-01,White Phenyl,North India,134,46.75,6264.5,Institutional,UPI,2024-05,2024-Q2
+2024-05-01,White Phenyl,South India,75,46.75,3506.25,Institutional,UPI,2024-05,2024-Q2
+2024-05-01,White Phenyl,West India,102,46.75,4768.5,Institutional,Cash,2024-05,2024-Q2
+2024-05-01,White Phenyl,East India,78,49.5,3861.0,Wholesale,Cash,2024-05,2024-Q2
+2024-05-08,Floor Cleaner,North India,91,120.0,10920.0,Retail,Cash,2024-05,2024-Q2
+2024-05-08,Floor Cleaner,South India,55,120.0,6600.0,Retail,Cash,2024-05,2024-Q2
+2024-05-08,Floor Cleaner,West India,99,102.0,10098.0,Institutional,UPI,2024-05,2024-Q2
+2024-05-08,Floor Cleaner,East India,57,120.0,6840.0,Retail,UPI,2024-05,2024-Q2
+2024-05-08,Toilet Cleaner,North India,148,85.5,12654.0,Wholesale,Cash,2024-05,2024-Q2
+2024-05-08,Toilet Cleaner,South India,61,80.75,4925.75,Institutional,Cash,2024-05,2024-Q2
+2024-05-08,Toilet Cleaner,West India,52,95.0,4940.0,Retail,UPI,2024-05,2024-Q2
+2024-05-08,Toilet Cleaner,East India,76,80.75,6137.0,Institutional,Credit,2024-05,2024-Q2
+2024-05-08,Dishwash,North India,98,80.0,7840.0,Retail,Credit,2024-05,2024-Q2
+2024-05-08,Dishwash,South India,55,80.0,4400.0,Retail,UPI,2024-05,2024-Q2
+2024-05-08,Dishwash,West India,125,72.0,9000.0,Wholesale,Credit,2024-05,2024-Q2
+2024-05-08,Dishwash,East India,88,68.0,5984.0,Institutional,UPI,2024-05,2024-Q2
+2024-05-08,Hand Wash,North India,77,65.0,5005.0,Retail,UPI,2024-05,2024-Q2
+2024-05-08,Hand Wash,South India,47,65.0,3055.0,Retail,Cash,2024-05,2024-Q2
+2024-05-08,Hand Wash,West India,90,55.25,4972.5,Institutional,UPI,2024-05,2024-Q2
+2024-05-08,Hand Wash,East India,43,65.0,2795.0,Retail,UPI,2024-05,2024-Q2
+2024-05-08,Glass Cleaner,North India,78,76.5,5967.0,Institutional,Credit,2024-05,2024-Q2
+2024-05-08,Glass Cleaner,South India,32,90.0,2880.0,Retail,UPI,2024-05,2024-Q2
+2024-05-08,Glass Cleaner,West India,34,90.0,3060.0,Retail,UPI,2024-05,2024-Q2
+2024-05-08,Glass Cleaner,East India,29,90.0,2610.0,Retail,UPI,2024-05,2024-Q2
+2024-05-08,White Phenyl,North India,92,55.0,5060.0,Retail,Cash,2024-05,2024-Q2
+2024-05-08,White Phenyl,South India,45,55.0,2475.0,Retail,Cash,2024-05,2024-Q2
+2024-05-08,White Phenyl,West India,99,49.5,4900.5,Wholesale,Cash,2024-05,2024-Q2
+2024-05-08,White Phenyl,East India,74,46.75,3459.5,Institutional,UPI,2024-05,2024-Q2
+2024-05-15,Floor Cleaner,North India,99,120.0,11880.0,Retail,Credit,2024-05,2024-Q2
+2024-05-15,Floor Cleaner,South India,83,102.0,8466.0,Institutional,UPI,2024-05,2024-Q2
+2024-05-15,Floor Cleaner,West India,72,120.0,8640.0,Retail,UPI,2024-05,2024-Q2
+2024-05-15,Floor Cleaner,East India,46,120.0,5520.0,Retail,UPI,2024-05,2024-Q2
+2024-05-15,Toilet Cleaner,North India,84,95.0,7980.0,Retail,UPI,2024-05,2024-Q2
+2024-05-15,Toilet Cleaner,South India,82,85.5,7011.0,Wholesale,UPI,2024-05,2024-Q2
+2024-05-15,Toilet Cleaner,West India,58,95.0,5510.0,Retail,UPI,2024-05,2024-Q2
+2024-05-15,Toilet Cleaner,East India,38,95.0,3610.0,Retail,Credit,2024-05,2024-Q2
+2024-05-15,Dishwash,North India,92,80.0,7360.0,Retail,Credit,2024-05,2024-Q2
+2024-05-15,Dishwash,South India,79,68.0,5372.0,Institutional,Cash,2024-05,2024-Q2
+2024-05-15,Dishwash,West India,87,68.0,5916.0,Institutional,UPI,2024-05,2024-Q2
+2024-05-15,Dishwash,East India,103,72.0,7416.0,Wholesale,UPI,2024-05,2024-Q2
+2024-05-15,Hand Wash,North India,127,55.25,7016.75,Institutional,UPI,2024-05,2024-Q2
+2024-05-15,Hand Wash,South India,38,65.0,2470.0,Retail,UPI,2024-05,2024-Q2
+2024-05-15,Hand Wash,West India,99,58.5,5791.5,Wholesale,Credit,2024-05,2024-Q2
+2024-05-15,Hand Wash,East India,42,65.0,2730.0,Retail,Credit,2024-05,2024-Q2
+2024-05-15,Glass Cleaner,North India,57,90.0,5130.0,Retail,UPI,2024-05,2024-Q2
+2024-05-15,Glass Cleaner,South India,28,90.0,2520.0,Retail,UPI,2024-05,2024-Q2
+2024-05-15,Glass Cleaner,West India,70,81.0,5670.0,Wholesale,Cash,2024-05,2024-Q2
+2024-05-15,Glass Cleaner,East India,29,90.0,2610.0,Retail,Cash,2024-05,2024-Q2
+2024-05-15,White Phenyl,North India,78,55.0,4290.0,Retail,UPI,2024-05,2024-Q2
+2024-05-15,White Phenyl,South India,72,46.75,3366.0,Institutional,UPI,2024-05,2024-Q2
+2024-05-15,White Phenyl,West India,93,46.75,4347.75,Institutional,Cash,2024-05,2024-Q2
+2024-05-15,White Phenyl,East India,66,46.75,3085.5,Institutional,UPI,2024-05,2024-Q2
+2024-05-22,Floor Cleaner,North India,97,120.0,11640.0,Retail,Cash,2024-05,2024-Q2
+2024-05-22,Floor Cleaner,South India,85,102.0,8670.0,Institutional,Credit,2024-05,2024-Q2
+2024-05-22,Floor Cleaner,West India,125,108.0,13500.0,Wholesale,UPI,2024-05,2024-Q2
+2024-05-22,Floor Cleaner,East India,50,120.0,6000.0,Retail,Credit,2024-05,2024-Q2
+2024-05-22,Toilet Cleaner,North India,96,95.0,9120.0,Retail,Cash,2024-05,2024-Q2
+2024-05-22,Toilet Cleaner,South India,44,95.0,4180.0,Retail,UPI,2024-05,2024-Q2
+2024-05-22,Toilet Cleaner,West India,101,85.5,8635.5,Wholesale,UPI,2024-05,2024-Q2
+2024-05-22,Toilet Cleaner,East India,49,95.0,4655.0,Retail,Credit,2024-05,2024-Q2
+2024-05-22,Dishwash,North India,96,80.0,7680.0,Retail,Cash,2024-05,2024-Q2
+2024-05-22,Dishwash,South India,62,80.0,4960.0,Retail,Credit,2024-05,2024-Q2
+2024-05-22,Dishwash,West India,135,72.0,9720.0,Wholesale,Credit,2024-05,2024-Q2
+2024-05-22,Dishwash,East India,90,68.0,6120.0,Institutional,Cash,2024-05,2024-Q2
+2024-05-22,Hand Wash,North India,79,65.0,5135.0,Retail,UPI,2024-05,2024-Q2
+2024-05-22,Hand Wash,South India,48,55.25,2652.0,Institutional,UPI,2024-05,2024-Q2
+2024-05-22,Hand Wash,West India,46,65.0,2990.0,Retail,UPI,2024-05,2024-Q2
+2024-05-22,Hand Wash,East India,39,65.0,2535.0,Retail,Cash,2024-05,2024-Q2
+2024-05-22,Glass Cleaner,North India,89,81.0,7209.0,Wholesale,UPI,2024-05,2024-Q2
+2024-05-22,Glass Cleaner,South India,53,81.0,4293.0,Wholesale,Cash,2024-05,2024-Q2
+2024-05-22,Glass Cleaner,West India,38,90.0,3420.0,Retail,Credit,2024-05,2024-Q2
+2024-05-22,Glass Cleaner,East India,26,90.0,2340.0,Retail,Credit,2024-05,2024-Q2
+2024-05-22,White Phenyl,North India,84,55.0,4620.0,Retail,Cash,2024-05,2024-Q2
+2024-05-22,White Phenyl,South India,49,55.0,2695.0,Retail,Cash,2024-05,2024-Q2
+2024-05-22,White Phenyl,West India,88,46.75,4114.0,Institutional,UPI,2024-05,2024-Q2
+2024-05-22,White Phenyl,East India,55,55.0,3025.0,Retail,Credit,2024-05,2024-Q2
+2024-06-01,Floor Cleaner,North India,220,102.0,22440.0,Institutional,Credit,2024-06,2024-Q2
+2024-06-01,Floor Cleaner,South India,79,120.0,9480.0,Retail,Cash,2024-06,2024-Q2
+2024-06-01,Floor Cleaner,West India,134,102.0,13668.0,Institutional,UPI,2024-06,2024-Q2
+2024-06-01,Floor Cleaner,East India,81,120.0,9720.0,Retail,Cash,2024-06,2024-Q2
+2024-06-01,Toilet Cleaner,North India,203,85.5,17356.5,Wholesale,UPI,2024-06,2024-Q2
+2024-06-01,Toilet Cleaner,South India,63,95.0,5985.0,Retail,UPI,2024-06,2024-Q2
+2024-06-01,Toilet Cleaner,West India,102,80.75,8236.5,Institutional,Cash,2024-06,2024-Q2
+2024-06-01,Toilet Cleaner,East India,58,95.0,5510.0,Retail,UPI,2024-06,2024-Q2
+2024-06-01,Dishwash,North India,120,80.0,9600.0,Retail,Credit,2024-06,2024-Q2
+2024-06-01,Dishwash,South India,77,80.0,6160.0,Retail,UPI,2024-06,2024-Q2
+2024-06-01,Dishwash,West India,164,72.0,11808.0,Wholesale,Cash,2024-06,2024-Q2
+2024-06-01,Dishwash,East India,82,80.0,6560.0,Retail,Credit,2024-06,2024-Q2
+2024-06-01,Hand Wash,North India,143,55.25,7900.75,Institutional,UPI,2024-06,2024-Q2
+2024-06-01,Hand Wash,South India,95,58.5,5557.5,Wholesale,UPI,2024-06,2024-Q2
+2024-06-01,Hand Wash,West India,80,65.0,5200.0,Retail,UPI,2024-06,2024-Q2
+2024-06-01,Hand Wash,East India,100,58.5,5850.0,Wholesale,UPI,2024-06,2024-Q2
+2024-06-01,Glass Cleaner,North India,111,81.0,8991.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-01,Glass Cleaner,South India,37,90.0,3330.0,Retail,Credit,2024-06,2024-Q2
+2024-06-01,Glass Cleaner,West India,73,81.0,5913.0,Wholesale,UPI,2024-06,2024-Q2
+2024-06-01,Glass Cleaner,East India,71,81.0,5751.0,Wholesale,Cash,2024-06,2024-Q2
+2024-06-01,White Phenyl,North India,184,49.5,9108.0,Wholesale,UPI,2024-06,2024-Q2
+2024-06-01,White Phenyl,South India,52,55.0,2860.0,Retail,Cash,2024-06,2024-Q2
+2024-06-01,White Phenyl,West India,74,55.0,4070.0,Retail,Cash,2024-06,2024-Q2
+2024-06-01,White Phenyl,East India,59,55.0,3245.0,Retail,Credit,2024-06,2024-Q2
+2024-06-08,Floor Cleaner,North India,255,108.0,27540.0,Wholesale,Cash,2024-06,2024-Q2
+2024-06-08,Floor Cleaner,South India,75,120.0,9000.0,Retail,Cash,2024-06,2024-Q2
+2024-06-08,Floor Cleaner,West India,87,120.0,10440.0,Retail,Cash,2024-06,2024-Q2
+2024-06-08,Floor Cleaner,East India,120,108.0,12960.0,Wholesale,Cash,2024-06,2024-Q2
+2024-06-08,Toilet Cleaner,North India,201,85.5,17185.5,Wholesale,UPI,2024-06,2024-Q2
+2024-06-08,Toilet Cleaner,South India,56,95.0,5320.0,Retail,Credit,2024-06,2024-Q2
+2024-06-08,Toilet Cleaner,West India,72,95.0,6840.0,Retail,Cash,2024-06,2024-Q2
+2024-06-08,Toilet Cleaner,East India,58,95.0,5510.0,Retail,Cash,2024-06,2024-Q2
+2024-06-08,Dishwash,North India,134,80.0,10720.0,Retail,Cash,2024-06,2024-Q2
+2024-06-08,Dishwash,South India,63,80.0,5040.0,Retail,UPI,2024-06,2024-Q2
+2024-06-08,Dishwash,West India,87,80.0,6960.0,Retail,Credit,2024-06,2024-Q2
+2024-06-08,Dishwash,East India,62,80.0,4960.0,Retail,UPI,2024-06,2024-Q2
+2024-06-08,Hand Wash,North India,144,55.25,7956.0,Institutional,UPI,2024-06,2024-Q2
+2024-06-08,Hand Wash,South India,89,55.25,4917.25,Institutional,Credit,2024-06,2024-Q2
+2024-06-08,Hand Wash,West India,56,65.0,3640.0,Retail,Cash,2024-06,2024-Q2
+2024-06-08,Hand Wash,East India,55,65.0,3575.0,Retail,UPI,2024-06,2024-Q2
+2024-06-08,Glass Cleaner,North India,138,81.0,11178.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-08,Glass Cleaner,South India,32,90.0,2880.0,Retail,Credit,2024-06,2024-Q2
+2024-06-08,Glass Cleaner,West India,67,76.5,5125.5,Institutional,Credit,2024-06,2024-Q2
+2024-06-08,Glass Cleaner,East India,36,90.0,3240.0,Retail,UPI,2024-06,2024-Q2
+2024-06-08,White Phenyl,North India,160,49.5,7920.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-08,White Phenyl,South India,108,49.5,5346.0,Wholesale,Cash,2024-06,2024-Q2
+2024-06-08,White Phenyl,West India,68,55.0,3740.0,Retail,Cash,2024-06,2024-Q2
+2024-06-08,White Phenyl,East India,54,55.0,2970.0,Retail,Credit,2024-06,2024-Q2
+2024-06-15,Floor Cleaner,North India,141,120.0,16920.0,Retail,Cash,2024-06,2024-Q2
+2024-06-15,Floor Cleaner,South India,74,120.0,8880.0,Retail,Credit,2024-06,2024-Q2
+2024-06-15,Floor Cleaner,West India,152,108.0,16416.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-15,Floor Cleaner,East India,74,120.0,8880.0,Retail,Credit,2024-06,2024-Q2
+2024-06-15,Toilet Cleaner,North India,106,95.0,10070.0,Retail,UPI,2024-06,2024-Q2
+2024-06-15,Toilet Cleaner,South India,106,85.5,9063.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-15,Toilet Cleaner,West India,132,85.5,11286.0,Wholesale,Cash,2024-06,2024-Q2
+2024-06-15,Toilet Cleaner,East India,108,85.5,9234.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-15,Dishwash,North India,139,80.0,11120.0,Retail,UPI,2024-06,2024-Q2
+2024-06-15,Dishwash,South India,65,80.0,5200.0,Retail,UPI,2024-06,2024-Q2
+2024-06-15,Dishwash,West India,85,80.0,6800.0,Retail,Cash,2024-06,2024-Q2
+2024-06-15,Dishwash,East India,65,80.0,5200.0,Retail,UPI,2024-06,2024-Q2
+2024-06-15,Hand Wash,North India,181,58.5,10588.5,Wholesale,UPI,2024-06,2024-Q2
+2024-06-15,Hand Wash,South India,56,65.0,3640.0,Retail,UPI,2024-06,2024-Q2
+2024-06-15,Hand Wash,West India,67,65.0,4355.0,Retail,UPI,2024-06,2024-Q2
+2024-06-15,Hand Wash,East India,48,65.0,3120.0,Retail,UPI,2024-06,2024-Q2
+2024-06-15,Glass Cleaner,North India,69,90.0,6210.0,Retail,UPI,2024-06,2024-Q2
+2024-06-15,Glass Cleaner,South India,64,81.0,5184.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-15,Glass Cleaner,West India,45,90.0,4050.0,Retail,Cash,2024-06,2024-Q2
+2024-06-15,Glass Cleaner,East India,38,90.0,3420.0,Retail,Credit,2024-06,2024-Q2
+2024-06-15,White Phenyl,North India,106,55.0,5830.0,Retail,Credit,2024-06,2024-Q2
+2024-06-15,White Phenyl,South India,59,55.0,3245.0,Retail,Cash,2024-06,2024-Q2
+2024-06-15,White Phenyl,West India,131,49.5,6484.5,Wholesale,Cash,2024-06,2024-Q2
+2024-06-15,White Phenyl,East India,97,46.75,4534.75,Institutional,Credit,2024-06,2024-Q2
+2024-06-22,Floor Cleaner,North India,119,120.0,14280.0,Retail,Credit,2024-06,2024-Q2
+2024-06-22,Floor Cleaner,South India,132,108.0,14256.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-22,Floor Cleaner,West India,141,108.0,15228.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-22,Floor Cleaner,East India,72,120.0,8640.0,Retail,Credit,2024-06,2024-Q2
+2024-06-22,Toilet Cleaner,North India,154,85.5,13167.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-22,Toilet Cleaner,South India,59,95.0,5605.0,Retail,Cash,2024-06,2024-Q2
+2024-06-22,Toilet Cleaner,West India,72,95.0,6840.0,Retail,UPI,2024-06,2024-Q2
+2024-06-22,Toilet Cleaner,East India,116,85.5,9918.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-22,Dishwash,North India,235,72.0,16920.0,Wholesale,UPI,2024-06,2024-Q2
+2024-06-22,Dishwash,South India,64,80.0,5120.0,Retail,Credit,2024-06,2024-Q2
+2024-06-22,Dishwash,West India,197,72.0,14184.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-22,Dishwash,East India,84,80.0,6720.0,Retail,UPI,2024-06,2024-Q2
+2024-06-22,Hand Wash,North India,149,55.25,8232.25,Institutional,Cash,2024-06,2024-Q2
+2024-06-22,Hand Wash,South India,77,55.25,4254.25,Institutional,Cash,2024-06,2024-Q2
+2024-06-22,Hand Wash,West India,68,65.0,4420.0,Retail,Credit,2024-06,2024-Q2
+2024-06-22,Hand Wash,East India,47,65.0,3055.0,Retail,Credit,2024-06,2024-Q2
+2024-06-22,Glass Cleaner,North India,112,81.0,9072.0,Wholesale,UPI,2024-06,2024-Q2
+2024-06-22,Glass Cleaner,South India,34,90.0,3060.0,Retail,Cash,2024-06,2024-Q2
+2024-06-22,Glass Cleaner,West India,78,81.0,6318.0,Wholesale,UPI,2024-06,2024-Q2
+2024-06-22,Glass Cleaner,East India,37,90.0,3330.0,Retail,Credit,2024-06,2024-Q2
+2024-06-22,White Phenyl,North India,99,55.0,5445.0,Retail,Credit,2024-06,2024-Q2
+2024-06-22,White Phenyl,South India,93,49.5,4603.5,Wholesale,Cash,2024-06,2024-Q2
+2024-06-22,White Phenyl,West India,116,49.5,5742.0,Wholesale,Credit,2024-06,2024-Q2
+2024-06-22,White Phenyl,East India,68,55.0,3740.0,Retail,Credit,2024-06,2024-Q2
+2024-07-01,Floor Cleaner,North India,130,120.0,15600.0,Retail,Cash,2024-07,2024-Q3
+2024-07-01,Floor Cleaner,South India,120,108.0,12960.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-01,Floor Cleaner,West India,95,120.0,11400.0,Retail,UPI,2024-07,2024-Q3
+2024-07-01,Floor Cleaner,East India,140,108.0,15120.0,Wholesale,Cash,2024-07,2024-Q3
+2024-07-01,Toilet Cleaner,North India,211,85.5,18040.5,Wholesale,UPI,2024-07,2024-Q3
+2024-07-01,Toilet Cleaner,South India,65,95.0,6175.0,Retail,Credit,2024-07,2024-Q3
+2024-07-01,Toilet Cleaner,West India,121,80.75,9770.75,Institutional,UPI,2024-07,2024-Q3
+2024-07-01,Toilet Cleaner,East India,55,95.0,5225.0,Retail,Cash,2024-07,2024-Q3
+2024-07-01,Dishwash,North India,153,80.0,12240.0,Retail,Credit,2024-07,2024-Q3
+2024-07-01,Dishwash,South India,77,80.0,6160.0,Retail,Credit,2024-07,2024-Q3
+2024-07-01,Dishwash,West India,173,72.0,12456.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-01,Dishwash,East India,123,72.0,8856.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-01,Hand Wash,North India,92,65.0,5980.0,Retail,UPI,2024-07,2024-Q3
+2024-07-01,Hand Wash,South India,60,65.0,3900.0,Retail,Credit,2024-07,2024-Q3
+2024-07-01,Hand Wash,West India,74,65.0,4810.0,Retail,Cash,2024-07,2024-Q3
+2024-07-01,Hand Wash,East India,53,65.0,3445.0,Retail,UPI,2024-07,2024-Q3
+2024-07-01,Glass Cleaner,North India,66,90.0,5940.0,Retail,Credit,2024-07,2024-Q3
+2024-07-01,Glass Cleaner,South India,38,90.0,3420.0,Retail,UPI,2024-07,2024-Q3
+2024-07-01,Glass Cleaner,West India,52,90.0,4680.0,Retail,UPI,2024-07,2024-Q3
+2024-07-01,Glass Cleaner,East India,81,81.0,6561.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-01,White Phenyl,North India,172,49.5,8514.0,Wholesale,Cash,2024-07,2024-Q3
+2024-07-01,White Phenyl,South India,100,49.5,4950.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-01,White Phenyl,West India,66,55.0,3630.0,Retail,UPI,2024-07,2024-Q3
+2024-07-01,White Phenyl,East India,71,55.0,3905.0,Retail,UPI,2024-07,2024-Q3
+2024-07-08,Floor Cleaner,North India,138,120.0,16560.0,Retail,Credit,2024-07,2024-Q3
+2024-07-08,Floor Cleaner,South India,168,108.0,18144.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-08,Floor Cleaner,West India,159,108.0,17172.0,Wholesale,Credit,2024-07,2024-Q3
+2024-07-08,Floor Cleaner,East India,88,120.0,10560.0,Retail,UPI,2024-07,2024-Q3
+2024-07-08,Toilet Cleaner,North India,90,95.0,8550.0,Retail,UPI,2024-07,2024-Q3
+2024-07-08,Toilet Cleaner,South India,105,80.75,8478.75,Institutional,UPI,2024-07,2024-Q3
+2024-07-08,Toilet Cleaner,West India,118,80.75,9528.5,Institutional,UPI,2024-07,2024-Q3
+2024-07-08,Toilet Cleaner,East India,61,95.0,5795.0,Retail,Cash,2024-07,2024-Q3
+2024-07-08,Dishwash,North India,119,80.0,9520.0,Retail,Credit,2024-07,2024-Q3
+2024-07-08,Dishwash,South India,80,80.0,6400.0,Retail,UPI,2024-07,2024-Q3
+2024-07-08,Dishwash,West India,144,68.0,9792.0,Institutional,Cash,2024-07,2024-Q3
+2024-07-08,Dishwash,East India,75,80.0,6000.0,Retail,UPI,2024-07,2024-Q3
+2024-07-08,Hand Wash,North India,193,58.5,11290.5,Wholesale,Cash,2024-07,2024-Q3
+2024-07-08,Hand Wash,South India,64,65.0,4160.0,Retail,Credit,2024-07,2024-Q3
+2024-07-08,Hand Wash,West India,109,55.25,6022.25,Institutional,Cash,2024-07,2024-Q3
+2024-07-08,Hand Wash,East India,55,65.0,3575.0,Retail,Cash,2024-07,2024-Q3
+2024-07-08,Glass Cleaner,North India,108,76.5,8262.0,Institutional,Credit,2024-07,2024-Q3
+2024-07-08,Glass Cleaner,South India,76,81.0,6156.0,Wholesale,Credit,2024-07,2024-Q3
+2024-07-08,Glass Cleaner,West India,44,90.0,3960.0,Retail,UPI,2024-07,2024-Q3
+2024-07-08,Glass Cleaner,East India,43,90.0,3870.0,Retail,UPI,2024-07,2024-Q3
+2024-07-08,White Phenyl,North India,167,46.75,7807.25,Institutional,Credit,2024-07,2024-Q3
+2024-07-08,White Phenyl,South India,63,55.0,3465.0,Retail,UPI,2024-07,2024-Q3
+2024-07-08,White Phenyl,West India,133,49.5,6583.5,Wholesale,UPI,2024-07,2024-Q3
+2024-07-08,White Phenyl,East India,54,55.0,2970.0,Retail,UPI,2024-07,2024-Q3
+2024-07-15,Floor Cleaner,North India,153,120.0,18360.0,Retail,Cash,2024-07,2024-Q3
+2024-07-15,Floor Cleaner,South India,103,102.0,10506.0,Institutional,UPI,2024-07,2024-Q3
+2024-07-15,Floor Cleaner,West India,172,108.0,18576.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-15,Floor Cleaner,East India,80,120.0,9600.0,Retail,Cash,2024-07,2024-Q3
+2024-07-15,Toilet Cleaner,North India,116,95.0,11020.0,Retail,Cash,2024-07,2024-Q3
+2024-07-15,Toilet Cleaner,South India,125,85.5,10687.5,Wholesale,Cash,2024-07,2024-Q3
+2024-07-15,Toilet Cleaner,West India,81,95.0,7695.0,Retail,UPI,2024-07,2024-Q3
+2024-07-15,Toilet Cleaner,East India,66,95.0,6270.0,Retail,Cash,2024-07,2024-Q3
+2024-07-15,Dishwash,North India,207,68.0,14076.0,Institutional,Cash,2024-07,2024-Q3
+2024-07-15,Dishwash,South India,123,68.0,8364.0,Institutional,UPI,2024-07,2024-Q3
+2024-07-15,Dishwash,West India,92,80.0,7360.0,Retail,UPI,2024-07,2024-Q3
+2024-07-15,Dishwash,East India,119,72.0,8568.0,Wholesale,Credit,2024-07,2024-Q3
+2024-07-15,Hand Wash,North India,115,65.0,7475.0,Retail,UPI,2024-07,2024-Q3
+2024-07-15,Hand Wash,South India,66,65.0,4290.0,Retail,Cash,2024-07,2024-Q3
+2024-07-15,Hand Wash,West India,107,58.5,6259.5,Wholesale,Cash,2024-07,2024-Q3
+2024-07-15,Hand Wash,East India,104,58.5,6084.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-15,Glass Cleaner,North India,135,81.0,10935.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-15,Glass Cleaner,South India,33,90.0,2970.0,Retail,UPI,2024-07,2024-Q3
+2024-07-15,Glass Cleaner,West India,42,90.0,3780.0,Retail,Cash,2024-07,2024-Q3
+2024-07-15,Glass Cleaner,East India,35,90.0,3150.0,Retail,Cash,2024-07,2024-Q3
+2024-07-15,White Phenyl,North India,166,46.75,7760.5,Institutional,Cash,2024-07,2024-Q3
+2024-07-15,White Phenyl,South India,55,55.0,3025.0,Retail,Credit,2024-07,2024-Q3
+2024-07-15,White Phenyl,West India,70,55.0,3850.0,Retail,Credit,2024-07,2024-Q3
+2024-07-15,White Phenyl,East India,91,46.75,4254.25,Institutional,Credit,2024-07,2024-Q3
+2024-07-22,Floor Cleaner,North India,157,120.0,18840.0,Retail,Credit,2024-07,2024-Q3
+2024-07-22,Floor Cleaner,South India,160,108.0,17280.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-22,Floor Cleaner,West India,90,120.0,10800.0,Retail,UPI,2024-07,2024-Q3
+2024-07-22,Floor Cleaner,East India,155,108.0,16740.0,Wholesale,Credit,2024-07,2024-Q3
+2024-07-22,Toilet Cleaner,North India,106,95.0,10070.0,Retail,UPI,2024-07,2024-Q3
+2024-07-22,Toilet Cleaner,South India,122,85.5,10431.0,Wholesale,UPI,2024-07,2024-Q3
+2024-07-22,Toilet Cleaner,West India,72,95.0,6840.0,Retail,UPI,2024-07,2024-Q3
+2024-07-22,Toilet Cleaner,East India,125,85.5,10687.5,Wholesale,Cash,2024-07,2024-Q3
+2024-07-22,Dishwash,North India,132,80.0,10560.0,Retail,Credit,2024-07,2024-Q3
+2024-07-22,Dishwash,South India,146,72.0,10512.0,Wholesale,Credit,2024-07,2024-Q3
+2024-07-22,Dishwash,West India,169,72.0,12168.0,Wholesale,Credit,2024-07,2024-Q3
+2024-07-22,Dishwash,East India,72,80.0,5760.0,Retail,UPI,2024-07,2024-Q3
+2024-07-22,Hand Wash,North India,104,65.0,6760.0,Retail,UPI,2024-07,2024-Q3
+2024-07-22,Hand Wash,South India,56,65.0,3640.0,Retail,UPI,2024-07,2024-Q3
+2024-07-22,Hand Wash,West India,76,65.0,4940.0,Retail,Credit,2024-07,2024-Q3
+2024-07-22,Hand Wash,East India,81,55.25,4475.25,Institutional,UPI,2024-07,2024-Q3
+2024-07-22,Glass Cleaner,North India,102,76.5,7803.0,Institutional,UPI,2024-07,2024-Q3
+2024-07-22,Glass Cleaner,South India,41,90.0,3690.0,Retail,UPI,2024-07,2024-Q3
+2024-07-22,Glass Cleaner,West India,46,90.0,4140.0,Retail,Cash,2024-07,2024-Q3
+2024-07-22,Glass Cleaner,East India,37,90.0,3330.0,Retail,UPI,2024-07,2024-Q3
+2024-07-22,White Phenyl,North India,94,55.0,5170.0,Retail,UPI,2024-07,2024-Q3
+2024-07-22,White Phenyl,South India,112,49.5,5544.0,Wholesale,Cash,2024-07,2024-Q3
+2024-07-22,White Phenyl,West India,74,55.0,4070.0,Retail,UPI,2024-07,2024-Q3
+2024-07-22,White Phenyl,East India,102,49.5,5049.0,Wholesale,UPI,2024-07,2024-Q3
+2024-08-01,Floor Cleaner,North India,209,108.0,22572.0,Wholesale,Cash,2024-08,2024-Q3
+2024-08-01,Floor Cleaner,South India,60,120.0,7200.0,Retail,UPI,2024-08,2024-Q3
+2024-08-01,Floor Cleaner,West India,145,108.0,15660.0,Wholesale,Credit,2024-08,2024-Q3
+2024-08-01,Floor Cleaner,East India,117,108.0,12636.0,Wholesale,Credit,2024-08,2024-Q3
+2024-08-01,Toilet Cleaner,North India,149,85.5,12739.5,Wholesale,UPI,2024-08,2024-Q3
+2024-08-01,Toilet Cleaner,South India,73,80.75,5894.75,Institutional,Cash,2024-08,2024-Q3
+2024-08-01,Toilet Cleaner,West India,53,95.0,5035.0,Retail,Cash,2024-08,2024-Q3
+2024-08-01,Toilet Cleaner,East India,65,80.75,5248.75,Institutional,Cash,2024-08,2024-Q3
+2024-08-01,Dishwash,North India,176,72.0,12672.0,Wholesale,UPI,2024-08,2024-Q3
+2024-08-01,Dishwash,South India,97,68.0,6596.0,Institutional,UPI,2024-08,2024-Q3
+2024-08-01,Dishwash,West India,112,68.0,7616.0,Institutional,Cash,2024-08,2024-Q3
+2024-08-01,Dishwash,East India,62,80.0,4960.0,Retail,UPI,2024-08,2024-Q3
+2024-08-01,Hand Wash,North India,81,65.0,5265.0,Retail,Credit,2024-08,2024-Q3
+2024-08-01,Hand Wash,South India,42,65.0,2730.0,Retail,Credit,2024-08,2024-Q3
+2024-08-01,Hand Wash,West India,56,65.0,3640.0,Retail,Credit,2024-08,2024-Q3
+2024-08-01,Hand Wash,East India,43,65.0,2795.0,Retail,Credit,2024-08,2024-Q3
+2024-08-01,Glass Cleaner,North India,54,90.0,4860.0,Retail,Cash,2024-08,2024-Q3
+2024-08-01,Glass Cleaner,South India,34,90.0,3060.0,Retail,UPI,2024-08,2024-Q3
+2024-08-01,Glass Cleaner,West India,72,81.0,5832.0,Wholesale,Cash,2024-08,2024-Q3
+2024-08-01,Glass Cleaner,East India,28,90.0,2520.0,Retail,UPI,2024-08,2024-Q3
+2024-08-01,White Phenyl,North India,83,55.0,4565.0,Retail,Credit,2024-08,2024-Q3
+2024-08-01,White Phenyl,South India,43,55.0,2365.0,Retail,Credit,2024-08,2024-Q3
+2024-08-01,White Phenyl,West India,59,55.0,3245.0,Retail,UPI,2024-08,2024-Q3
+2024-08-01,White Phenyl,East India,44,55.0,2420.0,Retail,UPI,2024-08,2024-Q3
+2024-08-08,Floor Cleaner,North India,176,108.0,19008.0,Wholesale,Credit,2024-08,2024-Q3
+2024-08-08,Floor Cleaner,South India,107,108.0,11556.0,Wholesale,UPI,2024-08,2024-Q3
+2024-08-08,Floor Cleaner,West India,81,120.0,9720.0,Retail,Cash,2024-08,2024-Q3
+2024-08-08,Floor Cleaner,East India,68,120.0,8160.0,Retail,Cash,2024-08,2024-Q3
+2024-08-08,Toilet Cleaner,North India,85,95.0,8075.0,Retail,Credit,2024-08,2024-Q3
+2024-08-08,Toilet Cleaner,South India,43,95.0,4085.0,Retail,Cash,2024-08,2024-Q3
+2024-08-08,Toilet Cleaner,West India,57,95.0,5415.0,Retail,Cash,2024-08,2024-Q3
+2024-08-08,Toilet Cleaner,East India,48,95.0,4560.0,Retail,UPI,2024-08,2024-Q3
+2024-08-08,Dishwash,North India,112,80.0,8960.0,Retail,UPI,2024-08,2024-Q3
+2024-08-08,Dishwash,South India,65,80.0,5200.0,Retail,Cash,2024-08,2024-Q3
+2024-08-08,Dishwash,West India,112,68.0,7616.0,Institutional,Credit,2024-08,2024-Q3
+2024-08-08,Dishwash,East India,62,80.0,4960.0,Retail,UPI,2024-08,2024-Q3
+2024-08-08,Hand Wash,North India,146,58.5,8541.0,Wholesale,Credit,2024-08,2024-Q3
+2024-08-08,Hand Wash,South India,51,65.0,3315.0,Retail,Credit,2024-08,2024-Q3
+2024-08-08,Hand Wash,West India,47,65.0,3055.0,Retail,Credit,2024-08,2024-Q3
+2024-08-08,Hand Wash,East India,57,55.25,3149.25,Institutional,Credit,2024-08,2024-Q3
+2024-08-08,Glass Cleaner,North India,94,81.0,7614.0,Wholesale,Cash,2024-08,2024-Q3
+2024-08-08,Glass Cleaner,South India,52,81.0,4212.0,Wholesale,UPI,2024-08,2024-Q3
+2024-08-08,Glass Cleaner,West India,38,90.0,3420.0,Retail,Cash,2024-08,2024-Q3
+2024-08-08,Glass Cleaner,East India,30,90.0,2700.0,Retail,UPI,2024-08,2024-Q3
+2024-08-08,White Phenyl,North India,79,55.0,4345.0,Retail,UPI,2024-08,2024-Q3
+2024-08-08,White Phenyl,South India,50,55.0,2750.0,Retail,Credit,2024-08,2024-Q3
+2024-08-08,White Phenyl,West India,51,55.0,2805.0,Retail,UPI,2024-08,2024-Q3
+2024-08-08,White Phenyl,East India,44,55.0,2420.0,Retail,UPI,2024-08,2024-Q3
+2024-08-15,Floor Cleaner,North India,118,120.0,14160.0,Retail,UPI,2024-08,2024-Q3
+2024-08-15,Floor Cleaner,South India,144,108.0,15552.0,Wholesale,Cash,2024-08,2024-Q3
+2024-08-15,Floor Cleaner,West India,133,108.0,14364.0,Wholesale,Credit,2024-08,2024-Q3
+2024-08-15,Floor Cleaner,East India,67,120.0,8040.0,Retail,UPI,2024-08,2024-Q3
+2024-08-15,Toilet Cleaner,North India,155,85.5,13252.5,Wholesale,UPI,2024-08,2024-Q3
+2024-08-15,Toilet Cleaner,South India,79,80.75,6379.25,Institutional,Cash,2024-08,2024-Q3
+2024-08-15,Toilet Cleaner,West India,100,85.5,8550.0,Wholesale,Cash,2024-08,2024-Q3
+2024-08-15,Toilet Cleaner,East India,87,85.5,7438.5,Wholesale,Cash,2024-08,2024-Q3
+2024-08-15,Dishwash,North India,101,80.0,8080.0,Retail,UPI,2024-08,2024-Q3
+2024-08-15,Dishwash,South India,101,68.0,6868.0,Institutional,Credit,2024-08,2024-Q3
+2024-08-15,Dishwash,West India,79,80.0,6320.0,Retail,UPI,2024-08,2024-Q3
+2024-08-15,Dishwash,East India,56,80.0,4480.0,Retail,Cash,2024-08,2024-Q3
+2024-08-15,Hand Wash,North India,133,55.25,7348.25,Institutional,UPI,2024-08,2024-Q3
+2024-08-15,Hand Wash,South India,52,65.0,3380.0,Retail,Credit,2024-08,2024-Q3
+2024-08-15,Hand Wash,West India,52,65.0,3380.0,Retail,Credit,2024-08,2024-Q3
+2024-08-15,Hand Wash,East India,41,65.0,2665.0,Retail,UPI,2024-08,2024-Q3
+2024-08-15,Glass Cleaner,North India,55,90.0,4950.0,Retail,Cash,2024-08,2024-Q3
+2024-08-15,Glass Cleaner,South India,33,90.0,2970.0,Retail,UPI,2024-08,2024-Q3
+2024-08-15,Glass Cleaner,West India,43,90.0,3870.0,Retail,UPI,2024-08,2024-Q3
+2024-08-15,Glass Cleaner,East India,49,81.0,3969.0,Wholesale,Cash,2024-08,2024-Q3
+2024-08-15,White Phenyl,North India,141,49.5,6979.5,Wholesale,Credit,2024-08,2024-Q3
+2024-08-15,White Phenyl,South India,49,55.0,2695.0,Retail,UPI,2024-08,2024-Q3
+2024-08-15,White Phenyl,West India,50,55.0,2750.0,Retail,Cash,2024-08,2024-Q3
+2024-08-15,White Phenyl,East India,37,55.0,2035.0,Retail,UPI,2024-08,2024-Q3
+2024-08-22,Floor Cleaner,North India,113,120.0,13560.0,Retail,UPI,2024-08,2024-Q3
+2024-08-22,Floor Cleaner,South India,66,120.0,7920.0,Retail,UPI,2024-08,2024-Q3
+2024-08-22,Floor Cleaner,West India,86,120.0,10320.0,Retail,UPI,2024-08,2024-Q3
+2024-08-22,Floor Cleaner,East India,65,120.0,7800.0,Retail,Credit,2024-08,2024-Q3
+2024-08-22,Toilet Cleaner,North India,92,95.0,8740.0,Retail,UPI,2024-08,2024-Q3
+2024-08-22,Toilet Cleaner,South India,88,80.75,7106.0,Institutional,UPI,2024-08,2024-Q3
+2024-08-22,Toilet Cleaner,West India,108,85.5,9234.0,Wholesale,Cash,2024-08,2024-Q3
+2024-08-22,Toilet Cleaner,East India,42,95.0,3990.0,Retail,UPI,2024-08,2024-Q3
+2024-08-22,Dishwash,North India,197,72.0,14184.0,Wholesale,UPI,2024-08,2024-Q3
+2024-08-22,Dishwash,South India,118,72.0,8496.0,Wholesale,Credit,2024-08,2024-Q3
+2024-08-22,Dishwash,West India,159,72.0,11448.0,Wholesale,Cash,2024-08,2024-Q3
+2024-08-22,Dishwash,East India,99,72.0,7128.0,Wholesale,UPI,2024-08,2024-Q3
+2024-08-22,Hand Wash,North India,75,65.0,4875.0,Retail,UPI,2024-08,2024-Q3
+2024-08-22,Hand Wash,South India,47,65.0,3055.0,Retail,Credit,2024-08,2024-Q3
+2024-08-22,Hand Wash,West India,61,65.0,3965.0,Retail,Cash,2024-08,2024-Q3
+2024-08-22,Hand Wash,East India,86,58.5,5031.0,Wholesale,UPI,2024-08,2024-Q3
+2024-08-22,Glass Cleaner,North India,47,90.0,4230.0,Retail,Cash,2024-08,2024-Q3
+2024-08-22,Glass Cleaner,South India,35,90.0,3150.0,Retail,Cash,2024-08,2024-Q3
+2024-08-22,Glass Cleaner,West India,59,76.5,4513.5,Institutional,Credit,2024-08,2024-Q3
+2024-08-22,Glass Cleaner,East India,27,90.0,2430.0,Retail,UPI,2024-08,2024-Q3
+2024-08-22,White Phenyl,North India,86,55.0,4730.0,Retail,UPI,2024-08,2024-Q3
+2024-08-22,White Phenyl,South India,66,46.75,3085.5,Institutional,Credit,2024-08,2024-Q3
+2024-08-22,White Phenyl,West India,57,55.0,3135.0,Retail,Cash,2024-08,2024-Q3
+2024-08-22,White Phenyl,East India,43,55.0,2365.0,Retail,Cash,2024-08,2024-Q3
+2024-09-01,Floor Cleaner,North India,123,120.0,14760.0,Retail,Credit,2024-09,2024-Q3
+2024-09-01,Floor Cleaner,South India,77,120.0,9240.0,Retail,UPI,2024-09,2024-Q3
+2024-09-01,Floor Cleaner,West India,74,120.0,8880.0,Retail,Credit,2024-09,2024-Q3
+2024-09-01,Floor Cleaner,East India,55,120.0,6600.0,Retail,UPI,2024-09,2024-Q3
+2024-09-01,Toilet Cleaner,North India,172,85.5,14706.0,Wholesale,UPI,2024-09,2024-Q3
+2024-09-01,Toilet Cleaner,South India,55,95.0,5225.0,Retail,UPI,2024-09,2024-Q3
+2024-09-01,Toilet Cleaner,West India,98,80.75,7913.5,Institutional,UPI,2024-09,2024-Q3
+2024-09-01,Toilet Cleaner,East India,53,95.0,5035.0,Retail,Cash,2024-09,2024-Q3
+2024-09-01,Dishwash,North India,216,72.0,15552.0,Wholesale,Cash,2024-09,2024-Q3
+2024-09-01,Dishwash,South India,63,80.0,5040.0,Retail,Credit,2024-09,2024-Q3
+2024-09-01,Dishwash,West India,73,80.0,5840.0,Retail,Cash,2024-09,2024-Q3
+2024-09-01,Dishwash,East India,88,68.0,5984.0,Institutional,Cash,2024-09,2024-Q3
+2024-09-01,Hand Wash,North India,94,65.0,6110.0,Retail,Credit,2024-09,2024-Q3
+2024-09-01,Hand Wash,South India,51,65.0,3315.0,Retail,Credit,2024-09,2024-Q3
+2024-09-01,Hand Wash,West India,112,58.5,6552.0,Wholesale,Cash,2024-09,2024-Q3
+2024-09-01,Hand Wash,East India,70,55.25,3867.5,Institutional,UPI,2024-09,2024-Q3
+2024-09-01,Glass Cleaner,North India,64,90.0,5760.0,Retail,UPI,2024-09,2024-Q3
+2024-09-01,Glass Cleaner,South India,36,90.0,3240.0,Retail,UPI,2024-09,2024-Q3
+2024-09-01,Glass Cleaner,West India,30,90.0,2700.0,Retail,Cash,2024-09,2024-Q3
+2024-09-01,Glass Cleaner,East India,33,90.0,2970.0,Retail,Credit,2024-09,2024-Q3
+2024-09-01,White Phenyl,North India,71,55.0,3905.0,Retail,UPI,2024-09,2024-Q3
+2024-09-01,White Phenyl,South India,47,55.0,2585.0,Retail,Cash,2024-09,2024-Q3
+2024-09-01,White Phenyl,West India,65,55.0,3575.0,Retail,Credit,2024-09,2024-Q3
+2024-09-01,White Phenyl,East India,45,55.0,2475.0,Retail,UPI,2024-09,2024-Q3
+2024-09-08,Floor Cleaner,North India,179,108.0,19332.0,Wholesale,Credit,2024-09,2024-Q3
+2024-09-08,Floor Cleaner,South India,67,120.0,8040.0,Retail,UPI,2024-09,2024-Q3
+2024-09-08,Floor Cleaner,West India,92,120.0,11040.0,Retail,Cash,2024-09,2024-Q3
+2024-09-08,Floor Cleaner,East India,124,108.0,13392.0,Wholesale,UPI,2024-09,2024-Q3
+2024-09-08,Toilet Cleaner,North India,143,85.5,12226.5,Wholesale,Credit,2024-09,2024-Q3
+2024-09-08,Toilet Cleaner,South India,55,95.0,5225.0,Retail,UPI,2024-09,2024-Q3
+2024-09-08,Toilet Cleaner,West India,68,95.0,6460.0,Retail,Credit,2024-09,2024-Q3
+2024-09-08,Toilet Cleaner,East India,75,80.75,6056.25,Institutional,UPI,2024-09,2024-Q3
+2024-09-08,Dishwash,North India,120,80.0,9600.0,Retail,Cash,2024-09,2024-Q3
+2024-09-08,Dishwash,South India,71,80.0,5680.0,Retail,Cash,2024-09,2024-Q3
+2024-09-08,Dishwash,West India,75,80.0,6000.0,Retail,Cash,2024-09,2024-Q3
+2024-09-08,Dishwash,East India,49,80.0,3920.0,Retail,Credit,2024-09,2024-Q3
+2024-09-08,Hand Wash,North India,82,65.0,5330.0,Retail,UPI,2024-09,2024-Q3
+2024-09-08,Hand Wash,South India,95,58.5,5557.5,Wholesale,Credit,2024-09,2024-Q3
+2024-09-08,Hand Wash,West India,107,58.5,6259.5,Wholesale,UPI,2024-09,2024-Q3
+2024-09-08,Hand Wash,East India,71,55.25,3922.75,Institutional,UPI,2024-09,2024-Q3
+2024-09-08,Glass Cleaner,North India,46,90.0,4140.0,Retail,Credit,2024-09,2024-Q3
+2024-09-08,Glass Cleaner,South India,34,90.0,3060.0,Retail,Cash,2024-09,2024-Q3
+2024-09-08,Glass Cleaner,West India,36,90.0,3240.0,Retail,UPI,2024-09,2024-Q3
+2024-09-08,Glass Cleaner,East India,31,90.0,2790.0,Retail,UPI,2024-09,2024-Q3
+2024-09-08,White Phenyl,North India,142,49.5,7029.0,Wholesale,UPI,2024-09,2024-Q3
+2024-09-08,White Phenyl,South India,89,49.5,4405.5,Wholesale,UPI,2024-09,2024-Q3
+2024-09-08,White Phenyl,West India,98,49.5,4851.0,Wholesale,Cash,2024-09,2024-Q3
+2024-09-08,White Phenyl,East India,41,55.0,2255.0,Retail,Credit,2024-09,2024-Q3
+2024-09-15,Floor Cleaner,North India,103,120.0,12360.0,Retail,UPI,2024-09,2024-Q3
+2024-09-15,Floor Cleaner,South India,144,108.0,15552.0,Wholesale,Credit,2024-09,2024-Q3
+2024-09-15,Floor Cleaner,West India,155,108.0,16740.0,Wholesale,UPI,2024-09,2024-Q3
+2024-09-15,Floor Cleaner,East India,96,102.0,9792.0,Institutional,UPI,2024-09,2024-Q3
+2024-09-15,Toilet Cleaner,North India,88,95.0,8360.0,Retail,Cash,2024-09,2024-Q3
+2024-09-15,Toilet Cleaner,South India,51,95.0,4845.0,Retail,UPI,2024-09,2024-Q3
+2024-09-15,Toilet Cleaner,West India,53,95.0,5035.0,Retail,Cash,2024-09,2024-Q3
+2024-09-15,Toilet Cleaner,East India,49,95.0,4655.0,Retail,Credit,2024-09,2024-Q3
+2024-09-15,Dishwash,North India,182,72.0,13104.0,Wholesale,Credit,2024-09,2024-Q3
+2024-09-15,Dishwash,South India,66,80.0,5280.0,Retail,Cash,2024-09,2024-Q3
+2024-09-15,Dishwash,West India,105,68.0,7140.0,Institutional,UPI,2024-09,2024-Q3
+2024-09-15,Dishwash,East India,73,80.0,5840.0,Retail,Credit,2024-09,2024-Q3
+2024-09-15,Hand Wash,North India,87,65.0,5655.0,Retail,UPI,2024-09,2024-Q3
+2024-09-15,Hand Wash,South India,87,58.5,5089.5,Wholesale,Cash,2024-09,2024-Q3
+2024-09-15,Hand Wash,West India,82,55.25,4530.5,Institutional,Credit,2024-09,2024-Q3
+2024-09-15,Hand Wash,East India,77,58.5,4504.5,Wholesale,UPI,2024-09,2024-Q3
+2024-09-15,Glass Cleaner,North India,49,90.0,4410.0,Retail,Cash,2024-09,2024-Q3
+2024-09-15,Glass Cleaner,South India,54,81.0,4374.0,Wholesale,Cash,2024-09,2024-Q3
+2024-09-15,Glass Cleaner,West India,36,90.0,3240.0,Retail,Cash,2024-09,2024-Q3
+2024-09-15,Glass Cleaner,East India,54,81.0,4374.0,Wholesale,UPI,2024-09,2024-Q3
+2024-09-15,White Phenyl,North India,118,46.75,5516.5,Institutional,Cash,2024-09,2024-Q3
+2024-09-15,White Phenyl,South India,71,46.75,3319.25,Institutional,Credit,2024-09,2024-Q3
+2024-09-15,White Phenyl,West India,101,49.5,4999.5,Wholesale,UPI,2024-09,2024-Q3
+2024-09-15,White Phenyl,East India,39,55.0,2145.0,Retail,Credit,2024-09,2024-Q3
+2024-09-22,Floor Cleaner,North India,213,108.0,23004.0,Wholesale,UPI,2024-09,2024-Q3
+2024-09-22,Floor Cleaner,South India,77,120.0,9240.0,Retail,UPI,2024-09,2024-Q3
+2024-09-22,Floor Cleaner,West India,84,120.0,10080.0,Retail,Cash,2024-09,2024-Q3
+2024-09-22,Floor Cleaner,East India,62,120.0,7440.0,Retail,Credit,2024-09,2024-Q3
+2024-09-22,Toilet Cleaner,North India,95,95.0,9025.0,Retail,Cash,2024-09,2024-Q3
+2024-09-22,Toilet Cleaner,South India,44,95.0,4180.0,Retail,UPI,2024-09,2024-Q3
+2024-09-22,Toilet Cleaner,West India,63,95.0,5985.0,Retail,UPI,2024-09,2024-Q3
+2024-09-22,Toilet Cleaner,East India,50,95.0,4750.0,Retail,UPI,2024-09,2024-Q3
+2024-09-22,Dishwash,North India,222,72.0,15984.0,Wholesale,UPI,2024-09,2024-Q3
+2024-09-22,Dishwash,South India,65,80.0,5200.0,Retail,UPI,2024-09,2024-Q3
+2024-09-22,Dishwash,West India,77,80.0,6160.0,Retail,Cash,2024-09,2024-Q3
+2024-09-22,Dishwash,East India,87,68.0,5916.0,Institutional,Cash,2024-09,2024-Q3
+2024-09-22,Hand Wash,North India,154,58.5,9009.0,Wholesale,Credit,2024-09,2024-Q3
+2024-09-22,Hand Wash,South India,102,58.5,5967.0,Wholesale,UPI,2024-09,2024-Q3
+2024-09-22,Hand Wash,West India,55,65.0,3575.0,Retail,Credit,2024-09,2024-Q3
+2024-09-22,Hand Wash,East India,86,58.5,5031.0,Wholesale,Cash,2024-09,2024-Q3
+2024-09-22,Glass Cleaner,North India,59,90.0,5310.0,Retail,UPI,2024-09,2024-Q3
+2024-09-22,Glass Cleaner,South India,34,90.0,3060.0,Retail,UPI,2024-09,2024-Q3
+2024-09-22,Glass Cleaner,West India,66,81.0,5346.0,Wholesale,Credit,2024-09,2024-Q3
+2024-09-22,Glass Cleaner,East India,28,90.0,2520.0,Retail,Cash,2024-09,2024-Q3
+2024-09-22,White Phenyl,North India,81,55.0,4455.0,Retail,UPI,2024-09,2024-Q3
+2024-09-22,White Phenyl,South India,69,46.75,3225.75,Institutional,UPI,2024-09,2024-Q3
+2024-09-22,White Phenyl,West India,51,55.0,2805.0,Retail,Credit,2024-09,2024-Q3
+2024-09-22,White Phenyl,East India,37,55.0,2035.0,Retail,UPI,2024-09,2024-Q3
+2024-10-01,Floor Cleaner,North India,221,108.0,23868.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-01,Floor Cleaner,South India,143,108.0,15444.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-01,Floor Cleaner,West India,91,120.0,10920.0,Retail,UPI,2024-10,2024-Q4
+2024-10-01,Floor Cleaner,East India,105,102.0,10710.0,Institutional,Credit,2024-10,2024-Q4
+2024-10-01,Toilet Cleaner,North India,151,80.75,12193.25,Institutional,Credit,2024-10,2024-Q4
+2024-10-01,Toilet Cleaner,South India,85,80.75,6863.75,Institutional,UPI,2024-10,2024-Q4
+2024-10-01,Toilet Cleaner,West India,114,85.5,9747.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-01,Toilet Cleaner,East India,55,95.0,5225.0,Retail,Cash,2024-10,2024-Q4
+2024-10-01,Dishwash,North India,172,68.0,11696.0,Institutional,UPI,2024-10,2024-Q4
+2024-10-01,Dishwash,South India,77,80.0,6160.0,Retail,UPI,2024-10,2024-Q4
+2024-10-01,Dishwash,West India,148,72.0,10656.0,Wholesale,Cash,2024-10,2024-Q4
+2024-10-01,Dishwash,East India,114,72.0,8208.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-01,Hand Wash,North India,92,65.0,5980.0,Retail,Credit,2024-10,2024-Q4
+2024-10-01,Hand Wash,South India,87,58.5,5089.5,Wholesale,UPI,2024-10,2024-Q4
+2024-10-01,Hand Wash,West India,91,55.25,5027.75,Institutional,UPI,2024-10,2024-Q4
+2024-10-01,Hand Wash,East India,90,58.5,5265.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-01,Glass Cleaner,North India,59,90.0,5310.0,Retail,UPI,2024-10,2024-Q4
+2024-10-01,Glass Cleaner,South India,34,90.0,3060.0,Retail,Credit,2024-10,2024-Q4
+2024-10-01,Glass Cleaner,West India,35,90.0,3150.0,Retail,Cash,2024-10,2024-Q4
+2024-10-01,Glass Cleaner,East India,58,81.0,4698.0,Wholesale,Credit,2024-10,2024-Q4
+2024-10-01,White Phenyl,North India,144,49.5,7128.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-01,White Phenyl,South India,41,55.0,2255.0,Retail,UPI,2024-10,2024-Q4
+2024-10-01,White Phenyl,West India,100,49.5,4950.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-01,White Phenyl,East India,70,49.5,3465.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-08,Floor Cleaner,North India,227,108.0,24516.0,Wholesale,Credit,2024-10,2024-Q4
+2024-10-08,Floor Cleaner,South India,154,108.0,16632.0,Wholesale,Cash,2024-10,2024-Q4
+2024-10-08,Floor Cleaner,West India,85,120.0,10200.0,Retail,UPI,2024-10,2024-Q4
+2024-10-08,Floor Cleaner,East India,68,120.0,8160.0,Retail,Credit,2024-10,2024-Q4
+2024-10-08,Toilet Cleaner,North India,146,80.75,11789.5,Institutional,Credit,2024-10,2024-Q4
+2024-10-08,Toilet Cleaner,South India,59,95.0,5605.0,Retail,UPI,2024-10,2024-Q4
+2024-10-08,Toilet Cleaner,West India,109,85.5,9319.5,Wholesale,UPI,2024-10,2024-Q4
+2024-10-08,Toilet Cleaner,East India,98,85.5,8379.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-08,Dishwash,North India,160,68.0,10880.0,Institutional,Cash,2024-10,2024-Q4
+2024-10-08,Dishwash,South India,115,72.0,8280.0,Wholesale,Credit,2024-10,2024-Q4
+2024-10-08,Dishwash,West India,84,80.0,6720.0,Retail,Cash,2024-10,2024-Q4
+2024-10-08,Dishwash,East India,58,80.0,4640.0,Retail,UPI,2024-10,2024-Q4
+2024-10-08,Hand Wash,North India,82,65.0,5330.0,Retail,UPI,2024-10,2024-Q4
+2024-10-08,Hand Wash,South India,88,58.5,5148.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-08,Hand Wash,West India,55,65.0,3575.0,Retail,UPI,2024-10,2024-Q4
+2024-10-08,Hand Wash,East India,45,65.0,2925.0,Retail,UPI,2024-10,2024-Q4
+2024-10-08,Glass Cleaner,North India,58,90.0,5220.0,Retail,Cash,2024-10,2024-Q4
+2024-10-08,Glass Cleaner,South India,36,90.0,3240.0,Retail,Cash,2024-10,2024-Q4
+2024-10-08,Glass Cleaner,West India,42,90.0,3780.0,Retail,UPI,2024-10,2024-Q4
+2024-10-08,Glass Cleaner,East India,56,81.0,4536.0,Wholesale,Cash,2024-10,2024-Q4
+2024-10-08,White Phenyl,North India,81,55.0,4455.0,Retail,Credit,2024-10,2024-Q4
+2024-10-08,White Phenyl,South India,87,49.5,4306.5,Wholesale,Cash,2024-10,2024-Q4
+2024-10-08,White Phenyl,West India,57,55.0,3135.0,Retail,Cash,2024-10,2024-Q4
+2024-10-08,White Phenyl,East India,68,49.5,3366.0,Wholesale,Credit,2024-10,2024-Q4
+2024-10-15,Floor Cleaner,North India,207,102.0,21114.0,Institutional,Credit,2024-10,2024-Q4
+2024-10-15,Floor Cleaner,South India,141,108.0,15228.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-15,Floor Cleaner,West India,164,108.0,17712.0,Wholesale,Credit,2024-10,2024-Q4
+2024-10-15,Floor Cleaner,East India,75,120.0,9000.0,Retail,Cash,2024-10,2024-Q4
+2024-10-15,Toilet Cleaner,North India,92,95.0,8740.0,Retail,UPI,2024-10,2024-Q4
+2024-10-15,Toilet Cleaner,South India,83,80.75,6702.25,Institutional,Cash,2024-10,2024-Q4
+2024-10-15,Toilet Cleaner,West India,91,80.75,7348.25,Institutional,Cash,2024-10,2024-Q4
+2024-10-15,Toilet Cleaner,East India,49,95.0,4655.0,Retail,UPI,2024-10,2024-Q4
+2024-10-15,Dishwash,North India,120,80.0,9600.0,Retail,Cash,2024-10,2024-Q4
+2024-10-15,Dishwash,South India,77,80.0,6160.0,Retail,UPI,2024-10,2024-Q4
+2024-10-15,Dishwash,West India,73,80.0,5840.0,Retail,UPI,2024-10,2024-Q4
+2024-10-15,Dishwash,East India,60,80.0,4800.0,Retail,Credit,2024-10,2024-Q4
+2024-10-15,Hand Wash,North India,135,58.5,7897.5,Wholesale,Cash,2024-10,2024-Q4
+2024-10-15,Hand Wash,South India,75,55.25,4143.75,Institutional,Credit,2024-10,2024-Q4
+2024-10-15,Hand Wash,West India,95,58.5,5557.5,Wholesale,UPI,2024-10,2024-Q4
+2024-10-15,Hand Wash,East India,91,58.5,5323.5,Wholesale,Credit,2024-10,2024-Q4
+2024-10-15,Glass Cleaner,North India,51,90.0,4590.0,Retail,UPI,2024-10,2024-Q4
+2024-10-15,Glass Cleaner,South India,37,90.0,3330.0,Retail,UPI,2024-10,2024-Q4
+2024-10-15,Glass Cleaner,West India,37,90.0,3330.0,Retail,Cash,2024-10,2024-Q4
+2024-10-15,Glass Cleaner,East India,47,76.5,3595.5,Institutional,UPI,2024-10,2024-Q4
+2024-10-15,White Phenyl,North India,76,55.0,4180.0,Retail,UPI,2024-10,2024-Q4
+2024-10-15,White Phenyl,South India,90,49.5,4455.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-15,White Phenyl,West India,55,55.0,3025.0,Retail,UPI,2024-10,2024-Q4
+2024-10-15,White Phenyl,East India,59,46.75,2758.25,Institutional,Credit,2024-10,2024-Q4
+2024-10-22,Floor Cleaner,North India,117,120.0,14040.0,Retail,Cash,2024-10,2024-Q4
+2024-10-22,Floor Cleaner,South India,148,108.0,15984.0,Wholesale,Cash,2024-10,2024-Q4
+2024-10-22,Floor Cleaner,West India,89,120.0,10680.0,Retail,Credit,2024-10,2024-Q4
+2024-10-22,Floor Cleaner,East India,119,108.0,12852.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-22,Toilet Cleaner,North India,85,95.0,8075.0,Retail,Cash,2024-10,2024-Q4
+2024-10-22,Toilet Cleaner,South India,62,95.0,5890.0,Retail,UPI,2024-10,2024-Q4
+2024-10-22,Toilet Cleaner,West India,66,95.0,6270.0,Retail,UPI,2024-10,2024-Q4
+2024-10-22,Toilet Cleaner,East India,49,95.0,4655.0,Retail,Credit,2024-10,2024-Q4
+2024-10-22,Dishwash,North India,107,80.0,8560.0,Retail,UPI,2024-10,2024-Q4
+2024-10-22,Dishwash,South India,65,80.0,5200.0,Retail,Credit,2024-10,2024-Q4
+2024-10-22,Dishwash,West India,145,72.0,10440.0,Wholesale,UPI,2024-10,2024-Q4
+2024-10-22,Dishwash,East India,64,80.0,5120.0,Retail,UPI,2024-10,2024-Q4
+2024-10-22,Hand Wash,North India,89,65.0,5785.0,Retail,UPI,2024-10,2024-Q4
+2024-10-22,Hand Wash,South India,48,65.0,3120.0,Retail,UPI,2024-10,2024-Q4
+2024-10-22,Hand Wash,West India,48,65.0,3120.0,Retail,UPI,2024-10,2024-Q4
+2024-10-22,Hand Wash,East India,44,65.0,2860.0,Retail,Cash,2024-10,2024-Q4
+2024-10-22,Glass Cleaner,North India,53,90.0,4770.0,Retail,Cash,2024-10,2024-Q4
+2024-10-22,Glass Cleaner,South India,33,90.0,2970.0,Retail,Cash,2024-10,2024-Q4
+2024-10-22,Glass Cleaner,West India,40,90.0,3600.0,Retail,UPI,2024-10,2024-Q4
+2024-10-22,Glass Cleaner,East India,31,90.0,2790.0,Retail,Cash,2024-10,2024-Q4
+2024-10-22,White Phenyl,North India,113,46.75,5282.75,Institutional,Cash,2024-10,2024-Q4
+2024-10-22,White Phenyl,South India,55,55.0,3025.0,Retail,Credit,2024-10,2024-Q4
+2024-10-22,White Phenyl,West India,86,49.5,4257.0,Wholesale,Credit,2024-10,2024-Q4
+2024-10-22,White Phenyl,East India,57,46.75,2664.75,Institutional,Cash,2024-10,2024-Q4
+2024-11-01,Floor Cleaner,North India,134,120.0,16080.0,Retail,UPI,2024-11,2024-Q4
+2024-11-01,Floor Cleaner,South India,83,120.0,9960.0,Retail,Credit,2024-11,2024-Q4
+2024-11-01,Floor Cleaner,West India,167,108.0,18036.0,Wholesale,Credit,2024-11,2024-Q4
+2024-11-01,Floor Cleaner,East India,98,102.0,9996.0,Institutional,UPI,2024-11,2024-Q4
+2024-11-01,Toilet Cleaner,North India,96,95.0,9120.0,Retail,UPI,2024-11,2024-Q4
+2024-11-01,Toilet Cleaner,South India,65,95.0,6175.0,Retail,Cash,2024-11,2024-Q4
+2024-11-01,Toilet Cleaner,West India,87,80.75,7025.25,Institutional,Cash,2024-11,2024-Q4
+2024-11-01,Toilet Cleaner,East India,75,80.75,6056.25,Institutional,Cash,2024-11,2024-Q4
+2024-11-01,Dishwash,North India,178,72.0,12816.0,Wholesale,Cash,2024-11,2024-Q4
+2024-11-01,Dishwash,South India,163,72.0,11736.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-01,Dishwash,West India,145,72.0,10440.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-01,Dishwash,East India,116,72.0,8352.0,Wholesale,Credit,2024-11,2024-Q4
+2024-11-01,Hand Wash,North India,77,65.0,5005.0,Retail,UPI,2024-11,2024-Q4
+2024-11-01,Hand Wash,South India,45,65.0,2925.0,Retail,Cash,2024-11,2024-Q4
+2024-11-01,Hand Wash,West India,54,65.0,3510.0,Retail,Credit,2024-11,2024-Q4
+2024-11-01,Hand Wash,East India,50,65.0,3250.0,Retail,UPI,2024-11,2024-Q4
+2024-11-01,Glass Cleaner,North India,99,81.0,8019.0,Wholesale,Credit,2024-11,2024-Q4
+2024-11-01,Glass Cleaner,South India,36,90.0,3240.0,Retail,Credit,2024-11,2024-Q4
+2024-11-01,Glass Cleaner,West India,53,76.5,4054.5,Institutional,UPI,2024-11,2024-Q4
+2024-11-01,Glass Cleaner,East India,29,90.0,2610.0,Retail,Cash,2024-11,2024-Q4
+2024-11-01,White Phenyl,North India,118,46.75,5516.5,Institutional,Cash,2024-11,2024-Q4
+2024-11-01,White Phenyl,South India,51,55.0,2805.0,Retail,UPI,2024-11,2024-Q4
+2024-11-01,White Phenyl,West India,55,55.0,3025.0,Retail,UPI,2024-11,2024-Q4
+2024-11-01,White Phenyl,East India,41,55.0,2255.0,Retail,UPI,2024-11,2024-Q4
+2024-11-08,Floor Cleaner,North India,175,102.0,17850.0,Institutional,UPI,2024-11,2024-Q4
+2024-11-08,Floor Cleaner,South India,171,108.0,18468.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-08,Floor Cleaner,West India,137,102.0,13974.0,Institutional,UPI,2024-11,2024-Q4
+2024-11-08,Floor Cleaner,East India,81,120.0,9720.0,Retail,UPI,2024-11,2024-Q4
+2024-11-08,Toilet Cleaner,North India,85,95.0,8075.0,Retail,Cash,2024-11,2024-Q4
+2024-11-08,Toilet Cleaner,South India,55,95.0,5225.0,Retail,UPI,2024-11,2024-Q4
+2024-11-08,Toilet Cleaner,West India,119,85.5,10174.5,Wholesale,UPI,2024-11,2024-Q4
+2024-11-08,Toilet Cleaner,East India,87,85.5,7438.5,Wholesale,UPI,2024-11,2024-Q4
+2024-11-08,Dishwash,North India,123,80.0,9840.0,Retail,Credit,2024-11,2024-Q4
+2024-11-08,Dishwash,South India,102,72.0,7344.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-08,Dishwash,West India,135,72.0,9720.0,Wholesale,Cash,2024-11,2024-Q4
+2024-11-08,Dishwash,East India,123,72.0,8856.0,Wholesale,Cash,2024-11,2024-Q4
+2024-11-08,Hand Wash,North India,150,58.5,8775.0,Wholesale,Cash,2024-11,2024-Q4
+2024-11-08,Hand Wash,South India,101,58.5,5908.5,Wholesale,UPI,2024-11,2024-Q4
+2024-11-08,Hand Wash,West India,95,58.5,5557.5,Wholesale,Credit,2024-11,2024-Q4
+2024-11-08,Hand Wash,East India,45,65.0,2925.0,Retail,Cash,2024-11,2024-Q4
+2024-11-08,Glass Cleaner,North India,91,81.0,7371.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-08,Glass Cleaner,South India,36,90.0,3240.0,Retail,Cash,2024-11,2024-Q4
+2024-11-08,Glass Cleaner,West India,57,76.5,4360.5,Institutional,UPI,2024-11,2024-Q4
+2024-11-08,Glass Cleaner,East India,55,81.0,4455.0,Wholesale,Cash,2024-11,2024-Q4
+2024-11-08,White Phenyl,North India,69,55.0,3795.0,Retail,Credit,2024-11,2024-Q4
+2024-11-08,White Phenyl,South India,93,49.5,4603.5,Wholesale,Cash,2024-11,2024-Q4
+2024-11-08,White Phenyl,West India,87,49.5,4306.5,Wholesale,UPI,2024-11,2024-Q4
+2024-11-08,White Phenyl,East India,68,49.5,3366.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-15,Floor Cleaner,North India,274,108.0,29592.0,Wholesale,Credit,2024-11,2024-Q4
+2024-11-15,Floor Cleaner,South India,122,102.0,12444.0,Institutional,Cash,2024-11,2024-Q4
+2024-11-15,Floor Cleaner,West India,154,108.0,16632.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-15,Floor Cleaner,East India,72,120.0,8640.0,Retail,Cash,2024-11,2024-Q4
+2024-11-15,Toilet Cleaner,North India,183,85.5,15646.5,Wholesale,UPI,2024-11,2024-Q4
+2024-11-15,Toilet Cleaner,South India,84,80.75,6783.0,Institutional,UPI,2024-11,2024-Q4
+2024-11-15,Toilet Cleaner,West India,74,95.0,7030.0,Retail,Cash,2024-11,2024-Q4
+2024-11-15,Toilet Cleaner,East India,55,95.0,5225.0,Retail,Cash,2024-11,2024-Q4
+2024-11-15,Dishwash,North India,177,72.0,12744.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-15,Dishwash,South India,92,68.0,6256.0,Institutional,UPI,2024-11,2024-Q4
+2024-11-15,Dishwash,West India,147,72.0,10584.0,Wholesale,Cash,2024-11,2024-Q4
+2024-11-15,Dishwash,East India,60,80.0,4800.0,Retail,UPI,2024-11,2024-Q4
+2024-11-15,Hand Wash,North India,145,58.5,8482.5,Wholesale,UPI,2024-11,2024-Q4
+2024-11-15,Hand Wash,South India,56,65.0,3640.0,Retail,UPI,2024-11,2024-Q4
+2024-11-15,Hand Wash,West India,73,55.25,4033.25,Institutional,Credit,2024-11,2024-Q4
+2024-11-15,Hand Wash,East India,72,55.25,3978.0,Institutional,UPI,2024-11,2024-Q4
+2024-11-15,Glass Cleaner,North India,55,90.0,4950.0,Retail,UPI,2024-11,2024-Q4
+2024-11-15,Glass Cleaner,South India,50,76.5,3825.0,Institutional,Cash,2024-11,2024-Q4
+2024-11-15,Glass Cleaner,West India,71,81.0,5751.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-15,Glass Cleaner,East India,33,90.0,2970.0,Retail,UPI,2024-11,2024-Q4
+2024-11-15,White Phenyl,North India,109,46.75,5095.75,Institutional,UPI,2024-11,2024-Q4
+2024-11-15,White Phenyl,South India,95,49.5,4702.5,Wholesale,UPI,2024-11,2024-Q4
+2024-11-15,White Phenyl,West India,87,49.5,4306.5,Wholesale,Cash,2024-11,2024-Q4
+2024-11-15,White Phenyl,East India,42,55.0,2310.0,Retail,Cash,2024-11,2024-Q4
+2024-11-22,Floor Cleaner,North India,143,120.0,17160.0,Retail,UPI,2024-11,2024-Q4
+2024-11-22,Floor Cleaner,South India,77,120.0,9240.0,Retail,Cash,2024-11,2024-Q4
+2024-11-22,Floor Cleaner,West India,81,120.0,9720.0,Retail,UPI,2024-11,2024-Q4
+2024-11-22,Floor Cleaner,East India,67,120.0,8040.0,Retail,Credit,2024-11,2024-Q4
+2024-11-22,Toilet Cleaner,North India,91,95.0,8645.0,Retail,UPI,2024-11,2024-Q4
+2024-11-22,Toilet Cleaner,South India,102,85.5,8721.0,Wholesale,Cash,2024-11,2024-Q4
+2024-11-22,Toilet Cleaner,West India,64,95.0,6080.0,Retail,UPI,2024-11,2024-Q4
+2024-11-22,Toilet Cleaner,East India,79,80.75,6379.25,Institutional,Cash,2024-11,2024-Q4
+2024-11-22,Dishwash,North India,214,72.0,15408.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-22,Dishwash,South India,109,68.0,7412.0,Institutional,Cash,2024-11,2024-Q4
+2024-11-22,Dishwash,West India,151,72.0,10872.0,Wholesale,UPI,2024-11,2024-Q4
+2024-11-22,Dishwash,East India,63,80.0,5040.0,Retail,UPI,2024-11,2024-Q4
+2024-11-22,Hand Wash,North India,89,65.0,5785.0,Retail,Credit,2024-11,2024-Q4
+2024-11-22,Hand Wash,South India,83,55.25,4585.75,Institutional,Credit,2024-11,2024-Q4
+2024-11-22,Hand Wash,West India,99,58.5,5791.5,Wholesale,UPI,2024-11,2024-Q4
+2024-11-22,Hand Wash,East India,53,65.0,3445.0,Retail,Cash,2024-11,2024-Q4
+2024-11-22,Glass Cleaner,North India,94,81.0,7614.0,Wholesale,Credit,2024-11,2024-Q4
+2024-11-22,Glass Cleaner,South India,59,81.0,4779.0,Wholesale,Credit,2024-11,2024-Q4
+2024-11-22,Glass Cleaner,West India,41,90.0,3690.0,Retail,Credit,2024-11,2024-Q4
+2024-11-22,Glass Cleaner,East India,32,90.0,2880.0,Retail,UPI,2024-11,2024-Q4
+2024-11-22,White Phenyl,North India,68,55.0,3740.0,Retail,UPI,2024-11,2024-Q4
+2024-11-22,White Phenyl,South India,54,55.0,2970.0,Retail,Cash,2024-11,2024-Q4
+2024-11-22,White Phenyl,West India,80,46.75,3740.0,Institutional,Cash,2024-11,2024-Q4
+2024-11-22,White Phenyl,East India,38,55.0,2090.0,Retail,Cash,2024-11,2024-Q4
+2024-12-01,Floor Cleaner,North India,245,108.0,26460.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-01,Floor Cleaner,South India,162,108.0,17496.0,Wholesale,Cash,2024-12,2024-Q4
+2024-12-01,Floor Cleaner,West India,143,102.0,14586.0,Institutional,Credit,2024-12,2024-Q4
+2024-12-01,Floor Cleaner,East India,117,102.0,11934.0,Institutional,UPI,2024-12,2024-Q4
+2024-12-01,Toilet Cleaner,North India,86,95.0,8170.0,Retail,Cash,2024-12,2024-Q4
+2024-12-01,Toilet Cleaner,South India,67,95.0,6365.0,Retail,Cash,2024-12,2024-Q4
+2024-12-01,Toilet Cleaner,West India,131,85.5,11200.5,Wholesale,Credit,2024-12,2024-Q4
+2024-12-01,Toilet Cleaner,East India,47,95.0,4465.0,Retail,UPI,2024-12,2024-Q4
+2024-12-01,Dishwash,North India,110,80.0,8800.0,Retail,Cash,2024-12,2024-Q4
+2024-12-01,Dishwash,South India,75,80.0,6000.0,Retail,Credit,2024-12,2024-Q4
+2024-12-01,Dishwash,West India,144,72.0,10368.0,Wholesale,Cash,2024-12,2024-Q4
+2024-12-01,Dishwash,East India,111,72.0,7992.0,Wholesale,Cash,2024-12,2024-Q4
+2024-12-01,Hand Wash,North India,104,65.0,6760.0,Retail,UPI,2024-12,2024-Q4
+2024-12-01,Hand Wash,South India,54,65.0,3510.0,Retail,Cash,2024-12,2024-Q4
+2024-12-01,Hand Wash,West India,62,65.0,4030.0,Retail,Credit,2024-12,2024-Q4
+2024-12-01,Hand Wash,East India,48,65.0,3120.0,Retail,UPI,2024-12,2024-Q4
+2024-12-01,Glass Cleaner,North India,92,81.0,7452.0,Wholesale,Credit,2024-12,2024-Q4
+2024-12-01,Glass Cleaner,South India,39,90.0,3510.0,Retail,UPI,2024-12,2024-Q4
+2024-12-01,Glass Cleaner,West India,73,81.0,5913.0,Wholesale,Credit,2024-12,2024-Q4
+2024-12-01,Glass Cleaner,East India,46,76.5,3519.0,Institutional,UPI,2024-12,2024-Q4
+2024-12-01,White Phenyl,North India,66,55.0,3630.0,Retail,Cash,2024-12,2024-Q4
+2024-12-01,White Phenyl,South India,50,55.0,2750.0,Retail,UPI,2024-12,2024-Q4
+2024-12-01,White Phenyl,West India,45,55.0,2475.0,Retail,Cash,2024-12,2024-Q4
+2024-12-01,White Phenyl,East India,35,55.0,1925.0,Retail,UPI,2024-12,2024-Q4
+2024-12-08,Floor Cleaner,North India,135,120.0,16200.0,Retail,Cash,2024-12,2024-Q4
+2024-12-08,Floor Cleaner,South India,144,102.0,14688.0,Institutional,Cash,2024-12,2024-Q4
+2024-12-08,Floor Cleaner,West India,180,108.0,19440.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-08,Floor Cleaner,East India,145,108.0,15660.0,Wholesale,Credit,2024-12,2024-Q4
+2024-12-08,Toilet Cleaner,North India,94,95.0,8930.0,Retail,UPI,2024-12,2024-Q4
+2024-12-08,Toilet Cleaner,South India,112,85.5,9576.0,Wholesale,Cash,2024-12,2024-Q4
+2024-12-08,Toilet Cleaner,West India,63,95.0,5985.0,Retail,Cash,2024-12,2024-Q4
+2024-12-08,Toilet Cleaner,East India,83,85.5,7096.5,Wholesale,UPI,2024-12,2024-Q4
+2024-12-08,Dishwash,North India,101,80.0,8080.0,Retail,UPI,2024-12,2024-Q4
+2024-12-08,Dishwash,South India,147,72.0,10584.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-08,Dishwash,West India,102,68.0,6936.0,Institutional,Credit,2024-12,2024-Q4
+2024-12-08,Dishwash,East India,60,80.0,4800.0,Retail,Cash,2024-12,2024-Q4
+2024-12-08,Hand Wash,North India,90,65.0,5850.0,Retail,Cash,2024-12,2024-Q4
+2024-12-08,Hand Wash,South India,64,65.0,4160.0,Retail,Cash,2024-12,2024-Q4
+2024-12-08,Hand Wash,West India,57,65.0,3705.0,Retail,Credit,2024-12,2024-Q4
+2024-12-08,Hand Wash,East India,50,65.0,3250.0,Retail,UPI,2024-12,2024-Q4
+2024-12-08,Glass Cleaner,North India,60,90.0,5400.0,Retail,UPI,2024-12,2024-Q4
+2024-12-08,Glass Cleaner,South India,38,90.0,3420.0,Retail,UPI,2024-12,2024-Q4
+2024-12-08,Glass Cleaner,West India,36,90.0,3240.0,Retail,UPI,2024-12,2024-Q4
+2024-12-08,Glass Cleaner,East India,56,81.0,4536.0,Wholesale,Credit,2024-12,2024-Q4
+2024-12-08,White Phenyl,North India,114,49.5,5643.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-08,White Phenyl,South India,74,46.75,3459.5,Institutional,Cash,2024-12,2024-Q4
+2024-12-08,White Phenyl,West India,46,55.0,2530.0,Retail,UPI,2024-12,2024-Q4
+2024-12-08,White Phenyl,East India,36,55.0,1980.0,Retail,Credit,2024-12,2024-Q4
+2024-12-15,Floor Cleaner,North India,129,120.0,15480.0,Retail,UPI,2024-12,2024-Q4
+2024-12-15,Floor Cleaner,South India,88,120.0,10560.0,Retail,Cash,2024-12,2024-Q4
+2024-12-15,Floor Cleaner,West India,181,108.0,19548.0,Wholesale,Credit,2024-12,2024-Q4
+2024-12-15,Floor Cleaner,East India,129,108.0,13932.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-15,Toilet Cleaner,North India,98,95.0,9310.0,Retail,Cash,2024-12,2024-Q4
+2024-12-15,Toilet Cleaner,South India,59,95.0,5605.0,Retail,UPI,2024-12,2024-Q4
+2024-12-15,Toilet Cleaner,West India,60,95.0,5700.0,Retail,UPI,2024-12,2024-Q4
+2024-12-15,Toilet Cleaner,East India,54,95.0,5130.0,Retail,UPI,2024-12,2024-Q4
+2024-12-15,Dishwash,North India,197,72.0,14184.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-15,Dishwash,South India,139,72.0,10008.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-15,Dishwash,West India,74,80.0,5920.0,Retail,Credit,2024-12,2024-Q4
+2024-12-15,Dishwash,East India,93,68.0,6324.0,Institutional,Cash,2024-12,2024-Q4
+2024-12-15,Hand Wash,North India,89,65.0,5785.0,Retail,Cash,2024-12,2024-Q4
+2024-12-15,Hand Wash,South India,61,65.0,3965.0,Retail,Credit,2024-12,2024-Q4
+2024-12-15,Hand Wash,West India,92,55.25,5083.0,Institutional,Credit,2024-12,2024-Q4
+2024-12-15,Hand Wash,East India,45,65.0,2925.0,Retail,UPI,2024-12,2024-Q4
+2024-12-15,Glass Cleaner,North India,82,76.5,6273.0,Institutional,UPI,2024-12,2024-Q4
+2024-12-15,Glass Cleaner,South India,39,90.0,3510.0,Retail,UPI,2024-12,2024-Q4
+2024-12-15,Glass Cleaner,West India,42,90.0,3780.0,Retail,UPI,2024-12,2024-Q4
+2024-12-15,Glass Cleaner,East India,30,90.0,2700.0,Retail,Cash,2024-12,2024-Q4
+2024-12-15,White Phenyl,North India,138,49.5,6831.0,Wholesale,Cash,2024-12,2024-Q4
+2024-12-15,White Phenyl,South India,48,55.0,2640.0,Retail,Credit,2024-12,2024-Q4
+2024-12-15,White Phenyl,West India,89,49.5,4405.5,Wholesale,UPI,2024-12,2024-Q4
+2024-12-15,White Phenyl,East India,38,55.0,2090.0,Retail,Cash,2024-12,2024-Q4
+2024-12-22,Floor Cleaner,North India,131,120.0,15720.0,Retail,UPI,2024-12,2024-Q4
+2024-12-22,Floor Cleaner,South India,77,120.0,9240.0,Retail,Cash,2024-12,2024-Q4
+2024-12-22,Floor Cleaner,West India,189,108.0,20412.0,Wholesale,Cash,2024-12,2024-Q4
+2024-12-22,Floor Cleaner,East India,109,102.0,11118.0,Institutional,UPI,2024-12,2024-Q4
+2024-12-22,Toilet Cleaner,North India,95,95.0,9025.0,Retail,Cash,2024-12,2024-Q4
+2024-12-22,Toilet Cleaner,South India,63,95.0,5985.0,Retail,Credit,2024-12,2024-Q4
+2024-12-22,Toilet Cleaner,West India,110,85.5,9405.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-22,Toilet Cleaner,East India,83,80.75,6702.25,Institutional,Cash,2024-12,2024-Q4
+2024-12-22,Dishwash,North India,207,72.0,14904.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-22,Dishwash,South India,77,80.0,6160.0,Retail,UPI,2024-12,2024-Q4
+2024-12-22,Dishwash,West India,70,80.0,5600.0,Retail,Cash,2024-12,2024-Q4
+2024-12-22,Dishwash,East India,96,68.0,6528.0,Institutional,UPI,2024-12,2024-Q4
+2024-12-22,Hand Wash,North India,135,58.5,7897.5,Wholesale,UPI,2024-12,2024-Q4
+2024-12-22,Hand Wash,South India,102,58.5,5967.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-22,Hand Wash,West India,58,65.0,3770.0,Retail,Credit,2024-12,2024-Q4
+2024-12-22,Hand Wash,East India,72,55.25,3978.0,Institutional,Credit,2024-12,2024-Q4
+2024-12-22,Glass Cleaner,North India,94,81.0,7614.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-22,Glass Cleaner,South India,37,90.0,3330.0,Retail,Cash,2024-12,2024-Q4
+2024-12-22,Glass Cleaner,West India,66,81.0,5346.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-22,Glass Cleaner,East India,29,90.0,2610.0,Retail,Credit,2024-12,2024-Q4
+2024-12-22,White Phenyl,North India,75,55.0,4125.0,Retail,UPI,2024-12,2024-Q4
+2024-12-22,White Phenyl,South India,74,49.5,3663.0,Wholesale,UPI,2024-12,2024-Q4
+2024-12-22,White Phenyl,West India,79,46.75,3693.25,Institutional,Credit,2024-12,2024-Q4
+2024-12-22,White Phenyl,East India,35,55.0,1925.0,Retail,UPI,2024-12,2024-Q4
+2025-01-01,Floor Cleaner,North India,284,108.0,30672.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-01,Floor Cleaner,South India,83,120.0,9960.0,Retail,UPI,2025-01,2025-Q1
+2025-01-01,Floor Cleaner,West India,81,120.0,9720.0,Retail,Credit,2025-01,2025-Q1
+2025-01-01,Floor Cleaner,East India,70,120.0,8400.0,Retail,Credit,2025-01,2025-Q1
+2025-01-01,Toilet Cleaner,North India,178,85.5,15219.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-01,Toilet Cleaner,South India,63,95.0,5985.0,Retail,UPI,2025-01,2025-Q1
+2025-01-01,Toilet Cleaner,West India,105,85.5,8977.5,Wholesale,UPI,2025-01,2025-Q1
+2025-01-01,Toilet Cleaner,East India,52,95.0,4940.0,Retail,Credit,2025-01,2025-Q1
+2025-01-01,Dishwash,North India,122,80.0,9760.0,Retail,Credit,2025-01,2025-Q1
+2025-01-01,Dishwash,South India,114,68.0,7752.0,Institutional,Credit,2025-01,2025-Q1
+2025-01-01,Dishwash,West India,148,72.0,10656.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-01,Dishwash,East India,62,80.0,4960.0,Retail,Credit,2025-01,2025-Q1
+2025-01-01,Hand Wash,North India,131,55.25,7237.75,Institutional,Cash,2025-01,2025-Q1
+2025-01-01,Hand Wash,South India,65,65.0,4225.0,Retail,UPI,2025-01,2025-Q1
+2025-01-01,Hand Wash,West India,64,65.0,4160.0,Retail,Credit,2025-01,2025-Q1
+2025-01-01,Hand Wash,East India,42,65.0,2730.0,Retail,Cash,2025-01,2025-Q1
+2025-01-01,Glass Cleaner,North India,59,90.0,5310.0,Retail,UPI,2025-01,2025-Q1
+2025-01-01,Glass Cleaner,South India,39,90.0,3510.0,Retail,UPI,2025-01,2025-Q1
+2025-01-01,Glass Cleaner,West India,41,90.0,3690.0,Retail,Credit,2025-01,2025-Q1
+2025-01-01,Glass Cleaner,East India,41,76.5,3136.5,Institutional,Cash,2025-01,2025-Q1
+2025-01-01,White Phenyl,North India,81,55.0,4455.0,Retail,UPI,2025-01,2025-Q1
+2025-01-01,White Phenyl,South India,54,55.0,2970.0,Retail,Credit,2025-01,2025-Q1
+2025-01-01,White Phenyl,West India,84,49.5,4158.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-01,White Phenyl,East India,34,55.0,1870.0,Retail,Credit,2025-01,2025-Q1
+2025-01-08,Floor Cleaner,North India,205,102.0,20910.0,Institutional,UPI,2025-01,2025-Q1
+2025-01-08,Floor Cleaner,South India,163,108.0,17604.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-08,Floor Cleaner,West India,106,120.0,12720.0,Retail,Credit,2025-01,2025-Q1
+2025-01-08,Floor Cleaner,East India,122,102.0,12444.0,Institutional,UPI,2025-01,2025-Q1
+2025-01-08,Toilet Cleaner,North India,90,95.0,8550.0,Retail,Credit,2025-01,2025-Q1
+2025-01-08,Toilet Cleaner,South India,62,95.0,5890.0,Retail,UPI,2025-01,2025-Q1
+2025-01-08,Toilet Cleaner,West India,63,95.0,5985.0,Retail,Credit,2025-01,2025-Q1
+2025-01-08,Toilet Cleaner,East India,90,85.5,7695.0,Wholesale,Cash,2025-01,2025-Q1
+2025-01-08,Dishwash,North India,228,72.0,16416.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-08,Dishwash,South India,119,68.0,8092.0,Institutional,Credit,2025-01,2025-Q1
+2025-01-08,Dishwash,West India,82,80.0,6560.0,Retail,Credit,2025-01,2025-Q1
+2025-01-08,Dishwash,East India,118,72.0,8496.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-08,Hand Wash,North India,94,65.0,6110.0,Retail,Cash,2025-01,2025-Q1
+2025-01-08,Hand Wash,South India,92,55.25,5083.0,Institutional,Credit,2025-01,2025-Q1
+2025-01-08,Hand Wash,West India,59,65.0,3835.0,Retail,Cash,2025-01,2025-Q1
+2025-01-08,Hand Wash,East India,45,65.0,2925.0,Retail,Cash,2025-01,2025-Q1
+2025-01-08,Glass Cleaner,North India,49,90.0,4410.0,Retail,Cash,2025-01,2025-Q1
+2025-01-08,Glass Cleaner,South India,40,90.0,3600.0,Retail,Cash,2025-01,2025-Q1
+2025-01-08,Glass Cleaner,West India,38,90.0,3420.0,Retail,UPI,2025-01,2025-Q1
+2025-01-08,Glass Cleaner,East India,61,81.0,4941.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-08,White Phenyl,North India,62,55.0,3410.0,Retail,UPI,2025-01,2025-Q1
+2025-01-08,White Phenyl,South India,93,49.5,4603.5,Wholesale,Cash,2025-01,2025-Q1
+2025-01-08,White Phenyl,West India,89,49.5,4405.5,Wholesale,UPI,2025-01,2025-Q1
+2025-01-08,White Phenyl,East India,56,46.75,2618.0,Institutional,UPI,2025-01,2025-Q1
+2025-01-15,Floor Cleaner,North India,151,120.0,18120.0,Retail,Cash,2025-01,2025-Q1
+2025-01-15,Floor Cleaner,South India,160,108.0,17280.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-15,Floor Cleaner,West India,83,120.0,9960.0,Retail,Credit,2025-01,2025-Q1
+2025-01-15,Floor Cleaner,East India,136,108.0,14688.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-15,Toilet Cleaner,North India,86,95.0,8170.0,Retail,Credit,2025-01,2025-Q1
+2025-01-15,Toilet Cleaner,South India,57,95.0,5415.0,Retail,Credit,2025-01,2025-Q1
+2025-01-15,Toilet Cleaner,West India,72,95.0,6840.0,Retail,Cash,2025-01,2025-Q1
+2025-01-15,Toilet Cleaner,East India,53,95.0,5035.0,Retail,Cash,2025-01,2025-Q1
+2025-01-15,Dishwash,North India,122,80.0,9760.0,Retail,UPI,2025-01,2025-Q1
+2025-01-15,Dishwash,South India,78,80.0,6240.0,Retail,UPI,2025-01,2025-Q1
+2025-01-15,Dishwash,West India,81,80.0,6480.0,Retail,Cash,2025-01,2025-Q1
+2025-01-15,Dishwash,East India,85,68.0,5780.0,Institutional,UPI,2025-01,2025-Q1
+2025-01-15,Hand Wash,North India,87,65.0,5655.0,Retail,Cash,2025-01,2025-Q1
+2025-01-15,Hand Wash,South India,69,65.0,4485.0,Retail,UPI,2025-01,2025-Q1
+2025-01-15,Hand Wash,West India,101,58.5,5908.5,Wholesale,Cash,2025-01,2025-Q1
+2025-01-15,Hand Wash,East India,95,58.5,5557.5,Wholesale,Credit,2025-01,2025-Q1
+2025-01-15,Glass Cleaner,North India,97,81.0,7857.0,Wholesale,Cash,2025-01,2025-Q1
+2025-01-15,Glass Cleaner,South India,66,81.0,5346.0,Wholesale,Cash,2025-01,2025-Q1
+2025-01-15,Glass Cleaner,West India,41,90.0,3690.0,Retail,Cash,2025-01,2025-Q1
+2025-01-15,Glass Cleaner,East India,34,90.0,3060.0,Retail,Credit,2025-01,2025-Q1
+2025-01-15,White Phenyl,North India,60,55.0,3300.0,Retail,Cash,2025-01,2025-Q1
+2025-01-15,White Phenyl,South India,48,55.0,2640.0,Retail,UPI,2025-01,2025-Q1
+2025-01-15,White Phenyl,West India,46,55.0,2530.0,Retail,Cash,2025-01,2025-Q1
+2025-01-15,White Phenyl,East India,39,55.0,2145.0,Retail,UPI,2025-01,2025-Q1
+2025-01-22,Floor Cleaner,North India,153,120.0,18360.0,Retail,UPI,2025-01,2025-Q1
+2025-01-22,Floor Cleaner,South India,93,120.0,11160.0,Retail,Cash,2025-01,2025-Q1
+2025-01-22,Floor Cleaner,West India,161,108.0,17388.0,Wholesale,UPI,2025-01,2025-Q1
+2025-01-22,Floor Cleaner,East India,134,102.0,13668.0,Institutional,Credit,2025-01,2025-Q1
+2025-01-22,Toilet Cleaner,North India,182,85.5,15561.0,Wholesale,Credit,2025-01,2025-Q1
+2025-01-22,Toilet Cleaner,South India,124,85.5,10602.0,Wholesale,Credit,2025-01,2025-Q1
+2025-01-22,Toilet Cleaner,West India,63,95.0,5985.0,Retail,UPI,2025-01,2025-Q1
+2025-01-22,Toilet Cleaner,East India,84,80.75,6783.0,Institutional,UPI,2025-01,2025-Q1
+2025-01-22,Dishwash,North India,180,72.0,12960.0,Wholesale,Credit,2025-01,2025-Q1
+2025-01-22,Dishwash,South India,134,72.0,9648.0,Wholesale,Credit,2025-01,2025-Q1
+2025-01-22,Dishwash,West India,132,68.0,8976.0,Institutional,UPI,2025-01,2025-Q1
+2025-01-22,Dishwash,East India,63,80.0,5040.0,Retail,Credit,2025-01,2025-Q1
+2025-01-22,Hand Wash,North India,167,58.5,9769.5,Wholesale,Credit,2025-01,2025-Q1
+2025-01-22,Hand Wash,South India,61,65.0,3965.0,Retail,Cash,2025-01,2025-Q1
+2025-01-22,Hand Wash,West India,55,65.0,3575.0,Retail,Cash,2025-01,2025-Q1
+2025-01-22,Hand Wash,East India,49,65.0,3185.0,Retail,Credit,2025-01,2025-Q1
+2025-01-22,Glass Cleaner,North India,55,90.0,4950.0,Retail,Cash,2025-01,2025-Q1
+2025-01-22,Glass Cleaner,South India,35,90.0,3150.0,Retail,Credit,2025-01,2025-Q1
+2025-01-22,Glass Cleaner,West India,40,90.0,3600.0,Retail,Cash,2025-01,2025-Q1
+2025-01-22,Glass Cleaner,East India,39,76.5,2983.5,Institutional,Cash,2025-01,2025-Q1
+2025-01-22,White Phenyl,North India,64,55.0,3520.0,Retail,Cash,2025-01,2025-Q1
+2025-01-22,White Phenyl,South India,49,55.0,2695.0,Retail,Credit,2025-01,2025-Q1
+2025-01-22,White Phenyl,West India,48,55.0,2640.0,Retail,UPI,2025-01,2025-Q1
+2025-01-22,White Phenyl,East India,59,46.75,2758.25,Institutional,Credit,2025-01,2025-Q1
+2025-02-01,Floor Cleaner,North India,316,108.0,34128.0,Wholesale,Credit,2025-02,2025-Q1
+2025-02-01,Floor Cleaner,South India,181,108.0,19548.0,Wholesale,Cash,2025-02,2025-Q1
+2025-02-01,Floor Cleaner,West India,165,102.0,16830.0,Institutional,Cash,2025-02,2025-Q1
+2025-02-01,Floor Cleaner,East India,118,102.0,12036.0,Institutional,Cash,2025-02,2025-Q1
+2025-02-01,Toilet Cleaner,North India,139,80.75,11224.25,Institutional,Credit,2025-02,2025-Q1
+2025-02-01,Toilet Cleaner,South India,62,95.0,5890.0,Retail,UPI,2025-02,2025-Q1
+2025-02-01,Toilet Cleaner,West India,63,95.0,5985.0,Retail,Cash,2025-02,2025-Q1
+2025-02-01,Toilet Cleaner,East India,90,85.5,7695.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-01,Dishwash,North India,205,72.0,14760.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-01,Dishwash,South India,76,80.0,6080.0,Retail,Cash,2025-02,2025-Q1
+2025-02-01,Dishwash,West India,83,80.0,6640.0,Retail,Cash,2025-02,2025-Q1
+2025-02-01,Dishwash,East India,121,72.0,8712.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-01,Hand Wash,North India,157,58.5,9184.5,Wholesale,UPI,2025-02,2025-Q1
+2025-02-01,Hand Wash,South India,117,58.5,6844.5,Wholesale,Cash,2025-02,2025-Q1
+2025-02-01,Hand Wash,West India,57,65.0,3705.0,Retail,UPI,2025-02,2025-Q1
+2025-02-01,Hand Wash,East India,85,58.5,4972.5,Wholesale,Credit,2025-02,2025-Q1
+2025-02-01,Glass Cleaner,North India,97,81.0,7857.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-01,Glass Cleaner,South India,69,81.0,5589.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-01,Glass Cleaner,West India,34,90.0,3060.0,Retail,Credit,2025-02,2025-Q1
+2025-02-01,Glass Cleaner,East India,30,90.0,2700.0,Retail,UPI,2025-02,2025-Q1
+2025-02-01,White Phenyl,North India,64,55.0,3520.0,Retail,Cash,2025-02,2025-Q1
+2025-02-01,White Phenyl,South India,83,49.5,4108.5,Wholesale,Cash,2025-02,2025-Q1
+2025-02-01,White Phenyl,West India,46,55.0,2530.0,Retail,UPI,2025-02,2025-Q1
+2025-02-01,White Phenyl,East India,67,49.5,3316.5,Wholesale,UPI,2025-02,2025-Q1
+2025-02-08,Floor Cleaner,North India,223,108.0,24084.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-08,Floor Cleaner,South India,104,120.0,12480.0,Retail,UPI,2025-02,2025-Q1
+2025-02-08,Floor Cleaner,West India,109,120.0,13080.0,Retail,UPI,2025-02,2025-Q1
+2025-02-08,Floor Cleaner,East India,86,120.0,10320.0,Retail,Credit,2025-02,2025-Q1
+2025-02-08,Toilet Cleaner,North India,150,85.5,12825.0,Wholesale,Cash,2025-02,2025-Q1
+2025-02-08,Toilet Cleaner,South India,71,95.0,6745.0,Retail,UPI,2025-02,2025-Q1
+2025-02-08,Toilet Cleaner,West India,100,80.75,8075.0,Institutional,UPI,2025-02,2025-Q1
+2025-02-08,Toilet Cleaner,East India,53,95.0,5035.0,Retail,UPI,2025-02,2025-Q1
+2025-02-08,Dishwash,North India,128,80.0,10240.0,Retail,Cash,2025-02,2025-Q1
+2025-02-08,Dishwash,South India,79,80.0,6320.0,Retail,Credit,2025-02,2025-Q1
+2025-02-08,Dishwash,West India,77,80.0,6160.0,Retail,Credit,2025-02,2025-Q1
+2025-02-08,Dishwash,East India,62,80.0,4960.0,Retail,UPI,2025-02,2025-Q1
+2025-02-08,Hand Wash,North India,156,58.5,9126.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-08,Hand Wash,South India,99,55.25,5469.75,Institutional,Credit,2025-02,2025-Q1
+2025-02-08,Hand Wash,West India,57,65.0,3705.0,Retail,Cash,2025-02,2025-Q1
+2025-02-08,Hand Wash,East India,52,65.0,3380.0,Retail,UPI,2025-02,2025-Q1
+2025-02-08,Glass Cleaner,North India,103,81.0,8343.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-08,Glass Cleaner,South India,41,90.0,3690.0,Retail,Cash,2025-02,2025-Q1
+2025-02-08,Glass Cleaner,West India,69,81.0,5589.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-08,Glass Cleaner,East India,29,90.0,2610.0,Retail,UPI,2025-02,2025-Q1
+2025-02-08,White Phenyl,North India,114,46.75,5329.5,Institutional,UPI,2025-02,2025-Q1
+2025-02-08,White Phenyl,South India,53,55.0,2915.0,Retail,UPI,2025-02,2025-Q1
+2025-02-08,White Phenyl,West India,46,55.0,2530.0,Retail,UPI,2025-02,2025-Q1
+2025-02-08,White Phenyl,East India,38,55.0,2090.0,Retail,UPI,2025-02,2025-Q1
+2025-02-15,Floor Cleaner,North India,134,120.0,16080.0,Retail,Cash,2025-02,2025-Q1
+2025-02-15,Floor Cleaner,South India,95,120.0,11400.0,Retail,Credit,2025-02,2025-Q1
+2025-02-15,Floor Cleaner,West India,188,108.0,20304.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-15,Floor Cleaner,East India,79,120.0,9480.0,Retail,Credit,2025-02,2025-Q1
+2025-02-15,Toilet Cleaner,North India,172,85.5,14706.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-15,Toilet Cleaner,South India,53,95.0,5035.0,Retail,Cash,2025-02,2025-Q1
+2025-02-15,Toilet Cleaner,West India,124,85.5,10602.0,Wholesale,UPI,2025-02,2025-Q1
+2025-02-15,Toilet Cleaner,East India,48,95.0,4560.0,Retail,Cash,2025-02,2025-Q1
+2025-02-15,Dishwash,North India,209,72.0,15048.0,Wholesale,Cash,2025-02,2025-Q1
+2025-02-15,Dishwash,South India,82,80.0,6560.0,Retail,Cash,2025-02,2025-Q1
+2025-02-15,Dishwash,West India,72,80.0,5760.0,Retail,UPI,2025-02,2025-Q1
+2025-02-15,Dishwash,East India,108,68.0,7344.0,Institutional,UPI,2025-02,2025-Q1
+2025-02-15,Hand Wash,North India,164,58.5,9594.0,Wholesale,Credit,2025-02,2025-Q1
+2025-02-15,Hand Wash,South India,65,65.0,4225.0,Retail,UPI,2025-02,2025-Q1
+2025-02-15,Hand Wash,West India,58,65.0,3770.0,Retail,UPI,2025-02,2025-Q1
+2025-02-15,Hand Wash,East India,50,65.0,3250.0,Retail,Cash,2025-02,2025-Q1
+2025-02-15,Glass Cleaner,North India,50,90.0,4500.0,Retail,Cash,2025-02,2025-Q1
+2025-02-15,Glass Cleaner,South India,44,90.0,3960.0,Retail,UPI,2025-02,2025-Q1
+2025-02-15,Glass Cleaner,West India,36,90.0,3240.0,Retail,Cash,2025-02,2025-Q1
+2025-02-15,Glass Cleaner,East India,30,90.0,2700.0,Retail,UPI,2025-02,2025-Q1
+2025-02-15,White Phenyl,North India,61,55.0,3355.0,Retail,UPI,2025-02,2025-Q1
+2025-02-15,White Phenyl,South India,44,55.0,2420.0,Retail,UPI,2025-02,2025-Q1
+2025-02-15,White Phenyl,West India,42,55.0,2310.0,Retail,UPI,2025-02,2025-Q1
+2025-02-15,White Phenyl,East India,58,46.75,2711.5,Institutional,Credit,2025-02,2025-Q1
+2025-02-22,Floor Cleaner,North India,127,120.0,15240.0,Retail,UPI,2025-02,2025-Q1
+2025-02-22,Floor Cleaner,South India,121,120.0,14520.0,Retail,Cash,2025-02,2025-Q1
+2025-02-22,Floor Cleaner,West India,92,120.0,11040.0,Retail,Cash,2025-02,2025-Q1
+2025-02-22,Floor Cleaner,East India,95,120.0,11400.0,Retail,Credit,2025-02,2025-Q1
+2025-02-22,Toilet Cleaner,North India,76,95.0,7220.0,Retail,Cash,2025-02,2025-Q1
+2025-02-22,Toilet Cleaner,South India,62,95.0,5890.0,Retail,Cash,2025-02,2025-Q1
+2025-02-22,Toilet Cleaner,West India,66,95.0,6270.0,Retail,Cash,2025-02,2025-Q1
+2025-02-22,Toilet Cleaner,East India,54,95.0,5130.0,Retail,UPI,2025-02,2025-Q1
+2025-02-22,Dishwash,North India,123,80.0,9840.0,Retail,UPI,2025-02,2025-Q1
+2025-02-22,Dishwash,South India,138,72.0,9936.0,Wholesale,Cash,2025-02,2025-Q1
+2025-02-22,Dishwash,West India,82,80.0,6560.0,Retail,Credit,2025-02,2025-Q1
+2025-02-22,Dishwash,East India,97,68.0,6596.0,Institutional,UPI,2025-02,2025-Q1
+2025-02-22,Hand Wash,North India,88,65.0,5720.0,Retail,Credit,2025-02,2025-Q1
+2025-02-22,Hand Wash,South India,61,65.0,3965.0,Retail,UPI,2025-02,2025-Q1
+2025-02-22,Hand Wash,West India,64,65.0,4160.0,Retail,UPI,2025-02,2025-Q1
+2025-02-22,Hand Wash,East India,97,58.5,5674.5,Wholesale,UPI,2025-02,2025-Q1
+2025-02-22,Glass Cleaner,North India,56,90.0,5040.0,Retail,Credit,2025-02,2025-Q1
+2025-02-22,Glass Cleaner,South India,59,76.5,4513.5,Institutional,UPI,2025-02,2025-Q1
+2025-02-22,Glass Cleaner,West India,42,90.0,3780.0,Retail,Cash,2025-02,2025-Q1
+2025-02-22,Glass Cleaner,East India,60,81.0,4860.0,Wholesale,Credit,2025-02,2025-Q1
+2025-02-22,White Phenyl,North India,75,55.0,4125.0,Retail,UPI,2025-02,2025-Q1
+2025-02-22,White Phenyl,South India,84,49.5,4158.0,Wholesale,Cash,2025-02,2025-Q1
+2025-02-22,White Phenyl,West India,43,55.0,2365.0,Retail,Credit,2025-02,2025-Q1
+2025-02-22,White Phenyl,East India,62,49.5,3069.0,Wholesale,Cash,2025-02,2025-Q1
+2025-03-01,Floor Cleaner,North India,153,120.0,18360.0,Retail,Credit,2025-03,2025-Q1
+2025-03-01,Floor Cleaner,South India,200,108.0,21600.0,Wholesale,Credit,2025-03,2025-Q1
+2025-03-01,Floor Cleaner,West India,110,120.0,13200.0,Retail,UPI,2025-03,2025-Q1
+2025-03-01,Floor Cleaner,East India,81,120.0,9720.0,Retail,Cash,2025-03,2025-Q1
+2025-03-01,Toilet Cleaner,North India,159,85.5,13594.5,Wholesale,UPI,2025-03,2025-Q1
+2025-03-01,Toilet Cleaner,South India,71,95.0,6745.0,Retail,UPI,2025-03,2025-Q1
+2025-03-01,Toilet Cleaner,West India,120,85.5,10260.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-01,Toilet Cleaner,East India,74,80.75,5975.5,Institutional,UPI,2025-03,2025-Q1
+2025-03-01,Dishwash,North India,126,80.0,10080.0,Retail,Cash,2025-03,2025-Q1
+2025-03-01,Dishwash,South India,137,72.0,9864.0,Wholesale,Credit,2025-03,2025-Q1
+2025-03-01,Dishwash,West India,82,80.0,6560.0,Retail,UPI,2025-03,2025-Q1
+2025-03-01,Dishwash,East India,113,72.0,8136.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-01,Hand Wash,North India,83,65.0,5395.0,Retail,UPI,2025-03,2025-Q1
+2025-03-01,Hand Wash,South India,66,65.0,4290.0,Retail,Credit,2025-03,2025-Q1
+2025-03-01,Hand Wash,West India,112,58.5,6552.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-01,Hand Wash,East India,53,65.0,3445.0,Retail,UPI,2025-03,2025-Q1
+2025-03-01,Glass Cleaner,North India,104,81.0,8424.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-01,Glass Cleaner,South India,36,90.0,3240.0,Retail,UPI,2025-03,2025-Q1
+2025-03-01,Glass Cleaner,West India,37,90.0,3330.0,Retail,UPI,2025-03,2025-Q1
+2025-03-01,Glass Cleaner,East India,57,81.0,4617.0,Wholesale,Credit,2025-03,2025-Q1
+2025-03-01,White Phenyl,North India,104,46.75,4862.0,Institutional,Cash,2025-03,2025-Q1
+2025-03-01,White Phenyl,South India,49,55.0,2695.0,Retail,Credit,2025-03,2025-Q1
+2025-03-01,White Phenyl,West India,78,49.5,3861.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-01,White Phenyl,East India,36,55.0,1980.0,Retail,UPI,2025-03,2025-Q1
+2025-03-08,Floor Cleaner,North India,139,120.0,16680.0,Retail,Credit,2025-03,2025-Q1
+2025-03-08,Floor Cleaner,South India,186,108.0,20088.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-08,Floor Cleaner,West India,111,120.0,13320.0,Retail,UPI,2025-03,2025-Q1
+2025-03-08,Floor Cleaner,East India,80,120.0,9600.0,Retail,Cash,2025-03,2025-Q1
+2025-03-08,Toilet Cleaner,North India,101,95.0,9595.0,Retail,UPI,2025-03,2025-Q1
+2025-03-08,Toilet Cleaner,South India,68,95.0,6460.0,Retail,UPI,2025-03,2025-Q1
+2025-03-08,Toilet Cleaner,West India,92,80.75,7429.0,Institutional,Cash,2025-03,2025-Q1
+2025-03-08,Toilet Cleaner,East India,54,95.0,5130.0,Retail,UPI,2025-03,2025-Q1
+2025-03-08,Dishwash,North India,174,68.0,11832.0,Institutional,UPI,2025-03,2025-Q1
+2025-03-08,Dishwash,South India,84,80.0,6720.0,Retail,Cash,2025-03,2025-Q1
+2025-03-08,Dishwash,West India,73,80.0,5840.0,Retail,UPI,2025-03,2025-Q1
+2025-03-08,Dishwash,East India,111,72.0,7992.0,Wholesale,Credit,2025-03,2025-Q1
+2025-03-08,Hand Wash,North India,175,58.5,10237.5,Wholesale,UPI,2025-03,2025-Q1
+2025-03-08,Hand Wash,South India,94,55.25,5193.5,Institutional,UPI,2025-03,2025-Q1
+2025-03-08,Hand Wash,West India,104,58.5,6084.0,Wholesale,Cash,2025-03,2025-Q1
+2025-03-08,Hand Wash,East India,52,65.0,3380.0,Retail,Credit,2025-03,2025-Q1
+2025-03-08,Glass Cleaner,North India,53,90.0,4770.0,Retail,Cash,2025-03,2025-Q1
+2025-03-08,Glass Cleaner,South India,35,90.0,3150.0,Retail,Cash,2025-03,2025-Q1
+2025-03-08,Glass Cleaner,West India,73,81.0,5913.0,Wholesale,Credit,2025-03,2025-Q1
+2025-03-08,Glass Cleaner,East India,32,90.0,2880.0,Retail,Cash,2025-03,2025-Q1
+2025-03-08,White Phenyl,North India,64,55.0,3520.0,Retail,Cash,2025-03,2025-Q1
+2025-03-08,White Phenyl,South India,97,49.5,4801.5,Wholesale,Cash,2025-03,2025-Q1
+2025-03-08,White Phenyl,West India,86,49.5,4257.0,Wholesale,Credit,2025-03,2025-Q1
+2025-03-08,White Phenyl,East India,38,55.0,2090.0,Retail,UPI,2025-03,2025-Q1
+2025-03-15,Floor Cleaner,North India,296,108.0,31968.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-15,Floor Cleaner,South India,102,120.0,12240.0,Retail,UPI,2025-03,2025-Q1
+2025-03-15,Floor Cleaner,West India,172,108.0,18576.0,Wholesale,Cash,2025-03,2025-Q1
+2025-03-15,Floor Cleaner,East India,149,108.0,16092.0,Wholesale,Cash,2025-03,2025-Q1
+2025-03-15,Toilet Cleaner,North India,93,95.0,8835.0,Retail,Cash,2025-03,2025-Q1
+2025-03-15,Toilet Cleaner,South India,96,80.75,7752.0,Institutional,UPI,2025-03,2025-Q1
+2025-03-15,Toilet Cleaner,West India,107,85.5,9148.5,Wholesale,Cash,2025-03,2025-Q1
+2025-03-15,Toilet Cleaner,East India,53,95.0,5035.0,Retail,UPI,2025-03,2025-Q1
+2025-03-15,Dishwash,North India,115,80.0,9200.0,Retail,Cash,2025-03,2025-Q1
+2025-03-15,Dishwash,South India,130,68.0,8840.0,Institutional,UPI,2025-03,2025-Q1
+2025-03-15,Dishwash,West India,124,72.0,8928.0,Wholesale,Credit,2025-03,2025-Q1
+2025-03-15,Dishwash,East India,64,80.0,5120.0,Retail,UPI,2025-03,2025-Q1
+2025-03-15,Hand Wash,North India,150,55.25,8287.5,Institutional,Cash,2025-03,2025-Q1
+2025-03-15,Hand Wash,South India,110,58.5,6435.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-15,Hand Wash,West India,68,65.0,4420.0,Retail,UPI,2025-03,2025-Q1
+2025-03-15,Hand Wash,East India,44,65.0,2860.0,Retail,Cash,2025-03,2025-Q1
+2025-03-15,Glass Cleaner,North India,76,76.5,5814.0,Institutional,Cash,2025-03,2025-Q1
+2025-03-15,Glass Cleaner,South India,56,76.5,4284.0,Institutional,Cash,2025-03,2025-Q1
+2025-03-15,Glass Cleaner,West India,73,81.0,5913.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-15,Glass Cleaner,East India,57,81.0,4617.0,Wholesale,Credit,2025-03,2025-Q1
+2025-03-15,White Phenyl,North India,93,46.75,4347.75,Institutional,UPI,2025-03,2025-Q1
+2025-03-15,White Phenyl,South India,76,46.75,3553.0,Institutional,Cash,2025-03,2025-Q1
+2025-03-15,White Phenyl,West India,43,55.0,2365.0,Retail,Credit,2025-03,2025-Q1
+2025-03-15,White Phenyl,East India,58,49.5,2871.0,Wholesale,Cash,2025-03,2025-Q1
+2025-03-22,Floor Cleaner,North India,280,108.0,30240.0,Wholesale,Cash,2025-03,2025-Q1
+2025-03-22,Floor Cleaner,South India,102,120.0,12240.0,Retail,Credit,2025-03,2025-Q1
+2025-03-22,Floor Cleaner,West India,166,102.0,16932.0,Institutional,UPI,2025-03,2025-Q1
+2025-03-22,Floor Cleaner,East India,92,120.0,11040.0,Retail,Cash,2025-03,2025-Q1
+2025-03-22,Toilet Cleaner,North India,147,85.5,12568.5,Wholesale,UPI,2025-03,2025-Q1
+2025-03-22,Toilet Cleaner,South India,115,85.5,9832.5,Wholesale,UPI,2025-03,2025-Q1
+2025-03-22,Toilet Cleaner,West India,76,95.0,7220.0,Retail,UPI,2025-03,2025-Q1
+2025-03-22,Toilet Cleaner,East India,52,95.0,4940.0,Retail,Cash,2025-03,2025-Q1
+2025-03-22,Dishwash,North India,204,72.0,14688.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-22,Dishwash,South India,160,72.0,11520.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-22,Dishwash,West India,81,80.0,6480.0,Retail,Credit,2025-03,2025-Q1
+2025-03-22,Dishwash,East India,120,72.0,8640.0,Wholesale,Credit,2025-03,2025-Q1
+2025-03-22,Hand Wash,North India,151,55.25,8342.75,Institutional,UPI,2025-03,2025-Q1
+2025-03-22,Hand Wash,South India,106,58.5,6201.0,Wholesale,UPI,2025-03,2025-Q1
+2025-03-22,Hand Wash,West India,64,65.0,4160.0,Retail,UPI,2025-03,2025-Q1
+2025-03-22,Hand Wash,East India,95,58.5,5557.5,Wholesale,Credit,2025-03,2025-Q1
+2025-03-22,Glass Cleaner,North India,52,90.0,4680.0,Retail,Credit,2025-03,2025-Q1
+2025-03-22,Glass Cleaner,South India,43,90.0,3870.0,Retail,Credit,2025-03,2025-Q1
+2025-03-22,Glass Cleaner,West India,39,90.0,3510.0,Retail,Cash,2025-03,2025-Q1
+2025-03-22,Glass Cleaner,East India,53,81.0,4293.0,Wholesale,Cash,2025-03,2025-Q1
+2025-03-22,White Phenyl,North India,121,49.5,5989.5,Wholesale,Credit,2025-03,2025-Q1
+2025-03-22,White Phenyl,South India,76,46.75,3553.0,Institutional,UPI,2025-03,2025-Q1
+2025-03-22,White Phenyl,West India,45,55.0,2475.0,Retail,Cash,2025-03,2025-Q1
+2025-03-22,White Phenyl,East India,31,55.0,1705.0,Retail,Credit,2025-03,2025-Q1
+2025-04-01,Floor Cleaner,North India,202,102.0,20604.0,Institutional,UPI,2025-04,2025-Q2
+2025-04-01,Floor Cleaner,South India,202,108.0,21816.0,Wholesale,Cash,2025-04,2025-Q2
+2025-04-01,Floor Cleaner,West India,187,108.0,20196.0,Wholesale,Credit,2025-04,2025-Q2
+2025-04-01,Floor Cleaner,East India,83,120.0,9960.0,Retail,UPI,2025-04,2025-Q2
+2025-04-01,Toilet Cleaner,North India,104,95.0,9880.0,Retail,Cash,2025-04,2025-Q2
+2025-04-01,Toilet Cleaner,South India,65,95.0,6175.0,Retail,Cash,2025-04,2025-Q2
+2025-04-01,Toilet Cleaner,West India,68,95.0,6460.0,Retail,UPI,2025-04,2025-Q2
+2025-04-01,Toilet Cleaner,East India,77,80.75,6217.75,Institutional,Cash,2025-04,2025-Q2
+2025-04-01,Dishwash,North India,131,80.0,10480.0,Retail,Cash,2025-04,2025-Q2
+2025-04-01,Dishwash,South India,153,72.0,11016.0,Wholesale,Credit,2025-04,2025-Q2
+2025-04-01,Dishwash,West India,77,80.0,6160.0,Retail,UPI,2025-04,2025-Q2
+2025-04-01,Dishwash,East India,67,80.0,5360.0,Retail,Credit,2025-04,2025-Q2
+2025-04-01,Hand Wash,North India,152,58.5,8892.0,Wholesale,UPI,2025-04,2025-Q2
+2025-04-01,Hand Wash,South India,70,65.0,4550.0,Retail,Credit,2025-04,2025-Q2
+2025-04-01,Hand Wash,West India,128,58.5,7488.0,Wholesale,Credit,2025-04,2025-Q2
+2025-04-01,Hand Wash,East India,54,65.0,3510.0,Retail,Cash,2025-04,2025-Q2
+2025-04-01,Glass Cleaner,North India,103,81.0,8343.0,Wholesale,Credit,2025-04,2025-Q2
+2025-04-01,Glass Cleaner,South India,75,76.5,5737.5,Institutional,Cash,2025-04,2025-Q2
+2025-04-01,Glass Cleaner,West India,40,90.0,3600.0,Retail,UPI,2025-04,2025-Q2
+2025-04-01,Glass Cleaner,East India,32,90.0,2880.0,Retail,Credit,2025-04,2025-Q2
+2025-04-01,White Phenyl,North India,64,55.0,3520.0,Retail,Cash,2025-04,2025-Q2
+2025-04-01,White Phenyl,South India,45,55.0,2475.0,Retail,Cash,2025-04,2025-Q2
+2025-04-01,White Phenyl,West India,45,55.0,2475.0,Retail,UPI,2025-04,2025-Q2
+2025-04-01,White Phenyl,East India,33,55.0,1815.0,Retail,Cash,2025-04,2025-Q2
+2025-04-08,Floor Cleaner,North India,163,120.0,19560.0,Retail,UPI,2025-04,2025-Q2
+2025-04-08,Floor Cleaner,South India,239,108.0,25812.0,Wholesale,UPI,2025-04,2025-Q2
+2025-04-08,Floor Cleaner,West India,210,108.0,22680.0,Wholesale,Credit,2025-04,2025-Q2
+2025-04-08,Floor Cleaner,East India,87,120.0,10440.0,Retail,UPI,2025-04,2025-Q2
+2025-04-08,Toilet Cleaner,North India,93,95.0,8835.0,Retail,Credit,2025-04,2025-Q2
+2025-04-08,Toilet Cleaner,South India,71,95.0,6745.0,Retail,UPI,2025-04,2025-Q2
+2025-04-08,Toilet Cleaner,West India,68,95.0,6460.0,Retail,UPI,2025-04,2025-Q2
+2025-04-08,Toilet Cleaner,East India,98,85.5,8379.0,Wholesale,Credit,2025-04,2025-Q2
+2025-04-08,Dishwash,North India,193,72.0,13896.0,Wholesale,UPI,2025-04,2025-Q2
+2025-04-08,Dishwash,South India,81,80.0,6480.0,Retail,UPI,2025-04,2025-Q2
+2025-04-08,Dishwash,West India,142,72.0,10224.0,Wholesale,UPI,2025-04,2025-Q2
+2025-04-08,Dishwash,East India,67,80.0,5360.0,Retail,Credit,2025-04,2025-Q2
+2025-04-08,Hand Wash,North India,86,65.0,5590.0,Retail,Cash,2025-04,2025-Q2
+2025-04-08,Hand Wash,South India,105,55.25,5801.25,Institutional,Cash,2025-04,2025-Q2
+2025-04-08,Hand Wash,West India,66,65.0,4290.0,Retail,UPI,2025-04,2025-Q2
+2025-04-08,Hand Wash,East India,45,65.0,2925.0,Retail,UPI,2025-04,2025-Q2
+2025-04-08,Glass Cleaner,North India,47,90.0,4230.0,Retail,Credit,2025-04,2025-Q2
+2025-04-08,Glass Cleaner,South India,41,90.0,3690.0,Retail,UPI,2025-04,2025-Q2
+2025-04-08,Glass Cleaner,West India,40,90.0,3600.0,Retail,Credit,2025-04,2025-Q2
+2025-04-08,Glass Cleaner,East India,60,81.0,4860.0,Wholesale,Cash,2025-04,2025-Q2
+2025-04-08,White Phenyl,North India,68,55.0,3740.0,Retail,UPI,2025-04,2025-Q2
+2025-04-08,White Phenyl,South India,75,46.75,3506.25,Institutional,Cash,2025-04,2025-Q2
+2025-04-08,White Phenyl,West India,41,55.0,2255.0,Retail,UPI,2025-04,2025-Q2
+2025-04-08,White Phenyl,East India,54,46.75,2524.5,Institutional,Credit,2025-04,2025-Q2
+2025-04-15,Floor Cleaner,North India,141,120.0,16920.0,Retail,UPI,2025-04,2025-Q2
+2025-04-15,Floor Cleaner,South India,110,120.0,13200.0,Retail,UPI,2025-04,2025-Q2
+2025-04-15,Floor Cleaner,West India,119,120.0,14280.0,Retail,Credit,2025-04,2025-Q2
+2025-04-15,Floor Cleaner,East India,155,108.0,16740.0,Wholesale,UPI,2025-04,2025-Q2
+2025-04-15,Toilet Cleaner,North India,94,95.0,8930.0,Retail,Cash,2025-04,2025-Q2
+2025-04-15,Toilet Cleaner,South India,70,95.0,6650.0,Retail,Cash,2025-04,2025-Q2
+2025-04-15,Toilet Cleaner,West India,67,95.0,6365.0,Retail,Cash,2025-04,2025-Q2
+2025-04-15,Toilet Cleaner,East India,103,85.5,8806.5,Wholesale,Credit,2025-04,2025-Q2
+2025-04-15,Dishwash,North India,200,72.0,14400.0,Wholesale,UPI,2025-04,2025-Q2
+2025-04-15,Dishwash,South India,89,80.0,7120.0,Retail,UPI,2025-04,2025-Q2
+2025-04-15,Dishwash,West India,72,80.0,5760.0,Retail,UPI,2025-04,2025-Q2
+2025-04-15,Dishwash,East India,68,80.0,5440.0,Retail,Cash,2025-04,2025-Q2
+2025-04-15,Hand Wash,North India,157,55.25,8674.25,Institutional,Cash,2025-04,2025-Q2
+2025-04-15,Hand Wash,South India,72,65.0,4680.0,Retail,Cash,2025-04,2025-Q2
+2025-04-15,Hand Wash,West India,64,65.0,4160.0,Retail,UPI,2025-04,2025-Q2
+2025-04-15,Hand Wash,East India,69,55.25,3812.25,Institutional,Cash,2025-04,2025-Q2
+2025-04-15,Glass Cleaner,North India,59,90.0,5310.0,Retail,Cash,2025-04,2025-Q2
+2025-04-15,Glass Cleaner,South India,43,90.0,3870.0,Retail,UPI,2025-04,2025-Q2
+2025-04-15,Glass Cleaner,West India,63,81.0,5103.0,Wholesale,Credit,2025-04,2025-Q2
+2025-04-15,Glass Cleaner,East India,38,90.0,3420.0,Retail,UPI,2025-04,2025-Q2
+2025-04-15,White Phenyl,North India,61,55.0,3355.0,Retail,Cash,2025-04,2025-Q2
+2025-04-15,White Phenyl,South India,49,55.0,2695.0,Retail,UPI,2025-04,2025-Q2
+2025-04-15,White Phenyl,West India,48,55.0,2640.0,Retail,UPI,2025-04,2025-Q2
+2025-04-15,White Phenyl,East India,35,55.0,1925.0,Retail,Credit,2025-04,2025-Q2
+2025-04-22,Floor Cleaner,North India,160,120.0,19200.0,Retail,Credit,2025-04,2025-Q2
+2025-04-22,Floor Cleaner,South India,223,108.0,24084.0,Wholesale,Cash,2025-04,2025-Q2
+2025-04-22,Floor Cleaner,West India,110,120.0,13200.0,Retail,UPI,2025-04,2025-Q2
+2025-04-22,Floor Cleaner,East India,160,108.0,17280.0,Wholesale,Credit,2025-04,2025-Q2
+2025-04-22,Toilet Cleaner,North India,178,85.5,15219.0,Wholesale,UPI,2025-04,2025-Q2
+2025-04-22,Toilet Cleaner,South India,122,85.5,10431.0,Wholesale,Credit,2025-04,2025-Q2
+2025-04-22,Toilet Cleaner,West India,68,95.0,6460.0,Retail,UPI,2025-04,2025-Q2
+2025-04-22,Toilet Cleaner,East India,49,95.0,4655.0,Retail,Credit,2025-04,2025-Q2
+2025-04-22,Dishwash,North India,121,80.0,9680.0,Retail,UPI,2025-04,2025-Q2
+2025-04-22,Dishwash,South India,131,72.0,9432.0,Wholesale,Credit,2025-04,2025-Q2
+2025-04-22,Dishwash,West India,129,72.0,9288.0,Wholesale,UPI,2025-04,2025-Q2
+2025-04-22,Dishwash,East India,104,68.0,7072.0,Institutional,Cash,2025-04,2025-Q2
+2025-04-22,Hand Wash,North India,144,55.25,7956.0,Institutional,Credit,2025-04,2025-Q2
+2025-04-22,Hand Wash,South India,128,58.5,7488.0,Wholesale,UPI,2025-04,2025-Q2
+2025-04-22,Hand Wash,West India,69,65.0,4485.0,Retail,Cash,2025-04,2025-Q2
+2025-04-22,Hand Wash,East India,54,65.0,3510.0,Retail,UPI,2025-04,2025-Q2
+2025-04-22,Glass Cleaner,North India,84,76.5,6426.0,Institutional,UPI,2025-04,2025-Q2
+2025-04-22,Glass Cleaner,South India,46,90.0,4140.0,Retail,UPI,2025-04,2025-Q2
+2025-04-22,Glass Cleaner,West India,39,90.0,3510.0,Retail,Cash,2025-04,2025-Q2
+2025-04-22,Glass Cleaner,East India,29,90.0,2610.0,Retail,UPI,2025-04,2025-Q2
+2025-04-22,White Phenyl,North India,61,55.0,3355.0,Retail,UPI,2025-04,2025-Q2
+2025-04-22,White Phenyl,South India,50,55.0,2750.0,Retail,UPI,2025-04,2025-Q2
+2025-04-22,White Phenyl,West India,44,55.0,2420.0,Retail,Cash,2025-04,2025-Q2
+2025-04-22,White Phenyl,East India,36,55.0,1980.0,Retail,Cash,2025-04,2025-Q2
+2025-05-01,Floor Cleaner,North India,265,102.0,27030.0,Institutional,Credit,2025-05,2025-Q2
+2025-05-01,Floor Cleaner,South India,114,120.0,13680.0,Retail,UPI,2025-05,2025-Q2
+2025-05-01,Floor Cleaner,West India,159,108.0,17172.0,Wholesale,Cash,2025-05,2025-Q2
+2025-05-01,Floor Cleaner,East India,126,102.0,12852.0,Institutional,Credit,2025-05,2025-Q2
+2025-05-01,Toilet Cleaner,North India,164,85.5,14022.0,Wholesale,Cash,2025-05,2025-Q2
+2025-05-01,Toilet Cleaner,South India,126,80.75,10174.5,Institutional,UPI,2025-05,2025-Q2
+2025-05-01,Toilet Cleaner,West India,127,85.5,10858.5,Wholesale,UPI,2025-05,2025-Q2
+2025-05-01,Toilet Cleaner,East India,52,95.0,4940.0,Retail,Credit,2025-05,2025-Q2
+2025-05-01,Dishwash,North India,122,80.0,9760.0,Retail,UPI,2025-05,2025-Q2
+2025-05-01,Dishwash,South India,93,80.0,7440.0,Retail,UPI,2025-05,2025-Q2
+2025-05-01,Dishwash,West India,86,80.0,6880.0,Retail,Cash,2025-05,2025-Q2
+2025-05-01,Dishwash,East India,102,68.0,6936.0,Institutional,Credit,2025-05,2025-Q2
+2025-05-01,Hand Wash,North India,170,58.5,9945.0,Wholesale,UPI,2025-05,2025-Q2
+2025-05-01,Hand Wash,South India,73,65.0,4745.0,Retail,Credit,2025-05,2025-Q2
+2025-05-01,Hand Wash,West India,61,65.0,3965.0,Retail,Cash,2025-05,2025-Q2
+2025-05-01,Hand Wash,East India,81,55.25,4475.25,Institutional,UPI,2025-05,2025-Q2
+2025-05-01,Glass Cleaner,North India,56,90.0,5040.0,Retail,UPI,2025-05,2025-Q2
+2025-05-01,Glass Cleaner,South India,90,81.0,7290.0,Wholesale,Credit,2025-05,2025-Q2
+2025-05-01,Glass Cleaner,West India,39,90.0,3510.0,Retail,UPI,2025-05,2025-Q2
+2025-05-01,Glass Cleaner,East India,32,90.0,2880.0,Retail,Cash,2025-05,2025-Q2
+2025-05-01,White Phenyl,North India,65,55.0,3575.0,Retail,UPI,2025-05,2025-Q2
+2025-05-01,White Phenyl,South India,48,55.0,2640.0,Retail,UPI,2025-05,2025-Q2
+2025-05-01,White Phenyl,West India,90,49.5,4455.0,Wholesale,Cash,2025-05,2025-Q2
+2025-05-01,White Phenyl,East India,62,49.5,3069.0,Wholesale,UPI,2025-05,2025-Q2
+2025-05-08,Floor Cleaner,North India,165,120.0,19800.0,Retail,UPI,2025-05,2025-Q2
+2025-05-08,Floor Cleaner,South India,203,108.0,21924.0,Wholesale,Cash,2025-05,2025-Q2
+2025-05-08,Floor Cleaner,West India,235,108.0,25380.0,Wholesale,Cash,2025-05,2025-Q2
+2025-05-08,Floor Cleaner,East India,86,120.0,10320.0,Retail,UPI,2025-05,2025-Q2
+2025-05-08,Toilet Cleaner,North India,89,95.0,8455.0,Retail,Cash,2025-05,2025-Q2
+2025-05-08,Toilet Cleaner,South India,122,85.5,10431.0,Wholesale,UPI,2025-05,2025-Q2
+2025-05-08,Toilet Cleaner,West India,71,95.0,6745.0,Retail,UPI,2025-05,2025-Q2
+2025-05-08,Toilet Cleaner,East India,51,95.0,4845.0,Retail,Credit,2025-05,2025-Q2
+2025-05-08,Dishwash,North India,109,80.0,8720.0,Retail,Cash,2025-05,2025-Q2
+2025-05-08,Dishwash,South India,153,72.0,11016.0,Wholesale,Credit,2025-05,2025-Q2
+2025-05-08,Dishwash,West India,74,80.0,5920.0,Retail,UPI,2025-05,2025-Q2
+2025-05-08,Dishwash,East India,63,80.0,5040.0,Retail,Credit,2025-05,2025-Q2
+2025-05-08,Hand Wash,North India,87,65.0,5655.0,Retail,Credit,2025-05,2025-Q2
+2025-05-08,Hand Wash,South India,106,55.25,5856.5,Institutional,UPI,2025-05,2025-Q2
+2025-05-08,Hand Wash,West India,89,55.25,4917.25,Institutional,UPI,2025-05,2025-Q2
+2025-05-08,Hand Wash,East India,47,65.0,3055.0,Retail,UPI,2025-05,2025-Q2
+2025-05-08,Glass Cleaner,North India,56,90.0,5040.0,Retail,UPI,2025-05,2025-Q2
+2025-05-08,Glass Cleaner,South India,41,90.0,3690.0,Retail,Cash,2025-05,2025-Q2
+2025-05-08,Glass Cleaner,West India,37,90.0,3330.0,Retail,Cash,2025-05,2025-Q2
+2025-05-08,Glass Cleaner,East India,33,90.0,2970.0,Retail,Cash,2025-05,2025-Q2
+2025-05-08,White Phenyl,North India,67,55.0,3685.0,Retail,Credit,2025-05,2025-Q2
+2025-05-08,White Phenyl,South India,102,49.5,5049.0,Wholesale,Credit,2025-05,2025-Q2
+2025-05-08,White Phenyl,West India,43,55.0,2365.0,Retail,UPI,2025-05,2025-Q2
+2025-05-08,White Phenyl,East India,63,49.5,3118.5,Wholesale,UPI,2025-05,2025-Q2
+2025-05-15,Floor Cleaner,North India,168,120.0,20160.0,Retail,Credit,2025-05,2025-Q2
+2025-05-15,Floor Cleaner,South India,113,120.0,13560.0,Retail,Cash,2025-05,2025-Q2
+2025-05-15,Floor Cleaner,West India,192,108.0,20736.0,Wholesale,Credit,2025-05,2025-Q2
+2025-05-15,Floor Cleaner,East India,85,120.0,10200.0,Retail,Cash,2025-05,2025-Q2
+2025-05-15,Toilet Cleaner,North India,171,85.5,14620.5,Wholesale,UPI,2025-05,2025-Q2
+2025-05-15,Toilet Cleaner,South India,137,85.5,11713.5,Wholesale,UPI,2025-05,2025-Q2
+2025-05-15,Toilet Cleaner,West India,66,95.0,6270.0,Retail,UPI,2025-05,2025-Q2
+2025-05-15,Toilet Cleaner,East India,79,80.75,6379.25,Institutional,UPI,2025-05,2025-Q2
+2025-05-15,Dishwash,North India,127,80.0,10160.0,Retail,UPI,2025-05,2025-Q2
+2025-05-15,Dishwash,South India,169,72.0,12168.0,Wholesale,UPI,2025-05,2025-Q2
+2025-05-15,Dishwash,West India,153,72.0,11016.0,Wholesale,UPI,2025-05,2025-Q2
+2025-05-15,Dishwash,East India,69,80.0,5520.0,Retail,Cash,2025-05,2025-Q2
+2025-05-15,Hand Wash,North India,180,58.5,10530.0,Wholesale,Credit,2025-05,2025-Q2
+2025-05-15,Hand Wash,South India,80,65.0,5200.0,Retail,UPI,2025-05,2025-Q2
+2025-05-15,Hand Wash,West India,65,65.0,4225.0,Retail,Credit,2025-05,2025-Q2
+2025-05-15,Hand Wash,East India,47,65.0,3055.0,Retail,Cash,2025-05,2025-Q2
+2025-05-15,Glass Cleaner,North India,88,76.5,6732.0,Institutional,UPI,2025-05,2025-Q2
+2025-05-15,Glass Cleaner,South India,41,90.0,3690.0,Retail,UPI,2025-05,2025-Q2
+2025-05-15,Glass Cleaner,West India,39,90.0,3510.0,Retail,UPI,2025-05,2025-Q2
+2025-05-15,Glass Cleaner,East India,47,81.0,3807.0,Wholesale,Cash,2025-05,2025-Q2
+2025-05-15,White Phenyl,North India,106,49.5,5247.0,Wholesale,Cash,2025-05,2025-Q2
+2025-05-15,White Phenyl,South India,74,46.75,3459.5,Institutional,UPI,2025-05,2025-Q2
+2025-05-15,White Phenyl,West India,43,55.0,2365.0,Retail,Cash,2025-05,2025-Q2
+2025-05-15,White Phenyl,East India,53,46.75,2477.75,Institutional,Cash,2025-05,2025-Q2
+2025-05-22,Floor Cleaner,North India,269,108.0,29052.0,Wholesale,Cash,2025-05,2025-Q2
+2025-05-22,Floor Cleaner,South India,126,120.0,15120.0,Retail,UPI,2025-05,2025-Q2
+2025-05-22,Floor Cleaner,West India,128,120.0,15360.0,Retail,Cash,2025-05,2025-Q2
+2025-05-22,Floor Cleaner,East India,173,108.0,18684.0,Wholesale,UPI,2025-05,2025-Q2
+2025-05-22,Toilet Cleaner,North India,98,95.0,9310.0,Retail,UPI,2025-05,2025-Q2
+2025-05-22,Toilet Cleaner,South India,84,95.0,7980.0,Retail,Cash,2025-05,2025-Q2
+2025-05-22,Toilet Cleaner,West India,110,85.5,9405.0,Wholesale,UPI,2025-05,2025-Q2
+2025-05-22,Toilet Cleaner,East India,108,85.5,9234.0,Wholesale,Cash,2025-05,2025-Q2
+2025-05-22,Dishwash,North India,137,80.0,10960.0,Retail,Credit,2025-05,2025-Q2
+2025-05-22,Dishwash,South India,90,80.0,7200.0,Retail,UPI,2025-05,2025-Q2
+2025-05-22,Dishwash,West India,132,72.0,9504.0,Wholesale,UPI,2025-05,2025-Q2
+2025-05-22,Dishwash,East India,64,80.0,5120.0,Retail,Credit,2025-05,2025-Q2
+2025-05-22,Hand Wash,North India,94,65.0,6110.0,Retail,Cash,2025-05,2025-Q2
+2025-05-22,Hand Wash,South India,95,55.25,5248.75,Institutional,UPI,2025-05,2025-Q2
+2025-05-22,Hand Wash,West India,100,55.25,5525.0,Institutional,Cash,2025-05,2025-Q2
+2025-05-22,Hand Wash,East India,54,65.0,3510.0,Retail,Cash,2025-05,2025-Q2
+2025-05-22,Glass Cleaner,North India,54,90.0,4860.0,Retail,Credit,2025-05,2025-Q2
+2025-05-22,Glass Cleaner,South India,83,81.0,6723.0,Wholesale,UPI,2025-05,2025-Q2
+2025-05-22,Glass Cleaner,West India,60,76.5,4590.0,Institutional,UPI,2025-05,2025-Q2
+2025-05-22,Glass Cleaner,East India,34,90.0,3060.0,Retail,Credit,2025-05,2025-Q2
+2025-05-22,White Phenyl,North India,73,55.0,4015.0,Retail,Cash,2025-05,2025-Q2
+2025-05-22,White Phenyl,South India,88,49.5,4356.0,Wholesale,Cash,2025-05,2025-Q2
+2025-05-22,White Phenyl,West India,78,49.5,3861.0,Wholesale,Credit,2025-05,2025-Q2
+2025-05-22,White Phenyl,East India,51,49.5,2524.5,Wholesale,Cash,2025-05,2025-Q2
+2025-06-01,Floor Cleaner,North India,399,108.0,43092.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-01,Floor Cleaner,South India,235,102.0,23970.0,Institutional,Cash,2025-06,2025-Q2
+2025-06-01,Floor Cleaner,West India,232,102.0,23664.0,Institutional,UPI,2025-06,2025-Q2
+2025-06-01,Floor Cleaner,East India,206,108.0,22248.0,Wholesale,Credit,2025-06,2025-Q2
+2025-06-01,Toilet Cleaner,North India,197,85.5,16843.5,Wholesale,Cash,2025-06,2025-Q2
+2025-06-01,Toilet Cleaner,South India,91,95.0,8645.0,Retail,Credit,2025-06,2025-Q2
+2025-06-01,Toilet Cleaner,West India,71,95.0,6745.0,Retail,Credit,2025-06,2025-Q2
+2025-06-01,Toilet Cleaner,East India,70,95.0,6650.0,Retail,UPI,2025-06,2025-Q2
+2025-06-01,Dishwash,North India,132,80.0,10560.0,Retail,UPI,2025-06,2025-Q2
+2025-06-01,Dishwash,South India,128,80.0,10240.0,Retail,Cash,2025-06,2025-Q2
+2025-06-01,Dishwash,West India,98,80.0,7840.0,Retail,Cash,2025-06,2025-Q2
+2025-06-01,Dishwash,East India,147,72.0,10584.0,Wholesale,Cash,2025-06,2025-Q2
+2025-06-01,Hand Wash,North India,172,55.25,9503.0,Institutional,UPI,2025-06,2025-Q2
+2025-06-01,Hand Wash,South India,88,65.0,5720.0,Retail,Cash,2025-06,2025-Q2
+2025-06-01,Hand Wash,West India,105,55.25,5801.25,Institutional,Credit,2025-06,2025-Q2
+2025-06-01,Hand Wash,East India,67,65.0,4355.0,Retail,Cash,2025-06,2025-Q2
+2025-06-01,Glass Cleaner,North India,67,90.0,6030.0,Retail,UPI,2025-06,2025-Q2
+2025-06-01,Glass Cleaner,South India,87,76.5,6655.5,Institutional,Cash,2025-06,2025-Q2
+2025-06-01,Glass Cleaner,West India,67,76.5,5125.5,Institutional,UPI,2025-06,2025-Q2
+2025-06-01,Glass Cleaner,East India,70,81.0,5670.0,Wholesale,Cash,2025-06,2025-Q2
+2025-06-01,White Phenyl,North India,80,55.0,4400.0,Retail,UPI,2025-06,2025-Q2
+2025-06-01,White Phenyl,South India,63,55.0,3465.0,Retail,UPI,2025-06,2025-Q2
+2025-06-01,White Phenyl,West India,55,55.0,3025.0,Retail,Cash,2025-06,2025-Q2
+2025-06-01,White Phenyl,East India,86,49.5,4257.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-08,Floor Cleaner,North India,221,120.0,26520.0,Retail,Cash,2025-06,2025-Q2
+2025-06-08,Floor Cleaner,South India,155,120.0,18600.0,Retail,UPI,2025-06,2025-Q2
+2025-06-08,Floor Cleaner,West India,153,120.0,18360.0,Retail,UPI,2025-06,2025-Q2
+2025-06-08,Floor Cleaner,East India,203,108.0,21924.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-08,Toilet Cleaner,North India,220,85.5,18810.0,Wholesale,Credit,2025-06,2025-Q2
+2025-06-08,Toilet Cleaner,South India,192,85.5,16416.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-08,Toilet Cleaner,West India,81,95.0,7695.0,Retail,UPI,2025-06,2025-Q2
+2025-06-08,Toilet Cleaner,East India,70,95.0,6650.0,Retail,Credit,2025-06,2025-Q2
+2025-06-08,Dishwash,North India,165,80.0,13200.0,Retail,UPI,2025-06,2025-Q2
+2025-06-08,Dishwash,South India,178,68.0,12104.0,Institutional,Cash,2025-06,2025-Q2
+2025-06-08,Dishwash,West India,181,72.0,13032.0,Wholesale,Cash,2025-06,2025-Q2
+2025-06-08,Dishwash,East India,74,80.0,5920.0,Retail,UPI,2025-06,2025-Q2
+2025-06-08,Hand Wash,North India,192,55.25,10608.0,Institutional,Cash,2025-06,2025-Q2
+2025-06-08,Hand Wash,South India,100,65.0,6500.0,Retail,Credit,2025-06,2025-Q2
+2025-06-08,Hand Wash,West India,92,65.0,5980.0,Retail,UPI,2025-06,2025-Q2
+2025-06-08,Hand Wash,East India,110,58.5,6435.0,Wholesale,Cash,2025-06,2025-Q2
+2025-06-08,Glass Cleaner,North India,77,90.0,6930.0,Retail,UPI,2025-06,2025-Q2
+2025-06-08,Glass Cleaner,South India,55,90.0,4950.0,Retail,Cash,2025-06,2025-Q2
+2025-06-08,Glass Cleaner,West India,49,90.0,4410.0,Retail,Credit,2025-06,2025-Q2
+2025-06-08,Glass Cleaner,East India,74,81.0,5994.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-08,White Phenyl,North India,84,55.0,4620.0,Retail,Cash,2025-06,2025-Q2
+2025-06-08,White Phenyl,South India,53,55.0,2915.0,Retail,UPI,2025-06,2025-Q2
+2025-06-08,White Phenyl,West India,53,55.0,2915.0,Retail,UPI,2025-06,2025-Q2
+2025-06-08,White Phenyl,East India,39,55.0,2145.0,Retail,UPI,2025-06,2025-Q2
+2025-06-15,Floor Cleaner,North India,389,108.0,42012.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-15,Floor Cleaner,South India,251,102.0,25602.0,Institutional,UPI,2025-06,2025-Q2
+2025-06-15,Floor Cleaner,West India,142,120.0,17040.0,Retail,Credit,2025-06,2025-Q2
+2025-06-15,Floor Cleaner,East India,104,120.0,12480.0,Retail,Credit,2025-06,2025-Q2
+2025-06-15,Toilet Cleaner,North India,118,95.0,11210.0,Retail,Credit,2025-06,2025-Q2
+2025-06-15,Toilet Cleaner,South India,182,85.5,15561.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-15,Toilet Cleaner,West India,132,80.75,10659.0,Institutional,UPI,2025-06,2025-Q2
+2025-06-15,Toilet Cleaner,East India,78,95.0,7410.0,Retail,UPI,2025-06,2025-Q2
+2025-06-15,Dishwash,North India,155,80.0,12400.0,Retail,Cash,2025-06,2025-Q2
+2025-06-15,Dishwash,South India,127,80.0,10160.0,Retail,Credit,2025-06,2025-Q2
+2025-06-15,Dishwash,West India,178,72.0,12816.0,Wholesale,Credit,2025-06,2025-Q2
+2025-06-15,Dishwash,East India,90,80.0,7200.0,Retail,Credit,2025-06,2025-Q2
+2025-06-15,Hand Wash,North India,211,58.5,12343.5,Wholesale,Cash,2025-06,2025-Q2
+2025-06-15,Hand Wash,South India,162,58.5,9477.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-15,Hand Wash,West India,148,58.5,8658.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-15,Hand Wash,East India,67,65.0,4355.0,Retail,Cash,2025-06,2025-Q2
+2025-06-15,Glass Cleaner,North India,116,76.5,8874.0,Institutional,Cash,2025-06,2025-Q2
+2025-06-15,Glass Cleaner,South India,65,90.0,5850.0,Retail,UPI,2025-06,2025-Q2
+2025-06-15,Glass Cleaner,West India,46,90.0,4140.0,Retail,Cash,2025-06,2025-Q2
+2025-06-15,Glass Cleaner,East India,77,81.0,6237.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-15,White Phenyl,North India,74,55.0,4070.0,Retail,Credit,2025-06,2025-Q2
+2025-06-15,White Phenyl,South India,88,49.5,4356.0,Wholesale,Credit,2025-06,2025-Q2
+2025-06-15,White Phenyl,West India,84,46.75,3927.0,Institutional,Cash,2025-06,2025-Q2
+2025-06-15,White Phenyl,East India,45,55.0,2475.0,Retail,UPI,2025-06,2025-Q2
+2025-06-22,Floor Cleaner,North India,229,120.0,27480.0,Retail,Cash,2025-06,2025-Q2
+2025-06-22,Floor Cleaner,South India,280,108.0,30240.0,Wholesale,UPI,2025-06,2025-Q2
+2025-06-22,Floor Cleaner,West India,219,102.0,22338.0,Institutional,Credit,2025-06,2025-Q2
+2025-06-22,Floor Cleaner,East India,100,120.0,12000.0,Retail,UPI,2025-06,2025-Q2
+2025-06-22,Toilet Cleaner,North India,131,95.0,12445.0,Retail,UPI,2025-06,2025-Q2
+2025-06-22,Toilet Cleaner,South India,189,85.5,16159.5,Wholesale,UPI,2025-06,2025-Q2
+2025-06-22,Toilet Cleaner,West India,92,95.0,8740.0,Retail,Cash,2025-06,2025-Q2
+2025-06-22,Toilet Cleaner,East India,67,95.0,6365.0,Retail,Cash,2025-06,2025-Q2
+2025-06-22,Dishwash,North India,151,80.0,12080.0,Retail,UPI,2025-06,2025-Q2
+2025-06-22,Dishwash,South India,127,80.0,10160.0,Retail,UPI,2025-06,2025-Q2
+2025-06-22,Dishwash,West India,152,68.0,10336.0,Institutional,Cash,2025-06,2025-Q2
+2025-06-22,Dishwash,East India,133,68.0,9044.0,Institutional,UPI,2025-06,2025-Q2
+2025-06-22,Hand Wash,North India,202,58.5,11817.0,Wholesale,Cash,2025-06,2025-Q2
+2025-06-22,Hand Wash,South India,136,55.25,7514.0,Institutional,Credit,2025-06,2025-Q2
+2025-06-22,Hand Wash,West India,83,65.0,5395.0,Retail,Credit,2025-06,2025-Q2
+2025-06-22,Hand Wash,East India,61,65.0,3965.0,Retail,Cash,2025-06,2025-Q2
+2025-06-22,Glass Cleaner,North India,73,90.0,6570.0,Retail,Cash,2025-06,2025-Q2
+2025-06-22,Glass Cleaner,South India,64,90.0,5760.0,Retail,Credit,2025-06,2025-Q2
+2025-06-22,Glass Cleaner,West India,44,90.0,3960.0,Retail,UPI,2025-06,2025-Q2
+2025-06-22,Glass Cleaner,East India,62,76.5,4743.0,Institutional,Credit,2025-06,2025-Q2
+2025-06-22,White Phenyl,North India,80,55.0,4400.0,Retail,UPI,2025-06,2025-Q2
+2025-06-22,White Phenyl,South India,73,55.0,4015.0,Retail,Cash,2025-06,2025-Q2
+2025-06-22,White Phenyl,West India,88,49.5,4356.0,Wholesale,Cash,2025-06,2025-Q2
+2025-06-22,White Phenyl,East India,42,55.0,2310.0,Retail,UPI,2025-06,2025-Q2
