@@ -59,7 +59,12 @@ Without ElevenLabs, iRaaya speaks with free Google Text-to-Speech (gTTS).
 ## Privacy
 To answer questions, a summary of the uploaded data is sent to Groq.
 Spoken answers are sent to Google TTS or ElevenLabs.
-iRaaya itself does not store uploaded data.
+
+So a page refresh doesn't lose your work, iRaaya keeps your data, conversation
+and settings **in server memory for up to 24 hours**, under a random private
+code in your page address. It is **never saved to disk**, and it disappears when
+the app restarts. Anyone with your full link (including the code) could see it,
+so share only `iraaya.streamlit.app`. Use **Start fresh** to forget it immediately.
 
 ### Your cloned voice stays private
 - A cloned voice is only used to speak **your own** answers, in your own session.

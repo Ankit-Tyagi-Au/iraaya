@@ -5,6 +5,9 @@ Run: streamlit run app.py
 
 import hashlib
 import os
+import re
+import time
+import uuid
 from pathlib import Path
 from urllib.parse import quote
 
@@ -107,6 +110,85 @@ for key, value in DEFAULTS.items():
     if key not in st.session_state:
         st.session_state[key] = value
 
+# ---------- Keep work across a page refresh ----------
+# A refresh starts a new Streamlit session. To bring the user's work back,
+# it is kept in server memory (never on disk) under a random private code
+# in the page address (?s=...), for up to SESSION_TTL_HOURS.
+SESSION_TTL_HOURS = 24
+MAX_STORED_SESSIONS = 200
+SAVED_KEYS = [
+    "df", "summary", "context", "health", "anomalies", "data_key",
+    "data_name", "warnings", "chat_history", "cloned_voice_id",
+    "cloned_voice_name", "insights", "whatsapp", "main_tab",
+    # sidebar settings (widget keys)
+    "lang", "style", "currency", "speak", "premium",
+]
+
+
+@st.cache_resource
+def session_store() -> dict:
+    """Shared in-memory store: {private code: saved work}. Lost on restart."""
+    return {}
+
+
+def session_code() -> str:
+    code = st.query_params.get("s", "")
+    if not re.fullmatch(r"[0-9a-f]{32}", code):
+        code = uuid.uuid4().hex
+        st.query_params["s"] = code
+    return code
+
+
+def restore_session():
+    saved = session_store().get(SESSION_CODE)
+    if saved and time.time() - saved["saved_at"] < SESSION_TTL_HOURS * 3600:
+        for key in SAVED_KEYS:
+            if key in saved and saved[key] is not None:
+                st.session_state[key] = saved[key]
+
+
+def save_session():
+    store = session_store()
+    now = time.time()
+    store[SESSION_CODE] = {
+        **{key: st.session_state.get(key) for key in SAVED_KEYS},
+        "saved_at": now,
+    }
+    # Drop expired entries, and the oldest ones if there are too many
+    for code in [c for c, v in store.items() if now - v["saved_at"] > SESSION_TTL_HOURS * 3600]:
+        store.pop(code, None)
+    for code in sorted(store, key=lambda c: store[c]["saved_at"])[:-MAX_STORED_SESSIONS]:
+        store.pop(code, None)
+
+
+def forget_session():
+    """Forget everything now; settings are reset at the top of the next run
+    (widgets can't be changed after they are drawn)."""
+    session_store().pop(SESSION_CODE, None)
+    st.session_state.forget_pending = True
+
+
+SESSION_CODE = session_code()
+if not st.session_state.get("restored"):
+    st.session_state.restored = True
+    restore_session()
+
+# Sidebar setting defaults live here (not in the widgets), so a restored
+# value and a default never compete
+SETTING_DEFAULTS = {
+    "lang": "English",
+    "style": "Simple",
+    "currency": "Not specified",
+    "speak": "Match my question",
+    "premium": False,
+}
+if st.session_state.pop("forget_pending", False):
+    for key, value in {**DEFAULTS, **SETTING_DEFAULTS}.items():
+        st.session_state[key] = value
+    st.session_state.pop("main_tab", None)
+for key, value in SETTING_DEFAULTS.items():
+    st.session_state.setdefault(key, value)
+
 
 def set_data(df, name: str, data_key: str):
     """Analyse a newly loaded file once and keep the results."""
@@ -192,7 +274,7 @@ selected_language = st.sidebar.selectbox(
         name if LANGUAGES[name]["display"] == name
         else f"{name} · {LANGUAGES[name]['display']}"
     ),
-    index=0
+    key="lang",
 )
 
 selected_mode = st.sidebar.radio(
@@ -202,8 +284,8 @@ selected_mode = st.sidebar.radio(
         "Simple",
         "Friendly"
     ],
-    index=1,
-    horizontal=True
+    horizontal=True,
+    key="style",
 )
 
 CURRENCIES = {
@@ -215,7 +297,10 @@ CURRENCIES = {
     "£ British Pound (GBP)": ("£", "British Pounds (GBP)"),
     "AED UAE Dirham": ("AED ", "UAE Dirhams (AED)"),
 }
-selected_currency = st.sidebar.selectbox("💱 Currency of your data", list(CURRENCIES))
+selected_currency = st.sidebar.selectbox(
+    "💱 Currency of your data", list(CURRENCIES),
+    key="currency",
+)
 currency = CURRENCIES[selected_currency]
 CUR = currency[0] if currency else ""
 
@@ -238,14 +323,14 @@ SPEAK_MODES = {
 speak_mode = st.sidebar.radio(
     "🔊 Spoken answers",
     list(SPEAK_MODES),
-    index=0,
     captions=list(SPEAK_MODES.values()),
+    key="speak",
 )
 
 use_elevenlabs = st.sidebar.toggle(
     "🎙️ Premium voice",
-    value=False,
     disabled=not EL_KEY,
+    key="premium",
     help=(
         "Uses ElevenLabs for more natural voice output."
         if EL_KEY else
@@ -375,9 +460,16 @@ with st.sidebar.expander(
 st.sidebar.divider()
 st.sidebar.caption(
     "🔒 To answer questions, a summary of your data is sent to Groq (AI). "
-    "Spoken answers use Google TTS or ElevenLabs. iRaaya does not store your "
-    "data. Cloned voices are private to the person who made them."
+    "Spoken answers use Google TTS or ElevenLabs. So a page refresh doesn't "
+    "lose your work, iRaaya keeps it in memory for up to 24 hours under a "
+    "private code in this page's address — it is never saved to disk, and "
+    "anyone with your full link could see it, so share only "
+    "iraaya.streamlit.app. Cloned voices are private to the person who made them."
 )
+if st.session_state.df is not None or st.session_state.chat_history:
+    if st.sidebar.button("🧹 Start fresh (forget my data now)", width="stretch"):
+        forget_session()
+        st.rerun()
 
 if not GROQ_KEY:
     st.sidebar.error("GROQ_API_KEY is missing — questions and insights won't work.")
@@ -389,11 +481,12 @@ st.caption(
     "in any language"
 )
 
-tab1, tab2, tab3 = st.tabs([
-    "📊 Dashboard",
-    "💬 Ask iRaaya",
-    "🔍 Insights"
-])
+TAB_LABELS = ["📊 Dashboard", "💬 Ask iRaaya", "🔍 Insights"]
+if st.session_state.get("main_tab") not in TAB_LABELS:
+    st.session_state.pop("main_tab", None)
+# key + on_change: the open tab is kept in session state (and restored
+# after a refresh by restore_session)
+tab1, tab2, tab3 = st.tabs(TAB_LABELS, key="main_tab", on_change="rerun")
 
 # ---------- Tab 1: Dashboard ----------
 with tab1:
@@ -773,6 +866,8 @@ with tab3:
                     "Open in WhatsApp",
                     "https://wa.me/?text=" + quote(st.session_state.whatsapp)
                 )
+
+save_session()
 
 # ---------- Footer ----------
 st.divider()
