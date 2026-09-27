@@ -41,6 +41,7 @@ from languages import LANGUAGES
 from pdf_report import generate_pdf
 from voice import (
     DEFAULT_VOICE_ID,
+    VoiceCloneError,
     cleanup_old_clones,
     delete_voice,
     get_plan,
@@ -330,24 +331,21 @@ with st.sidebar.expander(
             elif not consent:
                 st.warning("Please confirm you have permission first.")
             else:
-                with st.spinner("Cloning voice..."):
-                    voice_id = clone_voice(
-                        EL_KEY,
-                        voice_name,
-                        audio_sample.getvalue(),
-                        audio_sample.name
-                    )
-                if voice_id:
+                try:
+                    with st.spinner("Cloning voice..."):
+                        voice_id = clone_voice(
+                            EL_KEY,
+                            voice_name,
+                            audio_sample.getvalue(),
+                            audio_sample.name
+                        )
                     st.session_state.cloned_voice_id = voice_id
                     st.session_state.cloned_voice_name = voice_name
                     st.success(
                         f"Voice '{voice_name}' cloned! Turn on Premium voice to use it."
                     )
-                else:
-                    st.error(
-                        "Clone failed. Please try a clearer recording, "
-                        "or check your ElevenLabs plan."
-                    )
+                except VoiceCloneError as e:
+                    st.error(f"Clone failed: {e}")
     if st.session_state.cloned_voice_id:
         st.caption(f"Your cloned voice: {st.session_state.cloned_voice_name}")
         if st.button("🗑️ Delete my voice", key="delete_voice_btn"):

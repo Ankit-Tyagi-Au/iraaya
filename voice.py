@@ -1,7 +1,6 @@
 """Voice output (gTTS, ElevenLabs), voice cloning and speech-to-text (Groq Whisper)."""
 
 import io
-import json
 import os
 import re
 import time
@@ -120,13 +119,19 @@ def speak_elevenlabs(
         return None
 
 
+class VoiceCloneError(Exception):
+    """Voice cloning failed; the message says why, in plain words."""
+
+
 def clone_voice(
     api_key: str,
     name: str,
     audio_bytes: bytes,
     filename: str = "sample.mp3"
 ) -> str:
-    """Create an instant voice clone. Returns the new voice_id, or None.
+    """Create an instant voice clone. Returns the new voice_id.
+
+    Raises VoiceCloneError with ElevenLabs' reason if it fails.
 
     Sends the audio itself as (filename, bytes, mime type): the SDK treats
     a plain string as file contents, not as a path.
@@ -140,7 +145,8 @@ def clone_voice(
         voice = client.voices.ivc.create(
             name=name,
             files=[(filename, audio_bytes, AUDIO_MIME.get(ext, "audio/mpeg"))],
-            labels=json.dumps(CLONE_LABEL),
+            # A plain dict: the API rejects a JSON string here
+            labels=CLONE_LABEL,
             description="Created by iRaaya. Private to the person who made it.",
         )
         return voice.voice_id
@@ -148,7 +154,12 @@ def clone_voice(
         print(
             f"Voice clone error: {e}"
         )
-        return None
+        body = getattr(e, "body", None)
+        detail = body.get("detail") if isinstance(body, dict) else None
+        reason = (
+            detail.get("message") if isinstance(detail, dict) else detail
+        ) or str(e)[:200]
+        raise VoiceCloneError(reason) from e
 
 
 def delete_voice(api_key: str, voice_id: str) -> bool:
