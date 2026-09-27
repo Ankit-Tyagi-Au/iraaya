@@ -11,6 +11,8 @@ import re
 import docx
 import pandas as pd
 import pdfplumber
+from docx.table import Table
+from docx.text.paragraph import Paragraph
 
 from analyser import REQUIRED_COLUMNS
 
@@ -109,25 +111,64 @@ def _aligned_table(pdf):
     return [[header] + rows] if header and rows else []
 
 
+def _page_marker(n: int) -> str:
+    return f"[Page {n}]"
+
+
 def _read_pdf(file):
     tables, pages_text = [], []
     with pdfplumber.open(file) as pdf:
         n_pages = len(pdf.pages)
-        for page in pdf.pages:
+        for i, page in enumerate(pdf.pages, start=1):
             tables += page.extract_tables() or []        # tables with lines
-            pages_text.append(page.extract_text() or "")
+            pages_text.append(f"{_page_marker(i)}\n{page.extract_text() or ''}")
         if find_sales_table(tables) is None:
             tables = _aligned_table(pdf)                  # tables without lines
-    return tables, "\n\n".join(t for t in pages_text if t.strip()), n_pages
+    return tables, "\n\n".join(pages_text), n_pages, "pdf"
+
+
+RENDERED_BREAK = "<w:lastRenderedPageBreak"
+HARD_BREAK = 'w:type="page"'
 
 
 def _read_docx(file):
+    """Word files don't store pages: Word lays them out when it opens the
+    file. When saved by Word, the file records where each page started
+    ("last rendered page break"); otherwise only manual page breaks
+    (Ctrl+Enter) are known. Pages are counted from whichever exists."""
     d = docx.Document(file)
-    tables = [[[cell.text for cell in row.cells] for row in t.rows] for t in d.tables]
-    parts = [p.text for p in d.paragraphs if p.text.strip()]
-    for t in tables:          # keep table text readable in document mode too
-        parts += [" | ".join(r) for r in t]
-    return tables, "\n".join(parts), None
+    body_xml = d.element.body.xml
+    marker = RENDERED_BREAK if RENDERED_BREAK in body_xml else HARD_BREAK
+    has_pages = marker in body_xml
+
+    tables, parts, page = [], [_page_marker(1)] if has_pages else [], 1
+    for block in d.iter_inner_content():          # paragraphs and tables, in order
+        xml = block._element.xml
+        breaks = xml.count(marker) if has_pages else 0
+        if isinstance(block, Table):
+            rows = [[cell.text for cell in row.cells] for row in block.rows]
+            tables.append(rows)
+            text = "\n".join(" | ".join(r) for r in rows)
+            before = False
+        else:
+            text = block.text
+            first_text = xml.find("<w:t")
+            before = breaks and (first_text == -1 or xml.find(marker) < first_text)
+        if before:                                 # page starts at this block
+            for _ in range(breaks):
+                page += 1
+                parts.append(_page_marker(page))
+            breaks = 0
+        if text.strip():
+            parts.append(text)
+        for _ in range(breaks):                    # page starts inside/after it
+            page += 1
+            parts.append(_page_marker(page))
+    source = (
+        "word-layout" if marker == RENDERED_BREAK and has_pages
+        else "manual-breaks" if has_pages else None
+    )
+    return tables, "\n".join(parts), (page if has_pages else None), source
 
 
 def read_document(file) -> dict:
@@ -138,9 +179,9 @@ def read_document(file) -> dict:
     ext = os.path.splitext(name)[1].lower()
     try:
         if ext == ".pdf":
-            tables, text, pages = _read_pdf(file)
+            tables, text, pages, page_source = _read_pdf(file)
         elif ext == ".docx":
-            tables, text, pages = _read_docx(file)
+            tables, text, pages, page_source = _read_docx(file)
         else:
             raise ValueError(f"Unsupported document type '{ext}'.")
     except ValueError:
@@ -158,14 +199,74 @@ def read_document(file) -> dict:
             "pages), iRaaya can't read it yet — please upload a PDF with "
             "real text, or a Word or Excel file."
         )
-    return {"kind": "document", "text": text, "pages": pages}
+    return {"kind": "document", "text": text, "pages": pages, "page_source": page_source}
+
+
+PAGE_QUESTION = re.compile(
+    r"(?:page|pg|p\.|पेज|पृष्ठ)\s*(?:no\.?|number|num|#|नंबर|संख्या)?\s*(\d{1,4})",
+    re.IGNORECASE,
+)
+
+
+PAGE_SOURCES = {
+    "pdf": "Page numbers are exact (from the PDF).",
+    "word-layout": (
+        "Page numbers come from the page layout Microsoft Word saved in this "
+        "file. They match what Word showed when the file was last saved; "
+        "another device, font or paper size can shift them."
+    ),
+    "manual-breaks": (
+        "This file only records manual page breaks (Ctrl+Enter), so these "
+        "'pages' may not match what you see in Word. For exact page numbers, "
+        "save the file as PDF and upload that."
+    ),
+    None: (
+        "This Word file does not record pages, so iRaaya can't tell what is "
+        "on a given page. For page questions, save it as PDF and upload that."
+    ),
+}
+
+
+def page_overview(text: str, words: int = 12) -> list:
+    """[(page number, first words)] so users can match iRaaya's pages."""
+    return [
+        (n, " ".join(body.split()[:words]) + ("…" if len(body.split()) > words else ""))
+        for n, body in _pages(text).items()
+    ]
+
+
+def _pages(text: str) -> dict:
+    """{page number: text} from [Page N] markers."""
+    found = re.split(r"\[Page (\d+)\]\n?", text)
+    return {int(n): body.strip() for n, body in zip(found[1::2], found[2::2])}
 
 
 def document_context(text: str, question: str = "") -> str:
     """The document text for the AI: whole if short, otherwise the parts
-    that share the most words with the question (plus the beginning)."""
+    that share the most words with the question (plus the beginning).
+    Pages asked about by number ("page 5") are always included."""
+    pages = _pages(text)
+    asked = [int(n) for n in PAGE_QUESTION.findall(question)]
+    notes = []
+    if asked and not pages:
+        notes.append(
+            "NOTE: this file does not record page numbers (Word lays out "
+            "pages only when it opens a file), so pages cannot be identified."
+        )
+    for n in asked:
+        if pages and n not in pages:
+            notes.append(f"NOTE: the document has {max(pages)} pages; page {n} does not exist.")
+    note = ("\n".join(notes) + "\n\n") if notes else ""
+
     if len(text) <= FULL_TEXT_LIMIT:
-        return text
+        return note + text
+
+    wanted = [f"{_page_marker(n)}\n{pages[n]}" for n in asked if n in pages]
+    if wanted:
+        return (
+            note + f"(Long document: showing the page(s) asked about, "
+            f"out of {max(pages)} pages.)\n\n" + "\n\n".join(wanted)[:FULL_TEXT_LIMIT]
+        )
     chunks = [text[i:i + CHUNK_SIZE] for i in range(0, len(text), CHUNK_SIZE)]
     q_words = {w for w in re.findall(r"[a-z0-9]{3,}", question.lower())}
     scored = sorted(
@@ -173,7 +274,7 @@ def document_context(text: str, question: str = "") -> str:
         key=lambda i: -len(q_words & set(re.findall(r"[a-z0-9]{3,}", chunks[i].lower()))),
     )
     keep = sorted([0] + scored[:CHUNKS_PER_QUESTION - 1])
-    return (
+    return note + (
         f"(Long document: showing {len(keep)} of {len(chunks)} parts, the "
         f"beginning and those most related to the question.)\n\n"
         + "\n\n[...]\n\n".join(chunks[i] for i in keep)

@@ -38,7 +38,13 @@ from forecaster import (
     forecast_revenue,
     forecast_chart
 )
-from documents import DOCUMENT_TYPES, document_context, read_document
+from documents import (
+    DOCUMENT_TYPES,
+    PAGE_SOURCES,
+    document_context,
+    page_overview,
+    read_document,
+)
 from insights import (
     IRaayaError,
     ask_document,
@@ -116,6 +122,7 @@ DEFAULTS = {
     "doc_text": None,
     "doc_name": None,
     "doc_pages": None,
+    "doc_page_source": None,
 }
 for key, value in DEFAULTS.items():
     if key not in st.session_state:
@@ -131,7 +138,7 @@ SAVED_KEYS = [
     "df", "summary", "context", "health", "anomalies", "data_key",
     "data_name", "warnings", "chat_history", "cloned_voice_id",
     "cloned_voice_name", "insights", "whatsapp", "main_tab",
-    "doc_text", "doc_name", "doc_pages",
+    "doc_text", "doc_name", "doc_pages", "doc_page_source",
     # sidebar settings (widget keys)
     "lang", "style", "currency", "speak", "premium",
 ]
@@ -232,9 +239,10 @@ def set_data(df, name: str, data_key: str):
     st.session_state.doc_text = None
     st.session_state.doc_name = None
     st.session_state.doc_pages = None
+    st.session_state.doc_page_source = None
 
 
-def set_document(text: str, name: str, pages, data_key: str):
+def set_document(text: str, name: str, pages, data_key: str, page_source=None):
     """Keep a PDF/Word document (no sales table) to answer questions about."""
     for key in ("df", "summary", "context", "health"):
         st.session_state[key] = None
@@ -243,6 +251,7 @@ def set_document(text: str, name: str, pages, data_key: str):
     st.session_state.doc_text = text
     st.session_state.doc_name = name
     st.session_state.doc_pages = pages
+    st.session_state.doc_page_source = page_source
     st.session_state.data_key = data_key
     st.session_state.data_name = name
     st.session_state.chat_history = []
@@ -287,7 +296,10 @@ if uploaded_file is not None:
                 if doc["kind"] == "table":
                     set_data(clean_dataframe(doc["df"]), uploaded_file.name, data_key)
                 else:
-                    set_document(doc["text"], uploaded_file.name, doc["pages"], data_key)
+                    set_document(
+                        doc["text"], uploaded_file.name, doc["pages"],
+                        data_key, doc.get("page_source"),
+                    )
             else:
                 set_data(load_data(uploaded_file), uploaded_file.name, data_key)
         except ValueError as e:
@@ -761,6 +773,12 @@ with tab2:
             f"Ask iRaaya in "
             f"{selected_language}"
         )
+        if is_document():
+            with st.expander("📄 How iRaaya sees your pages"):
+                st.caption(PAGE_SOURCES.get(st.session_state.doc_page_source, PAGE_SOURCES[None]))
+                for n, start in page_overview(st.session_state.doc_text):
+                    st.markdown(f"**Page {n}** — {start}")
+
         # Ask by voice: stops by itself when you pause, then answers
         last = st.session_state.last_audio
         spoken = voice_recorder(
