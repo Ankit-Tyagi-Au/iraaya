@@ -41,6 +41,8 @@ from languages import LANGUAGES
 from pdf_report import generate_pdf
 from voice import (
     DEFAULT_VOICE_ID,
+    cleanup_old_clones,
+    delete_voice,
     get_plan,
     list_voices,
     speak_gtts,
@@ -240,6 +242,15 @@ use_elevenlabs = st.sidebar.toggle(
 )
 
 
+VOICE_PRIVACY = (
+    "🔒 **Your voice stays private.** Your cloned voice is only used "
+    "to speak your own answers. It is never shown to, or shared with, "
+    "other iRaaya users. Your recording is sent to our voice partner "
+    "ElevenLabs only to create the voice, and iRaaya does not keep a copy. "
+    "You can delete your voice at any time with one click, and it is "
+    "removed automatically after 7 days."
+)
+
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def cached_voices(api_key: str) -> dict:
@@ -251,11 +262,22 @@ def cached_plan(api_key: str) -> dict:
     return get_plan(api_key)
 
 
+@st.cache_data(ttl=86400, show_spinner=False)
+def daily_clone_cleanup(api_key: str) -> int:
+    """Runs at most once a day: removes iRaaya voice clones older than 7 days."""
+    return cleanup_old_clones(api_key)
+
+
+if EL_KEY:
+    daily_clone_cleanup(EL_KEY)
+
+
 premium_voice_id = DEFAULT_VOICE_ID
 if use_elevenlabs and EL_KEY:
     voices = cached_voices(EL_KEY)
     if st.session_state.cloned_voice_id:
-        voices = {f"{st.session_state.cloned_voice_name} (cloned)": st.session_state.cloned_voice_id, **voices}
+        # Only the person who made the clone sees it (this session only)
+        voices = {f"{st.session_state.cloned_voice_name} (your voice)": st.session_state.cloned_voice_id, **voices}
     if voices:
         names = list(voices)
         default_name = next(
@@ -272,6 +294,7 @@ with st.sidebar.expander(
         "Record someone's voice and "
         "iRaaya will speak in that voice!"
     )
+    st.caption(VOICE_PRIVACY)
     plan = cached_plan(EL_KEY) if EL_KEY else {"tier": "none", "can_clone": False}
     if not EL_KEY:
         st.info("Add ELEVENLABS_API_KEY to use voice cloning.")
@@ -317,7 +340,6 @@ with st.sidebar.expander(
                 if voice_id:
                     st.session_state.cloned_voice_id = voice_id
                     st.session_state.cloned_voice_name = voice_name
-                    cached_voices.clear()
                     st.success(
                         f"Voice '{voice_name}' cloned! Turn on Premium voice to use it."
                     )
@@ -327,12 +349,25 @@ with st.sidebar.expander(
                         "or check your ElevenLabs plan."
                     )
     if st.session_state.cloned_voice_id:
-        st.caption(f"Using cloned voice: {st.session_state.cloned_voice_name}")
+        st.caption(f"Your cloned voice: {st.session_state.cloned_voice_name}")
+        if st.button("🗑️ Delete my voice", key="delete_voice_btn"):
+            if delete_voice(EL_KEY, st.session_state.cloned_voice_id):
+                st.session_state.cloned_voice_id = None
+                st.session_state.cloned_voice_name = None
+                st.success("Your voice has been permanently deleted.")
+                st.rerun()
+            else:
+                st.error("Could not delete the voice. Please try again.")
+        st.caption(
+            "If you don't delete it, iRaaya removes it automatically "
+            "after 7 days."
+        )
 
 st.sidebar.divider()
 st.sidebar.caption(
     "🔒 To answer questions, a summary of your data is sent to Groq (AI). "
-    "Spoken answers use Google TTS or ElevenLabs. Nothing is stored by iRaaya."
+    "Spoken answers use Google TTS or ElevenLabs. iRaaya does not store your "
+    "data. Cloned voices are private to the person who made them."
 )
 
 if not GROQ_KEY:

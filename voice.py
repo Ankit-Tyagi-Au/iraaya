@@ -1,8 +1,10 @@
 """Voice output (gTTS, ElevenLabs), voice cloning and speech-to-text (Groq Whisper)."""
 
 import io
+import json
 import os
 import re
+import time
 
 import groq
 from elevenlabs.client import ElevenLabs
@@ -16,6 +18,11 @@ EL_MODEL = "eleven_multilingual_v2"
 EL_FALLBACK_MODEL = "eleven_flash_v2_5"
 EL_FALLBACK_LANGUAGES = {"vi"}
 DEFAULT_WHISPER_MODEL = "whisper-large-v3"
+
+# Every voice cloned through iRaaya carries this label, so the automatic
+# cleanup only ever touches iRaaya clones, never voices made elsewhere
+CLONE_LABEL = {"source": "iraaya"}
+CLONE_MAX_AGE_DAYS = 7
 
 AUDIO_MIME = {
     ".mp3": "audio/mpeg",
@@ -53,16 +60,17 @@ def speak_gtts(
 
 
 def list_voices(api_key: str) -> dict:
-    """Voices this ElevenLabs account can use: {name: voice_id}.
+    """Standard (premade) voices everyone may use: {name: voice_id}.
 
-    Free plans can use premade voices and their own clones, not library voices.
+    Cloned voices are deliberately left out: a clone belongs to the person
+    who made it and is only offered in their own session (see app.py).
     """
     try:
         client = ElevenLabs(api_key=api_key)
         voices = client.voices.search(page_size=100).voices
         return {
             v.name: v.voice_id for v in voices
-            if v.category in ("premade", "cloned", "generated", "professional")
+            if v.category == "premade"
         }
     except Exception as e:
         print(f"ElevenLabs voice list error: {e}")
@@ -131,7 +139,9 @@ def clone_voice(
         )
         voice = client.voices.ivc.create(
             name=name,
-            files=[(filename, audio_bytes, AUDIO_MIME.get(ext, "audio/mpeg"))]
+            files=[(filename, audio_bytes, AUDIO_MIME.get(ext, "audio/mpeg"))],
+            labels=json.dumps(CLONE_LABEL),
+            description="Created by iRaaya. Private to the person who made it.",
         )
         return voice.voice_id
     except Exception as e:
@@ -139,6 +149,44 @@ def clone_voice(
             f"Voice clone error: {e}"
         )
         return None
+
+
+def delete_voice(api_key: str, voice_id: str) -> bool:
+    """Permanently delete a cloned voice from ElevenLabs."""
+    try:
+        ElevenLabs(api_key=api_key).voices.delete(voice_id=voice_id)
+        return True
+    except Exception as e:
+        print(f"Voice delete error: {e}")
+        return False
+
+
+def is_expired_iraaya_clone(voice, now: float = None) -> bool:
+    """True for an iRaaya-made clone older than CLONE_MAX_AGE_DAYS."""
+    now = now or time.time()
+    labels = voice.labels or {}
+    created = voice.created_at_unix
+    return (
+        voice.category == "cloned"
+        and labels.get("source") == CLONE_LABEL["source"]
+        and created is not None
+        and now - created > CLONE_MAX_AGE_DAYS * 86400
+    )
+
+
+def cleanup_old_clones(api_key: str) -> int:
+    """Delete iRaaya clones older than 7 days. Returns how many were deleted."""
+    try:
+        client = ElevenLabs(api_key=api_key)
+        voices = client.voices.search(page_size=100, category="cloned").voices
+    except Exception as e:
+        print(f"Clone cleanup error: {e}")
+        return 0
+    deleted = 0
+    for v in voices:
+        if is_expired_iraaya_clone(v) and delete_voice(api_key, v.voice_id):
+            deleted += 1
+    return deleted
 
 
 def transcribe_audio_file(

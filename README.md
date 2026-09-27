@@ -61,6 +61,13 @@ To answer questions, a summary of the uploaded data is sent to Groq.
 Spoken answers are sent to Google TTS or ElevenLabs.
 iRaaya itself does not store uploaded data.
 
+### Your cloned voice stays private
+- A cloned voice is only used to speak **your own** answers, in your own session.
+- It is **never shown to, or shared with, other iRaaya users.** Other users only ever see the standard voices.
+- Your recording is sent to our voice partner ElevenLabs only to create the voice. iRaaya does not keep a copy.
+- You can **delete your voice at any time** with the "Delete my voice" button.
+- If you don't, iRaaya **removes it automatically after 7 days.**
+
 ## Deploy to Streamlit Cloud
 1. Push to GitHub (`.env` and `.streamlit/secrets.toml` are git-ignored)
 2. share.streamlit.io → New app → repo `iraaya`, branch `main`, file `app.py`
