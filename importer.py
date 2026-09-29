@@ -67,10 +67,22 @@ COLUMN_SYNONYMS = {
     ],
     "Customer_Type": [
         "customertype", "customer", "segment", "channel", "customergroup",
+        "ordertype", "saletype", "orderchannel", "servicetype",
+        "servicemode", "customercategory", "kundentyp", "kundengruppe",
+        "bestellart", "typeclient", "typedecommande", "tipocliente",
+        "tipodepedido", "tipodecliente", "tipodiordine", "ग्राहकप्रकार",
+        "ऑर्डरप्रकार", "客户类型", "订单类型", "顧客区分", "注文種別", "고객유형", "주문유형",
+        "نوعالعميل", "نوعالطلب", "loạikháchhàng", "loạiđơn",
+        "urinngcustomer", "τύποςπελάτη",
     ],
     "Payment_Method": [
         "paymentmethod", "payment", "paymentmode", "modeofpayment",
-        "tender", "paidby",
+        "tender", "paidby", "paymenttype", "payby", "zahlungsart",
+        "zahlungsmethode", "modedepaiement", "moyendepaiement",
+        "métodopago", "metodopago", "formadepago", "formadepagamento",
+        "metododipagamento", "भुगतान", "भुगतानमाध्यम", "付款方式", "支付方式",
+        "支払方法", "決済方法", "결제방법", "결제수단", "طريقةالدفع", "phươngthứcthanhtoán",
+        "paraanngpagbabayad", "τρόποςπληρωμής",
     ],
 }
 REQUIRED = ["Date", "Total_Revenue"]
