@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="iRaaya logo">
+  <defs>
+    <linearGradient id="drop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6cc3f7"/>
+      <stop offset="1" stop-color="#4aa3ea"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feFlood flood-color="#3b9eea" flood-opacity="0.75"/>
+      <feComposite in2="b" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <circle cx="128" cy="128" r="118" fill="#0b1120"/>
+  <path filter="url(#glow)" fill="url(#drop)"
+        d="M128 50 C150 88 188 116 188 152 A60 60 0 1 1 68 152 C68 116 106 88 128 50 Z"/>
+  <ellipse cx="103" cy="122" rx="9" ry="16" fill="#ffffff" opacity="0.28" transform="rotate(-25 103 122)"/>
+  <path d="M84 158 q11 -13 22 0 t22 0 t22 0 t22 0" fill="none" stroke="#e0f2fe"
+        stroke-width="6" stroke-linecap="round"/>
+  <circle cx="128" cy="56" r="8.5" fill="#ec5a9a"/>
+</svg>

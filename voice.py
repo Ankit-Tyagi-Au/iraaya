@@ -7,8 +7,14 @@ import time
 
 import groq
 from elevenlabs.client import ElevenLabs
+from elevenlabs.types import VoiceSettings
 from groq import Groq
 from gtts import gTTS
+
+# Voice speed choices. The free Google voice only has normal and slow;
+# ElevenLabs supports a real speed setting (about 0.7 to 1.2).
+SPEEDS = ["Slow", "Normal", "Fast"]
+EL_SPEED = {"Slow": 0.8, "Normal": 1.0, "Fast": 1.15}
 
 DEFAULT_VOICE_ID = "XrExE9yKIg1WjnnlVkGX"  # Matilda (premade; free plans can use premade voices)
 EL_MODEL = "eleven_multilingual_v2"
@@ -41,14 +47,16 @@ def clean_for_speech(text: str) -> str:
 
 def speak_gtts(
     text: str,
-    lang_code: str
+    lang_code: str,
+    speed: str = "Normal"
 ) -> bytes:
-    """Free text-to-speech. Returns MP3 bytes, or None if it fails."""
+    """Free text-to-speech. Returns MP3 bytes, or None if it fails.
+    Only "Slow" changes the speed; Google's free voice has no fast mode."""
     try:
         tts = gTTS(
             text=clean_for_speech(text),
             lang=lang_code,
-            slow=False
+            slow=(speed == "Slow")
         )
         audio_buffer = io.BytesIO()
         tts.write_to_fp(audio_buffer)
@@ -93,7 +101,8 @@ def speak_elevenlabs(
     text: str,
     api_key: str,
     voice_id: str = DEFAULT_VOICE_ID,
-    lang_code: str = None
+    lang_code: str = None,
+    speed: str = "Normal"
 ) -> bytes:
     """Premium text-to-speech. Returns MP3 bytes, or None if it fails."""
     try:
@@ -108,7 +117,11 @@ def speak_elevenlabs(
                 model_id=(
                     EL_FALLBACK_MODEL if lang_code in EL_FALLBACK_LANGUAGES
                     else EL_MODEL
-                )
+                ),
+                voice_settings=(
+                    VoiceSettings(speed=EL_SPEED[speed]) if speed in EL_SPEED
+                    and speed != "Normal" else None
+                ),
             )
         )
         return b"".join(audio)

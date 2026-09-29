@@ -14,7 +14,7 @@ import pdfplumber
 from docx.table import Table
 from docx.text.paragraph import Paragraph
 
-from analyser import REQUIRED_COLUMNS
+from importer import looks_like_sales_table
 
 DOCUMENT_TYPES = (".pdf", ".docx")
 
@@ -25,26 +25,21 @@ CHUNK_SIZE = 1500
 CHUNKS_PER_QUESTION = 4
 
 
-def _column_name(text) -> str:
-    """'Total Revenue ' -> 'Total_Revenue' so headers match our columns."""
-    return re.sub(r"\s+", "_", str(text or "").strip()).replace("-", "_")
-
-
 def _clean_rows(table):
     return [[(c or "").strip() for c in row] for row in table if any((c or "").strip() for c in row)]
 
 
 def find_sales_table(tables: list):
-    """Combine the tables whose header has the required columns. Tables that
-    continue on the next page without a header are added too."""
-    wanted = {c.lower() for c in REQUIRED_COLUMNS}
+    """Combine the tables whose header looks like sales data (a date and a
+    revenue/amount column). Tables that continue on the next page without
+    a header are added too. Columns are standardised later by the importer."""
     header, rows = None, []
     for table in tables:
         table = _clean_rows(table)
         if not table:
             continue
-        names = [_column_name(c) for c in table[0]]
-        if wanted <= {n.lower() for n in names}:
+        names = [str(c).strip() for c in table[0]]
+        if looks_like_sales_table(names):
             if header is None:
                 header = names
             if [n.lower() for n in names] == [h.lower() for h in header]:
@@ -53,10 +48,7 @@ def find_sales_table(tables: list):
             rows += table          # continuation without a header row
     if header is None or not rows:
         return None
-    df = pd.DataFrame(rows, columns=header)
-    # Match our exact column spelling (e.g. 'total_revenue' -> 'Total_Revenue')
-    canonical = {c.lower(): c for c in REQUIRED_COLUMNS}
-    return df.rename(columns={c: canonical.get(c.lower(), c) for c in df.columns})
+    return pd.DataFrame(rows, columns=header)
 
 
 def _lines(page, tolerance: float = 3):
@@ -79,8 +71,7 @@ def _header_columns(line):
             cols[-1] = (cols[-1][0] + " " + w["text"], cols[-1][1], w["x1"])
         else:
             cols.append((w["text"], w["x0"], w["x1"]))
-    names = {_column_name(c[0]).lower() for c in cols}
-    if {c.lower() for c in REQUIRED_COLUMNS} <= names:
+    if looks_like_sales_table([c[0] for c in cols]):
         return cols
     return None
 

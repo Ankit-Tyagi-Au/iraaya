@@ -1,13 +1,16 @@
 """Load, validate and summarise business sales data with pandas."""
 
 import difflib
+import io
 import os
 import re
 
 import numpy as np
 import pandas as pd
 
-REQUIRED_COLUMNS = ["Date", "Product", "Region", "Total_Revenue"]
+from importer import ALL, prepare_table
+
+REQUIRED_COLUMNS = ["Date", "Total_Revenue"]   # Product and Region are optional
 
 # Keep the AI context a sensible size for large files
 MAX_PRODUCTS_IN_CONTEXT = 15
@@ -27,70 +30,58 @@ MONTHS = {m: i for i, m in enumerate(
 _MON = r"(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?"
 
 
-def load_data(file) -> pd.DataFrame:
+def _read_raw(file, ext: str) -> pd.DataFrame:
+    """Read a CSV or Excel file as-is. CSVs may use , ; or tab between
+    columns and any common text encoding."""
+    if ext in (".xlsx", ".xls"):
+        return pd.read_excel(file)
+    data = file.getvalue() if hasattr(file, "getvalue") else open(file, "rb").read()
+    for encoding in ("utf-8-sig", "cp1252", "latin-1"):
+        try:
+            text = data.decode(encoding)
+            break
+        except UnicodeDecodeError:
+            continue
+    first_line = text.splitlines()[0] if text else ""
+    sep = max([",", ";", "\t", "|"], key=first_line.count)
+    return pd.read_csv(io.StringIO(text), sep=sep)
+
+
+def load_data(file, date_order: str = "day-first") -> pd.DataFrame:
     """Read a CSV or Excel file (path or uploaded file) and clean it.
 
-    Rows with an unreadable date or revenue are dropped; how many is
-    stored in df.attrs["dropped_rows"] so validate_data can warn about it.
+    date_order: how to read dates like 03/04/2025 when the file itself
+    doesn't make it clear ("day-first" or "month-first").
     """
     name = getattr(file, "name", str(file))
     ext = os.path.splitext(name)[1].lower()
-
+    if ext not in (".csv", ".xlsx", ".xls"):
+        raise ValueError(
+            f"iRaaya can't open '{ext or name}' files. Please upload CSV, "
+            "Excel (.xlsx, .xls), PDF or Word (.docx)."
+        )
     try:
-        if ext == ".csv":
-            df = pd.read_csv(file)
-        elif ext in (".xlsx", ".xls"):
-            df = pd.read_excel(file)
-        else:
-            raise ValueError(
-                f"Unsupported file type '{ext}'. "
-                "Please upload a CSV or Excel file."
-            )
-    except ValueError:
-        raise
+        raw = _read_raw(file, ext)
     except Exception as e:
-        raise ValueError(f"Could not read the file: {e}") from e
-
-    return clean_dataframe(df)
-
-
-def _to_number(series: pd.Series) -> pd.Series:
-    """Numbers written as text ("₹1,000", "$ 500", "1 200") -> numbers."""
-    if not pd.api.types.is_numeric_dtype(series):
-        series = series.astype(str).str.replace(r"[^0-9.\-]", "", regex=True)
-    return pd.to_numeric(series, errors="coerce")
+        raise ValueError(
+            "iRaaya couldn't read this file. Please check it opens in Excel, "
+            f"or save it again as CSV or .xlsx. (Details: {e})"
+        ) from e
+    return clean_dataframe(raw, date_order)
 
 
-def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    """Tidy a table from any source (CSV, Excel, PDF, Word).
-
-    Rows with an unreadable date or revenue are dropped; how many is
-    stored in df.attrs["dropped_rows"] so validate_data can warn about it.
-    """
-    df = df.copy()
-    df.columns = [str(c).strip() for c in df.columns]
-
-    rows_before = len(df)
-    if "Date" in df.columns:
-        df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
-        df = df.dropna(subset=["Date"])
-    if "Total_Revenue" in df.columns:
-        df["Total_Revenue"] = _to_number(df["Total_Revenue"])
-        df = df.dropna(subset=["Total_Revenue"])
-    for col in ("Units_Sold", "Unit_Price"):
-        if col in df.columns:
-            df[col] = _to_number(df[col])
-
-    df = df.sort_values("Date") if "Date" in df.columns else df
-    df = df.reset_index(drop=True)
-    df.attrs["dropped_rows"] = rows_before - len(df)
-    return df
+def clean_dataframe(df: pd.DataFrame, date_order: str = "day-first") -> pd.DataFrame:
+    """Tidy a table from any source (CSV, Excel, PDF, Word) into iRaaya's
+    standard columns. What was recognised, filled in or skipped is kept in
+    df.attrs["import_report"]."""
+    clean, _ = prepare_table(df, date_order)
+    return clean
 
 
 def validate_data(df) -> dict:
-    missing = [
-        c for c in REQUIRED_COLUMNS
-        if c not in df.columns
+    report = df.attrs.get("import_report", {})
+    missing = report.get("missing_required") or [
+        c for c in REQUIRED_COLUMNS if c not in df.columns
     ]
     warnings = []
 
@@ -111,6 +102,7 @@ def validate_data(df) -> dict:
     return {
         "is_valid": len(missing) == 0 and len(df) > 0,
         "missing_columns": missing,
+        "found_columns": list(df.columns),
         "warnings": warnings,
         "row_count": len(df)
     }

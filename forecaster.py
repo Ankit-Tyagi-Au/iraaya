@@ -14,6 +14,8 @@ import pandas as pd
 import plotly.graph_objects as go
 from sklearn.linear_model import LinearRegression
 
+from formatting import fmt_money, plotly_separators
+
 from analyser import detect_anomalies
 
 MIN_MONTHS = 3
@@ -100,15 +102,23 @@ def forecast_revenue(
 
 def forecast_chart(
     historical: list,
-    forecast: list
+    forecast: list,
+    symbol: str = "",
+    style: str = "intl"
 ):
     fig = go.Figure()
 
-    hist_x = [h["date"] for h in historical]
+    def month_name(p):
+        try:
+            return pd.Period(p).strftime("%b %Y")
+        except Exception:
+            return p
+
+    hist_x = [month_name(h["date"]) for h in historical]
     hist_y = [h["revenue"] for h in historical]
 
     # Start the forecast line at the last actual month so the lines connect
-    fc_x = [hist_x[-1]] + [f["date"] for f in forecast]
+    fc_x = [hist_x[-1]] + [month_name(f["date"]) for f in forecast]
     fc_y = [hist_y[-1]] + [f["predicted_revenue"] for f in forecast]
     low_y = [hist_y[-1]] + [f["low"] for f in forecast]
     high_y = [hist_y[-1]] + [f["high"] for f in forecast]
@@ -133,7 +143,8 @@ def forecast_chart(
             width=2
         ),
         mode="lines+markers",
-        hovertemplate="%{x}<br>%{y:,.0f}<extra>Actual</extra>",
+        customdata=[fmt_money(v, symbol, style) for v in hist_y],
+        hovertemplate="%{x}<br>%{customdata}<extra>Actual</extra>",
     ))
 
     fig.add_trace(go.Scatter(
@@ -146,16 +157,19 @@ def forecast_chart(
             dash="dash"
         ),
         mode="lines+markers",
-        hovertemplate="%{x}<br>%{y:,.0f}<extra>Forecast</extra>",
+        customdata=[fmt_money(v, symbol, style) for v in fc_y],
+        hovertemplate="%{x}<br>%{customdata}<extra>Forecast</extra>",
     ))
 
     fig.update_layout(
-        title="Revenue Forecast",
+        title="🔮 Revenue forecast (next 3 months)",
         template="plotly_dark",
         plot_bgcolor="#1e293b",
         paper_bgcolor="#1e293b",
         xaxis_title="",
         yaxis_title="Revenue",
+        height=450,
+        separators=plotly_separators(style),
         margin=dict(l=10, r=10, t=50, b=10),
         legend=dict(orientation="h", y=-0.15),
     )
@@ -167,6 +181,9 @@ def forecast_chart(
         categoryarray=hist_x + fc_x[1:],
         gridcolor="#334155",
     )
-    fig.update_yaxes(tickformat=",.0f", gridcolor="#334155")
+    from charts import money_ticks
+    top = max(max(high_y), max(hist_y)) * 1.08
+    vals, text = money_ticks(0, top, symbol, style)
+    fig.update_yaxes(tickvals=vals, ticktext=text, range=[0, top], gridcolor="#334155")
 
     return fig

@@ -27,6 +27,7 @@ CSS = """
 }
 #rec-btn.live { background: #ef4444; animation: pulse 1.2s infinite; }
 #rec-btn.busy { background: #334155; cursor: default; }
+#rec-btn.speaking { background: #10b981; }
 @keyframes pulse { 50% { opacity: .75; } }
 #rec-status { margin-top: 8px; font-size: 13px; color: #94a3b8; text-align: center; }
 """
@@ -68,9 +69,17 @@ export default function (component) {
       const src = P.ctx.createBufferSource();
       src.buffer = buffer;
       src.connect(P.ctx.destination);
-      src.onended = () => { if (P.src === src) P.src = null; };
+      src.onended = () => {
+        if (P.src === src) P.src = null;
+        if (!s.recording && btn.className === 'speaking') idle();
+      };
       src.start(0);
       P.src = src;
+      if (!s.recording) {                        // show that iRaaya is talking
+        btn.textContent = '🔊 Speaking… (tap to ask next)';
+        btn.className = 'speaking';
+        status.textContent = 'Tap to stop the answer and ask your next question.';
+      }
     } catch (e) { /* the ▶ player below the answer still works */ }
   };
   const play = component.data && component.data.play;

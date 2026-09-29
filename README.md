@@ -15,17 +15,25 @@ to be understood clearly,
 in any language.
 
 ## Features
-- Upload CSV or Excel business data, or a PDF/Word file with a sales table
-- Ask questions about any PDF or Word document (reports, invoices, letters)
-- Ask questions by voice or text
-- Get answers in 13 languages
-- Voice cloning — speak in any voice
-- Auto business insights
-- Revenue forecasting with a likely range
-- Unusual-month detection
-- Business health score
-- PDF report export
-- WhatsApp summary sharing
+- Upload sales data: CSV or Excel (.xlsx, .xls), or a PDF/Word file with a sales table
+- Works with files from anywhere: column names in 13 languages, European (1.234,56),
+  Indian (12,34,567) and US number styles, day/month or month/day dates
+- Only a date and an amount column are required (Product, Region, Customer type
+  and Payment method are used when present)
+- Data preview after upload: rows, date range, products, regions, missing values,
+  how each column was read
+- Dashboard: 6 key-number cards with changes vs the previous period, 5 charts,
+  unusual-month alerts, clean CSV download
+- Filters: date range, product, region, customer type, payment method
+- Company name, 31 currencies and 4 number formats (Settings tab)
+- Ask by voice (stops when you pause) or text, in 13 languages, 3 answer styles
+- Answers from your real data, including individual records ("What happened on 15 April?")
+- Voice: free or premium voice, speed, preview, voice cloning with privacy protections
+- Chat: timestamps, voice on every answer, copy buttons, save as text or PDF
+- Ask questions about any PDF or Word document (with page numbers)
+- Insights, 3-month forecast with likely range and trend fit, business health score
+- PDF report with company header, logo, charts and currency; WhatsApp summary
+- Your work is remembered on your device (refresh, restart and update safe)
 
 ## Setup
 1. Clone this repo
@@ -67,11 +75,12 @@ Without ElevenLabs, iRaaya speaks with free Google Text-to-Speech (gTTS).
 To answer questions, a summary of the uploaded data is sent to Groq.
 Spoken answers are sent to Google TTS or ElevenLabs.
 
-So a page refresh doesn't lose your work, iRaaya keeps your data, conversation
-and settings **in server memory for up to 24 hours**, under a random private
-code in your page address. It is **never saved to disk**, and it disappears when
-the app restarts. Anyone with your full link (including the code) could see it,
-so share only `iraaya.streamlit.app`. Use **Start fresh** to forget it immediately.
+Your data, conversation, spoken answers and settings are kept **only in your own
+browser on your device** (IndexedDB), so a refresh, a server restart or an app update
+doesn't lose them. Nothing is stored on the server. On a shared device, use
+**Start fresh** / **Clear all my data** to remove them. (Safari may clear site data
+after a few weeks without visits.)
+
 
 ### Your cloned voice stays private
 - A cloned voice is only used to speak **your own** answers, in your own session.
