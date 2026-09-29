@@ -11,8 +11,9 @@ import json
 import os
 import re
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 from urllib.parse import quote
 
 import pandas as pd
@@ -394,6 +395,22 @@ if st.session_state.pop("forget_pending", False):
     for key in [k for k in st.session_state if k.startswith("f_")] + ["main_tab"]:
         st.session_state.pop(key, None)
     st.session_state._clear_device = True
+
+
+def user_now() -> datetime:
+    """The time where the visitor is (the server runs on UTC)."""
+    try:
+        if st.context.timezone:
+            return datetime.now(ZoneInfo(st.context.timezone))
+    except Exception:
+        pass
+    try:
+        offset = st.context.timezone_offset       # minutes, as the browser reports it
+        if offset is not None:
+            return datetime.now(timezone(timedelta(minutes=-offset)))
+    except Exception:
+        pass
+    return datetime.now()
 
 
 def show_error(e: Exception):
@@ -927,7 +944,7 @@ def answer_question(question: str, asked_by_voice: bool = False) -> bool:
         show_error(e)
         return False
 
-    now = datetime.now()
+    now = user_now()
     wants_voice = speak_mode == "Always" or (speak_mode == "Match my question" and asked_by_voice)
     audio = speak(answer) if wants_voice else None
     answer_id = uuid.uuid4().hex
@@ -946,7 +963,7 @@ def message_bubble(msg: dict, autoplay: bool = False):
     with st.chat_message(msg["role"], avatar=avatar):
         st.markdown(msg["content"])
         stamp = msg.get("time", "")
-        if msg.get("date") and msg["date"] != datetime.now().strftime("%d %b %Y"):
+        if msg.get("date") and msg["date"] != user_now().strftime("%d %b %Y"):
             stamp = f"{msg['date']} {stamp}"
         extra = " · 🎤 asked by voice" if msg.get("voice") else ""
         if msg["role"] == "assistant" and msg.get("lang"):
@@ -1053,7 +1070,7 @@ if tab2.open:
                                "sound that starts by itself.")
 
                 st.divider()
-                t = conversation_text(history, COMPANY)
+                t = conversation_text(history, COMPANY, user_now())
                 c1, c2, c3, c4 = st.columns(4)
                 with c1:
                     copy_button(t, key="copy_all", label="📋 Copy conversation")
@@ -1063,7 +1080,7 @@ if tab2.open:
                 c3.download_button("⬇️ Save as text", t.encode("utf-8"), "iraaya_conversation.txt",
                                    "text/plain", width="stretch")
                 try:
-                    pdf, skipped = generate_conversation_pdf(history, COMPANY)
+                    pdf, skipped = generate_conversation_pdf(history, COMPANY, user_now())
                     c4.download_button("⬇️ Save as PDF", pdf, "iraaya_conversation.pdf",
                                        "application/pdf", width="stretch")
                     if skipped:
@@ -1161,6 +1178,7 @@ if tab3.open:
                         health, A["anomalies"], SYM, NSTYLE, card_numbers(df, prev),
                         "; ".join(filter_tags), summary["monthly_revenue"],
                         summary["top_products"] if df.Product.nunique() > 1 else None,
+                        now=user_now(),
                     )
                     st.download_button("📄 Download PDF Report", pdf_bytes, "iraaya_report.pdf",
                                        "application/pdf")

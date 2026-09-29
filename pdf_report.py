@@ -247,6 +247,7 @@ def generate_pdf(
     filters_text: str = "",
     monthly: dict = None,
     products: dict = None,
+    now: datetime = None,
 ) -> bytes:
     """The business report. monthly/products: {label: revenue} for the charts."""
     S = _styles()
@@ -256,7 +257,7 @@ def generate_pdf(
         company_name, "Business Intelligence Report",
         [f"Data period: {summary.get('date_range', 'N/A')}",
          f"Filters: {filters_text}" if filters_text else "Filters: none (all data)",
-         f"Generated: {datetime.now().strftime('%d %B %Y')}"], S),
+         f"Generated: {(now or datetime.now()).strftime('%d %B %Y')}"], S),
         Spacer(1, 6 * mm)]
 
     story.append(_p("Key Metrics", S["h2"]))
@@ -329,10 +330,10 @@ def generate_pdf(
     return buffer.getvalue()
 
 
-def conversation_text(messages: list, company: str = "") -> str:
+def conversation_text(messages: list, company: str = "", now: datetime = None) -> str:
     """The conversation as plain text (works in every language)."""
     lines = [f"iRaaya conversation{' — ' + company if company else ''}",
-             f"Saved {datetime.now().strftime('%d %B %Y %H:%M')}", ""]
+             f"Saved {(now or datetime.now()).strftime('%d %B %Y %H:%M')}", ""]
     for m in messages:
         who = "You" if m["role"] == "user" else "iRaaya"
         lines += [f"[{m.get('time', '')}] {who}:", m["content"], ""]
@@ -340,13 +341,13 @@ def conversation_text(messages: list, company: str = "") -> str:
     return "\n".join(lines)
 
 
-def generate_conversation_pdf(messages: list, company: str = "") -> tuple:
+def generate_conversation_pdf(messages: list, company: str = "", now: datetime = None) -> tuple:
     """Returns (pdf_bytes, skipped_count). Messages in a script the PDF
     can't draw are replaced by a note (use the text file for those)."""
     S = _styles()
     buffer = io.BytesIO()
     story = [_stamp(company or "iRaaya", "Conversation with iRaaya",
-                    [f"Saved {datetime.now().strftime('%d %B %Y %H:%M')}"], S), Spacer(1, 5 * mm)]
+                    [f"Saved {(now or datetime.now()).strftime('%d %B %Y %H:%M')}"], S), Spacer(1, 5 * mm)]
     skipped = 0
     for m in messages:
         who, color = ("You", colors.HexColor("#1e3a8a")) if m["role"] == "user" else ("iRaaya", colors.HexColor("#065f46"))
