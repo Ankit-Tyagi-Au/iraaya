@@ -47,6 +47,14 @@ def _read_raw(file, ext: str) -> pd.DataFrame:
     return pd.read_csv(io.StringIO(text), sep=sep)
 
 
+def read_any_table(file) -> pd.DataFrame:
+    """Any CSV/Excel table as it is (for files that aren't sales data)."""
+    name = getattr(file, "name", str(file))
+    raw = _read_raw(file, os.path.splitext(name)[1].lower())
+    raw.columns = [str(c).strip() for c in raw.columns]
+    return raw.dropna(how="all").dropna(axis=1, how="all")
+
+
 def load_data(file, date_order: str = "day-first") -> pd.DataFrame:
     """Read a CSV or Excel file (path or uploaded file) and clean it.
 
@@ -172,6 +180,8 @@ def _growth_pct(series: pd.Series, window: int = 3):
     Median rather than mean, so one unusual month at either end
     (a crash or a seasonal peak) does not distort growth.
     """
+    if len(series) < 2:
+        return None            # growth needs at least two months
     if len(series) < window * 2:
         window = max(1, len(series) // 2)
     first = series.iloc[:window].median()
@@ -345,7 +355,7 @@ def get_data_context(df) -> str:
         return "\n".join(f"  {k}: {v:,.0f}" for k, v in d.items())
 
     def fmt_pct(v):
-        return f"{v:+.1f}%" if v is not None else "n/a"
+        return f"{v:+.1f}%" if v is not None else "not available (needs 2+ months of data)"
 
     def fmt_growth(d):
         return "\n".join(f"  {k}: {fmt_pct(v)}" for k, v in d.items())

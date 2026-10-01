@@ -16,7 +16,7 @@ from docx.text.paragraph import Paragraph
 
 from importer import looks_like_sales_table
 
-DOCUMENT_TYPES = (".pdf", ".docx")
+DOCUMENT_TYPES = (".pdf", ".docx", ".txt")
 
 # Groq's free plan allows ~8,000 tokens a minute, so documents longer than
 # this are not sent whole: only the parts most relevant to each question
@@ -107,15 +107,17 @@ def _page_marker(n: int) -> str:
 
 
 def _read_pdf(file):
-    tables, pages_text = [], []
+    tables, pages_text, found = [], [], []
     with pdfplumber.open(file) as pdf:
         n_pages = len(pdf.pages)
         for i, page in enumerate(pdf.pages, start=1):
-            tables += page.extract_tables() or []        # tables with lines
+            page_tables = page.extract_tables() or []     # tables with lines
+            tables += page_tables
+            found += [{"page": i, "rows": _clean_rows(t)} for t in page_tables if len(_clean_rows(t)) >= 2]
             pages_text.append(f"{_page_marker(i)}\n{page.extract_text() or ''}")
         if find_sales_table(tables) is None:
             tables = _aligned_table(pdf)                  # tables without lines
-    return tables, "\n\n".join(pages_text), n_pages, "pdf"
+    return tables, "\n\n".join(pages_text), n_pages, "pdf", found
 
 
 RENDERED_BREAK = "<w:lastRenderedPageBreak"
@@ -132,13 +134,15 @@ def _read_docx(file):
     marker = RENDERED_BREAK if RENDERED_BREAK in body_xml else HARD_BREAK
     has_pages = marker in body_xml
 
-    tables, parts, page = [], [_page_marker(1)] if has_pages else [], 1
+    tables, parts, page, found = [], [_page_marker(1)] if has_pages else [], 1, []
     for block in d.iter_inner_content():          # paragraphs and tables, in order
         xml = block._element.xml
         breaks = xml.count(marker) if has_pages else 0
         if isinstance(block, Table):
             rows = [[cell.text for cell in row.cells] for row in block.rows]
             tables.append(rows)
+            if len(_clean_rows(rows)) >= 2:
+                found.append({"page": page if has_pages else None, "rows": _clean_rows(rows)})
             text = "\n".join(" | ".join(r) for r in rows)
             before = False
         else:
@@ -159,7 +163,7 @@ def _read_docx(file):
         "word-layout" if marker == RENDERED_BREAK and has_pages
         else "manual-breaks" if has_pages else None
     )
-    return tables, "\n".join(parts), (page if has_pages else None), source
+    return tables, "\n".join(parts), (page if has_pages else None), source, found
 
 
 def read_document(file) -> dict:
@@ -170,9 +174,18 @@ def read_document(file) -> dict:
     ext = os.path.splitext(name)[1].lower()
     try:
         if ext == ".pdf":
-            tables, text, pages, page_source = _read_pdf(file)
+            tables, text, pages, page_source, found = _read_pdf(file)
         elif ext == ".docx":
-            tables, text, pages, page_source = _read_docx(file)
+            tables, text, pages, page_source, found = _read_docx(file)
+        elif ext == ".txt":
+            data = file.getvalue() if hasattr(file, "getvalue") else open(file, "rb").read()
+            for enc in ("utf-8-sig", "cp1252", "latin-1"):
+                try:
+                    text = data.decode(enc)
+                    break
+                except UnicodeDecodeError:
+                    continue
+            tables, pages, page_source, found = [], None, None, []
         else:
             raise ValueError(f"Unsupported document type '{ext}'.")
     except ValueError:
@@ -186,11 +199,12 @@ def read_document(file) -> dict:
     text = re.sub(r"[ \t]+", " ", text).strip()
     if len(text) < 20:
         raise ValueError(
-            "No readable text found. If this is a scanned PDF (a photo of "
-            "pages), iRaaya can't read it yet — please upload a PDF with "
-            "real text, or a Word or Excel file."
+            "This file has no text iRaaya can read. If it's a scanned PDF (a photo "
+            "of pages), iRaaya can't read it yet — please use a PDF with real text, "
+            "or a Word or Excel file."
         )
-    return {"kind": "document", "text": text, "pages": pages, "page_source": page_source}
+    return {"kind": "document", "text": text, "pages": pages, "page_source": page_source,
+            "tables": found}
 
 
 PAGE_QUESTION = re.compile(

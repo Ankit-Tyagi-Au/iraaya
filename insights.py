@@ -8,6 +8,8 @@ from groq import Groq
 
 from prompts import (
     get_document_prompt,
+    get_glance_prompt,
+    get_period_summary_prompt,
     get_system_prompt,
     get_insights_prompt,
     get_whatsapp_prompt
@@ -188,3 +190,37 @@ def generate_whatsapp_summary(
     )
     # WhatsApp bold is *text*, not **text**
     return text.replace("**", "*")
+
+
+def _normalise(text: str) -> str:
+    import re
+    return re.sub(r"\s+", " ", str(text)).strip().lower()
+
+
+def document_glance(document_text: str, document_name: str, api_key: str,
+                    language: str = "English") -> dict:
+    """Short summary + key numbers. Every number's quote is checked against
+    the document; numbers that can't be found there are dropped."""
+    raw = _chat(api_key, [{"role": "user", "content": get_glance_prompt(
+        document_text, document_name, language)}], temperature=0.1, max_tokens=900,
+        reasoning_effort="medium")
+    start, end = raw.find("{"), raw.rfind("}")
+    try:
+        data = json.loads(raw[start:end + 1])
+    except Exception:
+        return {"summary": raw.strip()[:600], "key_numbers": []}
+    text = _normalise(document_text)
+    checked = []
+    for item in data.get("key_numbers", [])[:6]:
+        value, quote = str(item.get("value", "")), str(item.get("quote", ""))
+        if value and quote and _normalise(value) in _normalise(quote) and _normalise(quote) in text:
+            checked.append({"label": str(item.get("label", "")), "value": value,
+                            "page": item.get("page"), "quote": quote})
+    return {"summary": str(data.get("summary", "")), "key_numbers": checked}
+
+
+def summarise_period(data_context: str, period: str, api_key: str,
+                     language: str = "English", mode: str = "Simple") -> str:
+    """A short spoken-friendly summary of one period (a day, week, month...)."""
+    return _chat(api_key, [{"role": "user", "content": get_period_summary_prompt(
+        data_context, period, language, mode)}], temperature=0.3, max_tokens=500)

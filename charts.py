@@ -203,3 +203,47 @@ def product_comparison(df: pd.DataFrame, symbol: str = "", style: str = "intl"):
     fig.update_xaxes(type="category", categoryorder="array",
                      categoryarray=[m.strftime("%b %Y") for m in months], title_text="")
     return _style(fig, symbol, style, high=monthly.Revenue.max() if len(monthly) else 0, headroom=1.1)
+
+
+def table_charts(rows: list, limit: int = 3) -> list:
+    """Bar charts for any table (from a document or a spreadsheet): one
+    chart per number column, so numbers on different scales (revenue vs
+    % change) each stay readable. The first mostly-text column gives the
+    labels; "$512,300", "+9%", "1.234,56" all count as numbers.
+    Returns [] if the table has nothing to chart."""
+    from importer import to_number
+
+    if not rows or len(rows) < 3:
+        return []
+    header = [str(h).strip() or f"Column {i + 1}" for i, h in enumerate(rows[0])]
+    body = [list(r) + [""] * (len(header) - len(r)) for r in rows[1:]]
+    data = pd.DataFrame([r[:len(header)] for r in body], columns=header)
+    numeric = {}
+    for col in data.columns:
+        values = to_number(data[col].astype(str))
+        if values.notna().mean() >= 0.7:
+            numeric[col] = values
+    labels = [c for c in data.columns if c not in numeric]
+    if not numeric or not labels or len(data) > 60:
+        return []
+    label = labels[0]
+    figs = []
+    for col in list(numeric)[:limit]:
+        chart = pd.DataFrame({label: data[label].astype(str), col: numeric[col]}).dropna()
+        if chart.empty:
+            continue
+        is_pct = data[col].astype(str).str.contains("%").mean() > 0.5
+        def show(v):
+            if is_pct:
+                return f"{v:+,.4g}%"
+            return f"{v:,.0f}" if abs(v) >= 100 else f"{v:,.4g}"
+        chart["_text"] = chart[col].map(show)
+        fig = px.bar(chart, x=label, y=col, text="_text", template="plotly_dark",
+                     title=f"📊 {col} by {label}", color_discrete_sequence=[PALETTE[len(figs) % len(PALETTE)]])
+        fig.update_traces(textposition="outside", cliponaxis=False)
+        lo, hi = chart[col].min(), chart[col].max()
+        fig.update_layout(plot_bgcolor=BG, paper_bgcolor=BG, height=380, showlegend=False,
+                          margin=dict(l=10, r=10, t=60, b=10), yaxis_title="", xaxis_title="")
+        fig.update_yaxes(gridcolor="#334155", range=[min(0, lo * 1.2), max(0, hi * 1.2) or 1])
+        figs.append(fig)
+    return figs

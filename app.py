@@ -28,11 +28,13 @@ from analyser import (
     get_data_context,
     get_summary,
     load_data,
+    read_any_table,
     validate_data,
     vocabulary_hint,
 )
 from browser_tools import copy_button, device_storage
 from charts import (
+    table_charts,
     product_comparison,
     regional_performance,
     revenue_by_month,
@@ -52,6 +54,8 @@ from importer import ALL
 from insights import (
     IRaayaError,
     ask_document,
+    document_glance,
+    summarise_period,
     ask_iraaya,
     generate_insights,
     generate_whatsapp_summary,
@@ -139,12 +143,50 @@ div[data-testid="stChatMessage"]:not(:has(div[data-testid="stChatMessageAvatarUs
 .hero h1 { font-size: 2.6rem; margin: 6px 0 0 0; }
 .step { background: #1e293b; border: 1px solid #334155; border-radius: 14px; padding: 16px; height: 100%; }
 .step b { color: #38bdf8; font-size: 1.05rem; }
+/* A livelier background: soft glows in the logo's colours, drifting slowly */
+[data-testid="stApp"] {
+  background:
+    radial-gradient(900px 520px at 8% -8%, rgba(14,165,233,.20), transparent 60%),
+    radial-gradient(760px 480px at 105% 12%, rgba(236,90,154,.14), transparent 60%),
+    radial-gradient(900px 600px at 45% 115%, rgba(16,185,129,.14), transparent 60%),
+    #0f172a;
+  background-size: 140% 140%;
+  animation: drift 28s ease-in-out infinite alternate;
+}
+@keyframes drift { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
+@media (prefers-reduced-motion: reduce) { [data-testid="stApp"] { animation: none; } }
+[data-testid="stHeader"] { background: transparent; }
+[data-testid="stSidebar"] { background: rgba(15, 23, 42, .82); backdrop-filter: blur(8px); }
+/* Big, friendly tiles on the Home screen */
+.st-key-tiles button {
+  min-height: 118px; border-radius: 20px; border: 1px solid rgba(255,255,255,.08);
+  font-size: 1.15rem; font-weight: 600; white-space: pre-line; line-height: 1.35;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25); transition: transform .12s ease, box-shadow .12s ease;
+}
+.st-key-tiles button:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,.35); }
+.st-key-tiles button p { font-size: 1.2rem; white-space: normal; }
+.st-key-tiles [data-testid="stCaptionContainer"] { text-align: center; margin-top: -6px; }
+.st-key-tile_business button { background: linear-gradient(135deg, #0369a1, #0ea5e9); }
+.st-key-tile_ask button      { background: linear-gradient(135deg, #047857, #10b981); }
+.st-key-tile_summary button  { background: linear-gradient(135deg, #6d28d9, #818cf8); }
+.st-key-tile_tips button     { background: linear-gradient(135deg, #b45309, #f59e0b); }
+.st-key-tile_settings button { background: linear-gradient(135deg, #334155, #64748b); }
+.st-key-tile_new button      { background: linear-gradient(135deg, #be185d, #ec5a9a); }
+/* The three ways to start */
+.st-key-opt_sales, .st-key-opt_sample, .st-key-opt_any {
+  background: rgba(30, 41, 59, .75); border-radius: 18px !important; min-height: 100%;
+}
+.st-key-opt_sales { border-top: 4px solid #0ea5e9 !important; }
+.st-key-opt_sample { border-top: 4px solid #10b981 !important; }
+.st-key-opt_any { border-top: 4px solid #ec5a9a !important; }
+[data-testid="stFileUploaderDropzone"] { border: 2px dashed #38bdf8; border-radius: 14px; }
 /* Phones: full-width buttons, readable text, less side space */
 @media (max-width: 640px) {
   div.stButton > button, div.stDownloadButton > button { width: 100%; }
   div[data-testid="stChatMessage"] { width: 96% !important; }
   div[data-testid="stMetricValue"] { font-size: 1.4rem; }
   .hero h1 { font-size: 2rem; }
+  .st-key-tiles button { min-height: 76px; }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -171,6 +213,10 @@ DEFAULTS = {
     "doc_name": None,
     "doc_pages": None,
     "doc_page_source": None,
+    "doc_tables": [],        # tables found in the document: [{"page": n, "rows": [...]}]
+    "doc_kind": None,        # "document" or "table" (a spreadsheet that isn't sales data)
+    "doc_glance": None,      # AI summary + checked key numbers
+    "period_summaries": {},  # written summaries per period
 }
 # Settings (widget keys) — remembered on this device
 SETTING_DEFAULTS = {
@@ -257,8 +303,13 @@ def set_data(df, name: str, data_key: str, source: dict, keep_history: bool = Fa
 
 
 def set_document(text: str, name: str, pages, data_key: str, page_source, source: dict,
-                 keep_history: bool = False):
-    """Keep a PDF/Word document (no sales table) to answer questions about."""
+                 keep_history: bool = False, tables: list = None, kind: str = "document"):
+    """Keep a document (or a spreadsheet that isn't sales data) to show and
+    answer questions about."""
+    st.session_state.doc_tables = tables or []
+    st.session_state.doc_kind = kind
+    if not keep_history:
+        st.session_state.doc_glance = None
     st.session_state.df = None
     st.session_state.import_report = None
     st.session_state.warnings = []
@@ -274,6 +325,20 @@ def set_document(text: str, name: str, pages, data_key: str, page_source, source
         st.session_state.insights = []
         st.session_state.whatsapp = None
         st.session_state.play = None
+        st.session_state.period_summaries = {}
+
+
+def table_as_document(data: bytes, name: str, data_key: str, source: dict, keep_history: bool):
+    """A spreadsheet without a date + amount: show it as a table, chart it,
+    and let people ask about it."""
+    f = io.BytesIO(data)
+    f.name = name
+    raw = read_any_table(f)
+    rows = [list(map(str, raw.columns))] + raw.head(500).astype(str).values.tolist()
+    text = raw.head(400).to_csv(index=False)
+    set_document(text, name, None, data_key, "table", source, keep_history,
+                 tables=[{"page": None, "rows": rows}], kind="table")
+    return True
 
 
 def load_upload(data: bytes, name: str, data_key: str, keep_history: bool = False, progress=None):
@@ -292,11 +357,14 @@ def load_upload(data: bytes, name: str, data_key: str, keep_history: bool = Fals
         if doc["kind"] == "table":
             return set_data(_with_report(doc["df"], doc["report"]), name, data_key, source, keep_history)
         set_document(doc["text"], name, doc["pages"], data_key, doc.get("page_source"),
-                     source, keep_history)
+                     source, keep_history, tables=doc.get("tables"))
         return True
     df, report = parse_table_file(data, name, order)
     if progress:
         progress.progress(75, text="Analysing…")
+    if not validate_data(_with_report(df, report))["is_valid"]:
+        # Not sales data (no date + amount): still useful as a table
+        return table_as_document(data, name, data_key, source, keep_history)
     return set_data(_with_report(df, report), name, data_key, source, keep_history)
 
 
@@ -333,7 +401,8 @@ def apply_restore(rec: dict):
         elif src.get("kind") == "document" and rec.get("doc"):
             d = rec["doc"]
             set_document(d["text"], d["name"], d.get("pages"), d.get("key"), d.get("page_source"),
-                         src, keep_history=True)
+                         src, keep_history=True, tables=d.get("tables"), kind=d.get("kind") or "document")
+            st.session_state.doc_glance = d.get("glance")
     except Exception:
         pass    # a file that can't be read again is simply not restored
     history = []
@@ -343,7 +412,7 @@ def apply_restore(rec: dict):
         history.append(m)
     st.session_state.chat_history = history
     extras = rec.get("extras") or {}
-    for key in ("insights", "whatsapp", "cloned_voice_id", "cloned_voice_name"):
+    for key in ("insights", "whatsapp", "cloned_voice_id", "cloned_voice_name", "period_summaries"):
         if key in extras:
             st.session_state[key] = extras[key]
     for key, value in (extras.get("filters") or {}).items():
@@ -362,7 +431,8 @@ def snapshot_parts() -> dict:
     if is_document():
         doc = {"text": st.session_state.doc_text, "name": st.session_state.doc_name,
                "pages": st.session_state.doc_pages, "page_source": st.session_state.doc_page_source,
-               "key": st.session_state.data_key}
+               "key": st.session_state.data_key, "tables": st.session_state.doc_tables,
+               "kind": st.session_state.doc_kind, "glance": st.session_state.doc_glance}
         src = {"kind": "document"}
     chat = [{**{k: v for k, v in m.items() if k != "audio"}, "audio_b64": _audio_b64(m)}
             for m in st.session_state.chat_history[-20:]]
@@ -378,6 +448,7 @@ def snapshot_parts() -> dict:
             "cloned_voice_id": st.session_state.cloned_voice_id,
             "cloned_voice_name": st.session_state.cloned_voice_name,
             "filters": filters, "main_tab": st.session_state.get("main_tab"),
+            "period_summaries": st.session_state.period_summaries,
         },
     }
 
@@ -428,46 +499,32 @@ compact = lambda v: fmt_compact(v, SYM, NSTYLE)
 COMPANY = st.session_state.company.strip()
 
 
+# ---------- Navigation ----------
+TAB_LABELS = ["🏠 Home", "📊 My business", "💬 Ask iRaaya", "📅 Summary", "💡 Tips & reports", "⚙️ Settings"]
+HOME, BUSINESS, ASK, SUMMARY, TIPS, SETTINGS = TAB_LABELS
+
+
+def go(label: str):
+    """Button callback: open a tab (runs before the page is drawn)."""
+    st.session_state.main_tab = label
+
+
+if "_goto" in st.session_state:           # e.g. after a file is loaded
+    st.session_state.main_tab = st.session_state.pop("_goto")
+
+
 # ---------- Sidebar: data ----------
 st.sidebar.caption("Your Business Voice · by Riverrax")
-
-uploaded_file = st.sidebar.file_uploader(
-    "Upload your business data or a document",
-    type=["csv", "xlsx", "xls", "pdf", "docx"],
-    help=(
-        "Sales data: CSV or Excel (or a PDF/Word file with a sales table). It needs a date "
-        "and an amount column — names in any of iRaaya's languages work, e.g. Date / Amount, "
-        "Datum / Umsatz, 日期 / 销售额. Any other PDF or Word document: ask questions about it."
-    ),
-)
-
-if uploaded_file is not None:
-    file_bytes = uploaded_file.getvalue()
-    data_key = hashlib.md5(file_bytes).hexdigest()
-    if data_key != st.session_state.data_key:
-        progress = st.sidebar.progress(10, text="Uploading…")
-        try:
-            load_upload(file_bytes, uploaded_file.name, data_key, progress=progress)
-            progress.progress(100, text="Done")
-        except ValueError as e:
-            st.sidebar.error(str(e))
-        except Exception as e:
-            st.sidebar.error(f"iRaaya couldn't read this file. Please check it opens normally. ({e})")
-        progress.empty()
-elif st.session_state.data_key is None:
-    if st.sidebar.button("✨ Try with sample data", width="stretch"):
-        load_sample()
-        st.rerun()
+if st.session_state.data_key is None:
+    st.sidebar.info("👋 Start on the **🏠 Home** screen: add your file, or try the sample.")
+else:
+    st.sidebar.button("📂 Add a different file", width="stretch", on_click=go, args=(HOME,))
 
 if is_document():
     pages = st.session_state.doc_pages
     st.sidebar.success(
-        f"Loaded document: {st.session_state.doc_name}"
+        f"Loaded: {st.session_state.doc_name}"
         + (f" ({pages} page{'s' if pages != 1 else ''})" if pages else "")
-    )
-    st.sidebar.caption(
-        "Ask anything about it in 💬 Ask iRaaya. Charts, forecasts and "
-        "insights need sales data (CSV, Excel, or a PDF/Word sales table)."
     )
 
 # ---------- Sidebar: filters ----------
@@ -479,7 +536,7 @@ if FULL_DF is not None:
     for w in st.session_state.warnings:
         st.sidebar.warning(w)
     min_d, max_d = FULL_DF.Date.min().date(), FULL_DF.Date.max().date()
-    with st.sidebar.expander("🔎 Filters", expanded=False):
+    with st.sidebar.expander("🔎 Narrow down (dates, products, places)", expanded=False):
         saved_dates = st.session_state.get("f_dates")
         if saved_dates and not (isinstance(saved_dates, (list, tuple)) and len(saved_dates) == 2
                                 and min_d <= saved_dates[0] <= saved_dates[1] <= max_d):
@@ -535,7 +592,7 @@ st.sidebar.selectbox(
     "🌍 Language", options=list(LANGUAGES.keys()), key="lang",
     format_func=lambda n: n if LANGUAGES[n]["display"] == n else f"{n} · {LANGUAGES[n]['display']}",
 )
-st.sidebar.radio("💬 Response style", ["Professional", "Simple", "Friendly"], horizontal=True, key="style")
+st.sidebar.radio("💬 How should iRaaya talk?", ["Professional", "Simple", "Friendly"], horizontal=True, key="style")
 
 st.sidebar.subheader("🔊 Voice")
 SPEAK_MODES = {
@@ -719,7 +776,8 @@ def show_filter_tags(where: str):
     if filter_tags:
         st.markdown("".join(f'<span class="tag">{escape_html(t)}</span>' for t in filter_tags),
                     unsafe_allow_html=True)
-        st.caption(f"Filters are on — {where} use only the filtered data. Change them in the sidebar (🔎 Filters).")
+        st.caption(f"You're looking at part of your data — {where} only use this part. "
+                   "Change it in the sidebar (🔎 Narrow down).")
 
 
 def escape_html(text: str) -> str:
@@ -727,42 +785,122 @@ def escape_html(text: str) -> str:
 
 
 # ---------- Main area ----------
-TAB_LABELS = ["📊 Dashboard", "💬 Ask iRaaya", "🔍 Insights", "⚙️ Settings"]
 if st.session_state.get("main_tab") not in TAB_LABELS:
     st.session_state.pop("main_tab", None)
 # on_change="rerun": only the open tab's content runs (faster), and the open
 # tab is remembered
-tab1, tab2, tab3, tab4 = st.tabs(TAB_LABELS, key="main_tab", on_change="rerun")
+home_tab, tab1, tab2, sum_tab, tab3, tab4 = st.tabs(TAB_LABELS, key="main_tab", on_change="rerun")
 
 
-def onboarding():
+ANY_TYPES = ["csv", "xlsx", "xls", "pdf", "docx", "txt"]
+
+
+def handle_upload(uploaded):
+    """Load a file chosen on the Home screen, then open the results."""
+    if uploaded is None:
+        return
+    data = uploaded.getvalue()
+    key = hashlib.md5(data).hexdigest()
+    if key == st.session_state.data_key:
+        return
+    progress = st.progress(10, text="Getting your file…")
+    try:
+        loaded = load_upload(data, uploaded.name, key, progress=progress)
+        progress.progress(100, text="Done!")
+    except ValueError as e:
+        progress.empty()
+        st.error(f"😕 {e}")
+        return
+    except Exception as e:
+        progress.empty()
+        st.error("😕 iRaaya couldn't open this file. Please check it opens normally on your device, "
+                 "or try saving it again as Excel. Files iRaaya can open: Excel (.xlsx, .xls), CSV, "
+                 f"PDF, Word (.docx) and text (.txt). (Details: {e})")
+        return
+    progress.empty()
+    if loaded:
+        st.session_state._goto = BUSINESS
+        st.rerun()
+
+
+def start_options():
+    """The three ways to begin — in plain words, no technical knowledge needed."""
+    c1, c2, c3 = st.columns(3)
+    with c1.container(border=True, key="opt_sales"):
+        st.markdown("### 📊 My sales file")
+        st.caption("Your sales from Excel, your billing machine, shop software or accountant. "
+                   "It just needs a **date** and an **amount**.")
+        handle_upload(st.file_uploader("Choose your sales file", type=["csv", "xlsx", "xls"],
+                                       key="up_sales"))
+    with c2.container(border=True, key="opt_sample"):
+        st.markdown("### ✨ Just looking?")
+        st.caption("See iRaaya work with a sample shop's sales — nothing to upload.")
+        if st.button("✨ Try with sample data", type="primary", width="stretch"):
+            load_sample()
+            st.session_state._goto = BUSINESS
+            st.rerun()
+        st.download_button("⬇️ Download the sample file", SAMPLE_FILE.read_bytes(),
+                           "sample_data.csv", "text/csv", width="stretch")
+    with c3.container(border=True, key="opt_any"):
+        st.markdown("### 📄 Any other file")
+        st.caption("A PDF or Word document, a price list, stock sheet, report or notes. "
+                   "iRaaya shows it visually and answers questions about it.")
+        handle_upload(st.file_uploader("Choose any file", type=ANY_TYPES, key="up_any"))
+    with st.expander("❓ Where do I find my file?"):
+        st.markdown(
+            "- **On WhatsApp:** open the chat with the file → tap the file → **Share** → "
+            "**Save to Files** (iPhone/iPad) or find it in **Downloads** (Android). Then come back "
+            "here and tap **Browse files**.\n"
+            "- **In your email:** open the email → tap the attachment → **Save to Files / Download**.\n"
+            "- **From Excel or Google Sheets:** **File → Download / Save as → Excel (.xlsx)**.\n"
+            "- **From shop or accounting software** (Tally, Petpooja, Square, Shopify, QuickBooks, Xero…): "
+            "look for **Reports → Sales → Export → Excel**.\n"
+            "- **No file yet?** Tap **✨ Try with sample data** to see how iRaaya works."
+        )
+        st.caption("What happens next: iRaaya reads your file, shows your business in simple cards "
+                   "and charts, and you can ask questions by voice — in your language.")
+
+
+def home():
+    greeting = f"Hello{', ' + COMPANY if COMPANY else ''} 👋"
     st.markdown(
-        f'<div class="hero">{LOGO_SVG}<h1>Welcome to iRaaya</h1>'
-        '<p>Your business, explained simply — in any language. Upload your sales, '
-        'ask questions by voice or text, and hear the answers in your language.</p></div>',
+        f'<div class="hero">{LOGO_SVG}<h1>{escape_html(greeting)}</h1>'
+        "<p>Your business, explained simply — in any language.</p></div>",
         unsafe_allow_html=True,
     )
-    c1, c2, c3 = st.columns(3)
-    c1.markdown('<div class="step"><b>Step 1 — Upload</b><br>Your sales as CSV or Excel '
-                '(or a PDF/Word file). Just a date and an amount column is enough.</div>',
-                unsafe_allow_html=True)
-    c2.markdown('<div class="step"><b>Step 2 — Choose your language</b><br>13 languages, 3 '
-                'answer styles, free or premium voice — in the sidebar.</div>', unsafe_allow_html=True)
-    c3.markdown('<div class="step"><b>Step 3 — Ask iRaaya anything!</b><br>"What was my best '
-                'month?" "Which product is falling?" Tap the mic and just ask.</div>',
-                unsafe_allow_html=True)
-    st.write("")
-    b1, b2 = st.columns(2)
-    if b1.button("✨ Try it with sample data", type="primary", width="stretch"):
-        load_sample()
-        st.rerun()
-    b2.download_button("⬇️ Download sample data (CSV)", SAMPLE_FILE.read_bytes(),
-                       "sample_data.csv", "text/csv", width="stretch")
-    st.caption(
-        "What you'll see: six key numbers (revenue, best month, best product, growth…), "
-        "interactive charts, unusual-month alerts, a 3-month forecast, a health score, "
-        "and a PDF report — all from your own data. No data? Use 👈 the sample."
-    )
+    if st.session_state.data_key is None:
+        st.markdown("#### How would you like to start?")
+        start_options()
+        return
+    name = st.session_state.data_name
+    what = (f"{len(FULL_DF):,} sales" if FULL_DF is not None
+            else "a table" if st.session_state.doc_kind == "table" else "a document")
+    st.success(f"📂 You're looking at **{name}** ({what}). What would you like to do?")
+    tiles = [
+        ("tile_business", "📊  My business", "Cards & charts", BUSINESS),
+        ("tile_ask", "💬  Ask iRaaya", "Speak or type a question", ASK),
+        ("tile_summary", "📅  Summary", "Today, this week, this month", SUMMARY),
+        ("tile_tips", "💡  Tips & reports", "Advice, forecast, PDF, WhatsApp", TIPS),
+        ("tile_settings", "⚙️  Settings", "Business name, currency", SETTINGS),
+        ("tile_new", "📂  New file", "Look at a different file", None),
+    ]
+    with st.container(key="tiles"):
+        for row in (tiles[:3], tiles[3:]):
+            cols = st.columns(3)
+            for col, (key, label, sub, target) in zip(cols, row):
+                if target:
+                    col.button(label, key=key, width="stretch", on_click=go, args=(target,))
+                elif col.button(label, key=key, width="stretch"):
+                    st.session_state.show_new_file = True
+                col.caption(sub)
+    if st.session_state.get("show_new_file"):
+        with st.container(border=True, key="new_file"):
+            st.markdown("#### 📂 Look at a different file")
+            st.caption("Your current work stays saved until the new file opens.")
+            handle_upload(st.file_uploader("Choose a file", type=ANY_TYPES, key="up_new"))
+            if st.button("Cancel"):
+                st.session_state.show_new_file = False
+                st.rerun()
 
 
 def data_preview():
@@ -807,20 +945,86 @@ def data_preview():
         st.session_state.just_loaded = False
 
 
+def document_view():
+    """A document or non-sales table, shown visually."""
+    kind = st.session_state.doc_kind or "document"
+    name = st.session_state.doc_name
+    st.subheader(f"{'📋' if kind == 'table' else '📄'} {name} — at a glance")
+    if kind == "table":
+        st.caption("This file doesn't look like sales (no date + amount), so iRaaya shows it as a "
+                   "table and charts. You can still ask questions about it in 💬 Ask iRaaya.")
+
+    glance = st.session_state.doc_glance
+    if glance is None and GROQ_KEY:
+        try:
+            with st.spinner("iRaaya is reading it for you…"):
+                glance = document_glance(document_context(st.session_state.doc_text), name,
+                                         GROQ_KEY, selected_language)
+            st.session_state.doc_glance = glance
+        except Exception as e:
+            show_error(e)
+    if glance:
+        with st.container(border=True):
+            st.markdown("**✍️ In short**")
+            st.markdown(glance["summary"])
+            c1, c2 = st.columns([1, 1])
+            if c1.button("🔊 Read it to me", key="read_glance"):
+                audio = speak(glance["summary"])
+                if audio:
+                    st.audio(audio, format="audio/mp3", autoplay=True)
+            with c2:
+                copy_button(glance["summary"], key="copy_glance")
+        numbers = glance.get("key_numbers") or []
+        if numbers:
+            st.markdown("**🔢 Key numbers**")
+            for row in range(0, len(numbers), 3):
+                cols = st.columns(3)
+                for col, k in zip(cols, numbers[row:row + 3]):
+                    col.metric(k["label"], k["value"],
+                               f"Page {k['page']}" if k.get("page") else None,
+                               delta_color="off", delta_arrow="off", help=f"“{k['quote']}”")
+            st.caption("Every number above was checked: it appears word-for-word in your file "
+                       "(hover or tap ⓘ to see the sentence).")
+
+    tables = st.session_state.doc_tables or []
+    charted = 0
+    for n, t in enumerate(tables, 1):
+        figs = table_charts(t["rows"])
+        where = f" (page {t['page']})" if t.get("page") else ""
+        if figs:
+            st.markdown(f"**📊 Table {n}{where} as charts**")
+            cols = st.columns(min(len(figs), 2))
+            for i, fig in enumerate(figs):
+                cols[i % len(cols)].plotly_chart(fig, width="stretch", key=f"tbl_{n}_{i}")
+            charted += 1
+        with st.expander(f"See table {n}{where}"):
+            head, body = t["rows"][0], t["rows"][1:]
+            st.dataframe(pd.DataFrame([r[:len(head)] + [""] * (len(head) - len(r)) for r in body],
+                                      columns=[str(h) or f"Column {i + 1}" for i, h in enumerate(head)]),
+                         hide_index=True, width="stretch")
+    if not tables and kind == "document":
+        st.caption("No tables found in this document — the summary and key numbers above show "
+                   "what matters. Ask anything in 💬 Ask iRaaya.")
+    st.button("💬 Ask a question about it", type="primary", on_click=go, args=(ASK,))
+
+
 def metric_delta(value, text="vs previous period"):
     return None if value is None else f"{value:+.1f}% {text}"
 
 
-# ---------- Tab 1: Dashboard ----------
+# ---------- Home ----------
+if home_tab.open:
+    with home_tab:
+        home()
+
+# ---------- Tab 1: My business ----------
 if tab1.open:
     with tab1:
         if is_document():
-            st.info(
-                f"📄 **{st.session_state.doc_name}** is a document, not sales data, so there are "
-                "no charts for it. Go to **💬 Ask iRaaya** and ask anything about it."
-            )
+            document_view()
         elif FULL_DF is None:
-            onboarding()
+            st.markdown("#### 👋 Let's look at your business. How would you like to start?")
+            start_options()
         else:
             if COMPANY:
                 st.subheader(f"🏢 {COMPANY}")
@@ -1092,6 +1296,130 @@ if tab2.open:
                     st.session_state.chat_history = []
                     st.session_state.play = None
                     st.rerun()
+
+# ---------- Summary ----------
+PERIODS = ["Today", "This week", "This month", "Choose dates"]
+
+
+def show_latest(start, end):
+    """Button callback: summary of the latest day/week/month that has sales."""
+    st.session_state.sum_period = "Choose dates"
+    st.session_state.sum_dates = (start, end)
+
+
+def period_context(frame: pd.DataFrame, label: str) -> str:
+    lines = [f"PERIOD: {label}"]
+    if COMPANY:
+        lines.append(f"BUSINESS NAME: {COMPANY}")
+    lines.append(f"CURRENCY: all revenue figures are in {currency[1]}." if currency
+                 else "CURRENCY: not specified. Do not use any currency symbol.")
+    for col, word in (("Region", "places/regions"), ("Product", "products")):
+        if set(frame[col].unique()) == {ALL}:
+            lines.append(f"NOTE: this file has no {word} column. Do not mention {word}.")
+    return "\n".join(lines) + "\n" + analyse(frame)["context"]
+
+
+def summary_actions(text: str, key: str):
+    c1, c2, c3 = st.columns(3)
+    if c1.button("🔊 Read it to me", key=f"read_{key}", width="stretch"):
+        audio = speak(text)
+        if audio:
+            st.audio(audio, format="audio/mp3", autoplay=True)
+    with c2:
+        copy_button(text, key=f"copy_{key}", label="📋 Copy")
+    c3.link_button("💬 Send on WhatsApp", "https://wa.me/?text=" + quote(text), width="stretch")
+
+
+if sum_tab.open:
+    with sum_tab:
+        if is_document():
+            glance = st.session_state.doc_glance
+            st.subheader(f"📅 Summary of {st.session_state.doc_name}")
+            if glance:
+                st.markdown(glance["summary"])
+                summary_actions(glance["summary"], "doc_summary")
+            else:
+                st.info("Open 📊 My business first — iRaaya reads the document there.")
+        elif FULL_DF is None:
+            st.info("👋 Add your sales file first, then come back here for a summary of any day, week or month.")
+            st.button("🏠 Go to Home", on_click=go, args=(HOME,))
+        else:
+            st.subheader("📅 Summary")
+            st.session_state.setdefault("sum_period", "Today")
+            period = st.segmented_control("Which period?", PERIODS, key="sum_period",
+                                          width="stretch") or "Today"
+            today = user_now().date()
+            min_d, max_d = FULL_DF.Date.min().date(), FULL_DF.Date.max().date()
+            if period == "Today":
+                start, end, label = today, today, f"today, {today:%d %B %Y}"
+            elif period == "This week":
+                start, end = today - timedelta(days=today.weekday()), today
+                label = f"this week, {start:%d %b} – {end:%d %b %Y}"
+            elif period == "This month":
+                start, end, label = today.replace(day=1), today, f"this month, {today:%B %Y}"
+            else:
+                saved = st.session_state.get("sum_dates")
+                if not (isinstance(saved, (list, tuple)) and len(saved) == 2 and min_d <= saved[0] <= saved[1] <= max_d):
+                    st.session_state.sum_dates = (max(min_d, max_d - timedelta(days=29)), max_d)
+                picked = st.date_input("From – to", key="sum_dates", min_value=min_d, max_value=max_d)
+                start, end = (picked if isinstance(picked, (list, tuple)) and len(picked) == 2
+                              else (picked[0], picked[0]) if isinstance(picked, (list, tuple)) else (picked, picked))
+                label = (f"{start:%d %B %Y}" if start == end else f"{start:%d %b %Y} – {end:%d %b %Y}")
+            if any(choices.values()):
+                st.caption("Only the products/places chosen in 🔎 Narrow down are included.")
+
+            period_df = apply_filters(FULL_DF, start, end, choices)
+            if period_df.empty:
+                st.info(f"No sales found for **{label}**. Your file has sales from "
+                        f"**{min_d:%d %b %Y}** to **{max_d:%d %b %Y}**.")
+                if period == "This week":
+                    s0 = max(min_d, max_d - timedelta(days=max_d.weekday()))
+                    what = f"the week of {s0:%d %b %Y} (the last week in my file)"
+                elif period == "This month":
+                    s0 = max(min_d, max_d.replace(day=1))
+                    what = f"{max_d:%B %Y} (the last month in my file)"
+                else:
+                    s0, what = max_d, f"{max_d:%d %b %Y} (the last day in my file)"
+                st.button(f"📌 Show {what}", on_click=show_latest, args=(s0, max_d), type="primary")
+            else:
+                prev = previous_period(FULL_DF, start, end, choices)
+                c = card_numbers(period_df, prev)
+                st.markdown(f"#### {label[0].upper() + label[1:]}")
+                m = st.columns(4)
+                m[0].metric("💰 Sales", money(c["total"]), metric_delta(c["total_change"], "vs the period before"))
+                m[1].metric("🧾 Transactions", f"{c['transactions']:,}", metric_delta(c["transactions_change"], "vs the period before"))
+                if c["best_product"] not in (None, ALL):
+                    m[2].metric("🏆 Best product", c["best_product"], f"{c['best_product_share']:.0f}% of sales",
+                                delta_color="off", delta_arrow="off")
+                by_region = period_df.groupby("Region").Total_Revenue.sum()
+                if len(by_region) > 1:
+                    m[3].metric("🌍 Best place", by_region.idxmax(), money(by_region.max()),
+                                delta_color="off", delta_arrow="off")
+                else:
+                    days = period_df.Date.dt.date.nunique()
+                    m[3].metric("📆 Average per sales day", money(c["total"] / max(days, 1)),
+                                f"{days} day(s) with sales", delta_color="off", delta_arrow="off")
+                if period_df.Date.dt.date.nunique() > 1:
+                    st.plotly_chart(revenue_by_month(period_df, [], SYM, NSTYLE) if (end - start).days > 62
+                                    else revenue_trend(period_df, SYM, NSTYLE), width="stretch", key="sum_chart")
+                elif period_df.Product.nunique() > 1:
+                    st.plotly_chart(top_products(period_df, SYM, NSTYLE), width="stretch", key="sum_chart")
+
+                skey = f"{start}_{end}_{selected_language}_{selected_mode}_{sorted((k, tuple(v)) for k, v in choices.items() if v)}"
+                written = st.session_state.period_summaries.get(skey)
+                if written is None:
+                    if st.button("✍️ Write my summary", type="primary"):
+                        try:
+                            with st.spinner("iRaaya is writing your summary…"):
+                                written = summarise_period(period_context(period_df, label), label,
+                                                           GROQ_KEY, selected_language, selected_mode)
+                            st.session_state.period_summaries = {**st.session_state.period_summaries, skey: written}
+                        except Exception as e:
+                            show_error(e)
+                if written:
+                    with st.container(border=True):
+                        st.markdown(written)
+                        summary_actions(written, "period")
 
 # ---------- Tab 3: Insights ----------
 if tab3.open:

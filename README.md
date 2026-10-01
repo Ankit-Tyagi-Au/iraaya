@@ -15,7 +15,12 @@ to be understood clearly,
 in any language.
 
 ## Features
+- Home screen with big buttons, and 3 simple ways to start: your sales file, a sample, or any other file
 - Upload sales data: CSV or Excel (.xlsx, .xls), or a PDF/Word file with a sales table
+- Any other file (PDF, Word, text, any table) becomes a short summary, checked key numbers
+  (with page and sentence) and charts of its tables
+- Summary of today, this week, this month or chosen dates: cards, chart, a written summary,
+  read aloud, copy or send on WhatsApp
 - Works with files from anywhere: column names in 13 languages, European (1.234,56),
   Indian (12,34,567) and US number styles, day/month or month/day dates
 - Only a date and an amount column are required (Product, Region, Customer type
