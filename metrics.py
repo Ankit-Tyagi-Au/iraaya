@@ -204,3 +204,75 @@ def target_progress(df: pd.DataFrame, target: float, today) -> dict:
     return {"month": month, "sold": sold, "target": float(target), "pct": sold / target * 100,
             "current": current, "days_left": days_left,
             "per_day": remaining / days_left if current and days_left > 0 and remaining else None}
+
+
+# ---------- My business: periods, cards and breakdown tables ----------
+
+BUSINESS_PERIODS = ["Last 7 days", "Last 30 days", "Last 90 days", "Last 12 months", "All time", "Choose dates"]
+
+
+def period_range(df: pd.DataFrame, period: str, chosen=None):
+    """(start, end) for a period, counted back from the latest day in the
+    file, so a file from last year still shows its own latest month."""
+    first, last = df.Date.min().normalize(), df.Date.max().normalize()
+    days = {"Last 7 days": 7, "Last 30 days": 30, "Last 90 days": 90, "Last 12 months": 365}
+    if period in days:
+        return max(first, last - pd.Timedelta(days=days[period] - 1)), last
+    if period == "Choose dates" and chosen:
+        return pd.Timestamp(chosen[0]), pd.Timestamp(chosen[1])
+    return first, last
+
+
+def fair_previous(df: pd.DataFrame, start, end, choices: dict = None) -> pd.DataFrame:
+    """The same length of time just before start, but only if the file
+    covers all of it; otherwise empty (a half-covered period would make
+    every change look huge)."""
+    prev_start, prev_end = previous_range(start, end)
+    if prev_start < df.Date.min().normalize():
+        return df.iloc[0:0]
+    return apply_filters(df, prev_start, prev_end, choices)
+
+
+def more_cards(current: pd.DataFrame, previous: pd.DataFrame) -> dict:
+    """Average sale, units, best place, best day, top payment and customer type."""
+    has_prev = not previous.empty
+    avg = current.Total_Revenue.mean() if len(current) else 0
+    avg_prev = previous.Total_Revenue.mean() if has_prev else None
+    out = {"avg_sale": avg, "avg_sale_change": _change(avg, avg_prev) if has_prev else None,
+           "units": None, "units_change": None}
+    if "Units_Sold" in current.columns and current.Units_Sold.notna().any():
+        units = float(current.Units_Sold.sum())
+        out["units"] = units
+        out["units_change"] = _change(units, float(previous.Units_Sold.sum())) if has_prev else None
+    total = current.Total_Revenue.sum() or 1
+    for col, key in (("Region", "place"), ("Customer_Type", "customer"), ("Payment_Method", "payment")):
+        if col in current.columns and current[col].nunique() > 1:
+            s = current.groupby(col).Total_Revenue.sum()
+            out[key] = (s.idxmax(), s.max() / total * 100)
+    daily = current.groupby(current.Date.dt.normalize()).Total_Revenue.sum()
+    if len(daily):
+        out["best_day"] = (daily.idxmax(), daily.max())
+    return out
+
+
+def breakdown(current: pd.DataFrame, previous: pd.DataFrame, column: str) -> pd.DataFrame:
+    """One row per product (or place): sales, units, share and change."""
+    now = current.groupby(column).Total_Revenue.sum().sort_values(ascending=False)
+    total = now.sum() or 1
+    table = pd.DataFrame({column: now.index, "Sales": now.values.round(0), "Share": now.values / total * 100})
+    if "Units_Sold" in current.columns and current.Units_Sold.notna().any():
+        units = current.groupby(column).Units_Sold.sum()
+        table["Units"] = table[column].map(units)
+    table["Transactions"] = table[column].map(current.groupby(column).size())
+    if not previous.empty:
+        before = previous.groupby(column).Total_Revenue.sum()
+        table["Change"] = [_change(v, before.get(k)) for k, v in zip(table[column], table.Sales)]
+    return table.reset_index(drop=True)
+
+
+def by_weekday(df: pd.DataFrame) -> pd.Series:
+    """Average sales on each day of the week (only days that had sales)."""
+    daily = df.groupby(df.Date.dt.normalize()).Total_Revenue.sum()
+    avg = daily.groupby(daily.index.dayofweek).mean()
+    names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    return pd.Series({names[i]: avg[i] for i in avg.index})

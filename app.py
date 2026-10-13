@@ -35,6 +35,8 @@ from analyser import (
 from browser_tools import copy_button, device_storage
 from charts import (
     MODEBAR,
+    share_donut,
+    weekday_chart,
     figure_data_text,
     table_charts,
     product_comparison,
@@ -65,8 +67,9 @@ from insights import (
 )
 from languages import LANGUAGES
 from metrics import (
-    FILTER_COLUMNS, apply_filters, card_numbers, day_snapshot, growth_by, home_insights,
-    previous_period, previous_range, target_progress,
+    BUSINESS_PERIODS, FILTER_COLUMNS, apply_filters, breakdown, by_weekday, card_numbers, day_snapshot,
+    fair_previous, growth_by, home_insights, more_cards, period_range, previous_period, previous_range,
+    target_progress,
 )
 from pdf_report import conversation_text, generate_conversation_pdf, generate_pdf
 from recorder import voice_recorder
@@ -385,9 +388,8 @@ def set_data(df, name: str, data_key: str, source: dict, keep_history: bool = Fa
         st.session_state.whatsapp = None
         st.session_state.play = None
         st.session_state.just_loaded = True
-        for col in FILTER_COLUMNS:
-            st.session_state.pop(f"f_{col}", None)
-        st.session_state.pop("f_dates", None)
+        for key in [f"f_{c}" for c in FILTER_COLUMNS] + ["f_dates", "biz_dates", "biz_view", "sales_search"]:
+            st.session_state.pop(key, None)
     return True
 
 
@@ -505,8 +507,10 @@ def apply_restore(rec: dict):
         if key in extras:
             st.session_state[key] = extras[key]
     for key, value in (extras.get("filters") or {}).items():
-        if key == "f_dates" and value:
+        if key in ("f_dates", "biz_dates") and value:
             value = tuple(pd.Timestamp(v).date() for v in value)
+        if key == "f_dates":
+            continue
         st.session_state[key] = value
     if extras.get("main_tab"):
         st.session_state.main_tab = extras["main_tab"]
@@ -525,8 +529,9 @@ def snapshot_parts() -> dict:
         src = {"kind": "document"}
     chat = [{**{k: v for k, v in m.items() if k != "audio"}, "audio_b64": _audio_b64(m)}
             for m in st.session_state.chat_history[-20:]]
-    filters = {k: (list(map(str, st.session_state[k])) if k == "f_dates" else st.session_state[k])
-               for k in ["f_dates"] + [f"f_{c}" for c in FILTER_COLUMNS] if st.session_state.get(k)}
+    filters = {k: (list(map(str, st.session_state[k])) if k == "biz_dates" else st.session_state[k])
+               for k in ["biz_period", "biz_view", "biz_dates"] + [f"f_{c}" for c in FILTER_COLUMNS]
+               if st.session_state.get(k)}
     return {
         "settings": {k: st.session_state.get(k) for k in SETTING_DEFAULTS},
         "source": src,
@@ -624,42 +629,19 @@ if is_document():
         + (f" ({pages} page{'s' if pages != 1 else ''})" if pages else "")
     )
 
-# ---------- Sidebar: filters ----------
+# ---------- Data ----------
+# Ask iRaaya, Summary and Tips always use the whole file; the period and
+# filters on the My business page only change that page.
 FULL_DF = st.session_state.df
 df = FULL_DF
-filter_tags, date_start, date_end, choices = [], None, None, {}
+filter_tags, choices = [], {}
+date_start = date_end = None
 if FULL_DF is not None:
     st.sidebar.success(f"Loaded: {st.session_state.data_name} ({len(FULL_DF):,} rows)")
     for w in st.session_state.warnings:
         st.sidebar.warning(w)
-    min_d, max_d = FULL_DF.Date.min().date(), FULL_DF.Date.max().date()
-    with st.sidebar.expander("🔎 Narrow down (dates, products, places)", expanded=False):
-        saved_dates = st.session_state.get("f_dates")
-        if saved_dates and not (isinstance(saved_dates, (list, tuple)) and len(saved_dates) == 2
-                                and min_d <= saved_dates[0] <= saved_dates[1] <= max_d):
-            del st.session_state["f_dates"]           # from other data: start again
-        date_kwargs = {} if "f_dates" in st.session_state else {"value": (min_d, max_d)}
-        dates = st.date_input("Date range", min_value=min_d, max_value=max_d, key="f_dates",
-                              persist_state="session", **date_kwargs)
-        for col, label in FILTER_COLUMNS.items():
-            values = sorted(FULL_DF[col].dropna().astype(str).unique()) if col in FULL_DF.columns else []
-            if len(values) > 1:
-                choices[col] = st.multiselect(label, values, key=f"f_{col}", persist_state="session",
-                                              placeholder=f"All {label.lower()}")
-        if st.button("↺ Reset filters", width="stretch"):
-            st.session_state._reset_filters = True
-            st.rerun()
-    if isinstance(dates, (list, tuple)) and len(dates) == 2:
-        date_start, date_end = dates
-    else:
-        date_start, date_end = min_d, max_d
-    df = apply_filters(FULL_DF, date_start, date_end, choices)
-    if (date_start, date_end) != (min_d, max_d):
-        filter_tags.append(f"📅 {date_start:%d %b %Y} – {date_end:%d %b %Y}")
-    for col, values in choices.items():
-        if values:
-            filter_tags.append(f"{FILTER_COLUMNS[col]}: {', '.join(values)}")
-FILTERED = bool(filter_tags)
+    date_start, date_end = FULL_DF.Date.min().date(), FULL_DF.Date.max().date()
+FILTERED = False
 
 
 @st.cache_data(show_spinner=False, max_entries=30)
@@ -679,34 +661,18 @@ if A:
     health = A["health"]
     st.sidebar.metric("iRaaya Score", f"{health['score']}/100", health["label"],
                       delta_color=health["color"], delta_arrow="off", help=SCORE_HELP)
-elif df is not None and df.empty:
-    st.sidebar.warning("No sales match these filters. Try a wider date range or reset the filters.")
 
 st.sidebar.divider()
 
-# ---------- Sidebar: language, style, voice ----------
-st.sidebar.selectbox(
-    "🌍 Language", options=list(LANGUAGES.keys()), key="lang",
-    format_func=lambda n: n if LANGUAGES[n]["display"] == n else f"{n} · {LANGUAGES[n]['display']}",
-)
-st.sidebar.radio("💬 How should iRaaya talk?", ["Professional", "Simple", "Friendly"], horizontal=True, key="style")
-
-st.sidebar.subheader("🔊 Voice")
+# ---------- Language, style and voice (set on the Settings page) ----------
 SPEAK_MODES = {
     "Match my question": "Spoken answer when you ask by voice, text when you type",
     "Always": "Every answer is spoken",
     "Never": "Text answers only (voice off)",
 }
-speak_mode = st.sidebar.radio("Spoken answers", list(SPEAK_MODES),
-                              captions=list(SPEAK_MODES.values()), key="speak")
-speed = st.sidebar.select_slider("Speed", options=SPEEDS, key="speed")
-use_elevenlabs = st.sidebar.toggle(
-    "🎙️ Premium voice", disabled=not EL_KEY, key="premium",
-    help=("Uses ElevenLabs for more natural voice output."
-          if EL_KEY else "Add ELEVENLABS_API_KEY to enable premium voice."),
-)
-if speed == "Fast" and not (use_elevenlabs and EL_KEY):
-    st.sidebar.caption("⚡ Fast needs Premium voice — the free voice speaks at normal speed.")
+speak_mode = st.session_state.speak if st.session_state.speak in SPEAK_MODES else "Match my question"
+speed = st.session_state.speed if st.session_state.speed in SPEEDS else "Normal"
+use_elevenlabs = bool(st.session_state.premium and EL_KEY)
 
 VOICE_PRIVACY = (
     "🔒 **Your voice stays private.** Your cloned voice is only used "
@@ -737,26 +703,30 @@ def daily_clone_cleanup(api_key: str) -> int:
 if EL_KEY:
     daily_clone_cleanup(EL_KEY)
 
-premium_voice_id, voice_name_shown = DEFAULT_VOICE_ID, "Standard voice (free)"
-if use_elevenlabs and EL_KEY:
-    voices = cached_voices(EL_KEY)
-    if st.session_state.cloned_voice_id:
+
+def premium_voices() -> dict:
+    voices = cached_voices(EL_KEY) if use_elevenlabs else {}
+    if voices and st.session_state.cloned_voice_id:
         # Only the person who made the clone sees it (this device only)
         voices = {f"{st.session_state.cloned_voice_name} (your voice)": st.session_state.cloned_voice_id, **voices}
-    if voices:
-        names = list(voices)
-        default_name = next(
-            (n for n, v in voices.items() if v == (st.session_state.cloned_voice_id or DEFAULT_VOICE_ID)),
-            names[0],
-        )
-        chosen = st.sidebar.selectbox("🗣️ Voice", names, index=names.index(default_name))
-        premium_voice_id, voice_name_shown = voices[chosen], chosen.split(" - ")[0]
+    return voices
+
+
+premium_voice_id, voice_name_shown = DEFAULT_VOICE_ID, "Standard voice (free)"
+if use_elevenlabs:
+    _voices = premium_voices()
+    if _voices:
+        _choice = st.session_state.get("voice_choice")
+        if _choice not in _voices:
+            _choice = next((n for n, v in _voices.items()
+                            if v == (st.session_state.cloned_voice_id or DEFAULT_VOICE_ID)), next(iter(_voices)))
+        premium_voice_id, voice_name_shown = _voices[_choice], _choice.split(" - ")[0]
 
 
 def speak(text: str):
     """Spoken answer in the chosen language, voice and speed (or None)."""
     audio = None
-    if use_elevenlabs and EL_KEY:
+    if use_elevenlabs:
         audio = speak_elevenlabs(text, EL_KEY, premium_voice_id,
                                  LANGUAGES[selected_language]["el_code"], speed)
         if audio is None:
@@ -778,59 +748,91 @@ def preview_audio(lang: str, premium: bool, voice_id: str, spd: str):
     return speak_gtts(text, LANGUAGES[lang]["gtts_code"], spd)
 
 
-st.sidebar.caption(f"Active: **{selected_language}** · {voice_name_shown} · {speed} speed")
-if st.sidebar.button("▶ Preview voice", width="stretch"):
-    audio = preview_audio(selected_language, bool(use_elevenlabs and EL_KEY), premium_voice_id, speed)
-    if audio:
-        st.sidebar.audio(audio, format="audio/mp3", autoplay=True)
-    else:
-        st.sidebar.warning("Voice isn't available right now.")
+def voice_settings():
+    """Language, answer style and voice — drawn on the Settings page."""
+    c1, c2 = st.columns(2)
+    c1.selectbox(
+        "🌍 Language", options=list(LANGUAGES.keys()), key="lang", persist_state="session",
+        format_func=lambda n: n if LANGUAGES[n]["display"] == n else f"{n} · {LANGUAGES[n]['display']}",
+        help="iRaaya listens, answers and speaks in this language.")
+    c2.radio("💬 How should iRaaya talk?", ["Professional", "Simple", "Friendly"], horizontal=True,
+             key="style", persist_state="session")
+    c1, c2 = st.columns(2)
+    c1.radio("Spoken answers", list(SPEAK_MODES), captions=list(SPEAK_MODES.values()), key="speak",
+             persist_state="session")
+    with c2:
+        st.select_slider("Speed", options=SPEEDS, key="speed", persist_state="session")
+        st.toggle("🎙️ Premium voice", disabled=not EL_KEY, key="premium", persist_state="session",
+                  help=("Uses ElevenLabs for more natural voice output."
+                        if EL_KEY else "Add ELEVENLABS_API_KEY to enable premium voice."))
+        if st.session_state.speed == "Fast" and not (st.session_state.premium and EL_KEY):
+            st.caption("⚡ Fast needs Premium voice — the free voice speaks at normal speed.")
+        voices = premium_voices() if (st.session_state.premium and EL_KEY) else {}
+        if voices:
+            names = list(voices)
+            if st.session_state.get("voice_choice") not in names:
+                st.session_state.voice_choice = next(
+                    (n for n, v in voices.items() if v == (st.session_state.cloned_voice_id or DEFAULT_VOICE_ID)),
+                    names[0])
+            st.selectbox("🗣️ Voice", names, key="voice_choice", persist_state="session")
+    st.caption(f"Active: **{selected_language}** · {voice_name_shown} · {speed} speed")
+    if st.button("▶ Preview voice"):
+        audio = preview_audio(selected_language, use_elevenlabs, premium_voice_id, speed)
+        if audio:
+            st.audio(audio, format="audio/mp3", autoplay=True)
+        else:
+            st.warning("Voice isn't available right now.")
 
-with st.sidebar.expander("🔬 Clone a voice"):
-    st.caption("Record someone's voice and iRaaya will speak in that voice!")
-    st.caption(VOICE_PRIVACY)
-    plan = cached_plan(EL_KEY) if EL_KEY else {"tier": "none", "can_clone": False}
-    if not EL_KEY:
-        st.info("Add ELEVENLABS_API_KEY to use voice cloning.")
-    elif not plan["can_clone"]:
-        # Say so up front, before anyone uploads a voice recording
-        st.info(
-            f"Voice cloning needs an ElevenLabs paid plan (Starter or above). "
-            f"Your current plan: {plan['tier']}."
-        )
-    else:
-        st.caption("Only clone a voice with that person's permission.")
-        voice_name = st.text_input("Voice name", placeholder="e.g. Manisha")
-        audio_sample = st.file_uploader(
-            "Upload audio sample (1-2 minutes of clear speech)",
-            type=["mp3", "wav", "m4a"], key="voice_clone_upload",
-        )
-        consent = st.checkbox("I have this person's permission to clone their voice")
-        if st.button("Clone this voice", key="clone_btn"):
-            if not (audio_sample and voice_name):
-                st.warning("Please enter a name and upload audio.")
-            elif not consent:
-                st.warning("Please confirm you have permission first.")
-            else:
-                try:
-                    with st.spinner("Cloning voice..."):
-                        voice_id = clone_voice(EL_KEY, voice_name, audio_sample.getvalue(), audio_sample.name)
-                    st.session_state.cloned_voice_id = voice_id
-                    st.session_state.cloned_voice_name = voice_name
-                    st.success(f"Voice '{voice_name}' cloned! Turn on Premium voice to use it.")
-                except VoiceCloneError as e:
-                    st.error(f"Clone failed: {e}")
-    if st.session_state.cloned_voice_id:
-        st.caption(f"Your cloned voice: {st.session_state.cloned_voice_name}")
-        if st.button("🗑️ Delete my voice", key="delete_voice_btn"):
-            if delete_voice(EL_KEY, st.session_state.cloned_voice_id):
-                st.session_state.cloned_voice_id = None
-                st.session_state.cloned_voice_name = None
-                st.success("Your voice has been permanently deleted.")
-                st.rerun()
-            else:
-                st.error("Could not delete the voice. Please try again.")
-        st.caption("If you don't delete it, iRaaya removes it automatically after 7 days.")
+    with st.expander("🔬 Clone a voice"):
+        st.caption("Record someone's voice and iRaaya will speak in that voice!")
+        st.caption(VOICE_PRIVACY)
+        plan = cached_plan(EL_KEY) if EL_KEY else {"tier": "none", "can_clone": False}
+        if not EL_KEY:
+            st.info("Add ELEVENLABS_API_KEY to use voice cloning.")
+        elif not plan["can_clone"]:
+            # Say so up front, before anyone uploads a voice recording
+            st.info(
+                f"Voice cloning needs an ElevenLabs paid plan (Starter or above). "
+                f"Your current plan: {plan['tier']}."
+            )
+        else:
+            st.caption("Only clone a voice with that person's permission.")
+            voice_name = st.text_input("Voice name", placeholder="e.g. Manisha")
+            audio_sample = st.file_uploader(
+                "Upload audio sample (1-2 minutes of clear speech)",
+                type=["mp3", "wav", "m4a"], key="voice_clone_upload",
+            )
+            consent = st.checkbox("I have this person's permission to clone their voice")
+            if st.button("Clone this voice", key="clone_btn"):
+                if not (audio_sample and voice_name):
+                    st.warning("Please enter a name and upload audio.")
+                elif not consent:
+                    st.warning("Please confirm you have permission first.")
+                else:
+                    try:
+                        with st.spinner("Cloning voice..."):
+                            voice_id = clone_voice(EL_KEY, voice_name, audio_sample.getvalue(), audio_sample.name)
+                        st.session_state.cloned_voice_id = voice_id
+                        st.session_state.cloned_voice_name = voice_name
+                        st.success(f"Voice '{voice_name}' cloned! Turn on Premium voice to use it.")
+                    except VoiceCloneError as e:
+                        st.error(f"Clone failed: {e}")
+        if st.session_state.cloned_voice_id:
+            st.caption(f"Your cloned voice: {st.session_state.cloned_voice_name}")
+            if st.button("🗑️ Delete my voice", key="delete_voice_btn"):
+                if delete_voice(EL_KEY, st.session_state.cloned_voice_id):
+                    st.session_state.cloned_voice_id = None
+                    st.session_state.cloned_voice_name = None
+                    st.success("Your voice has been permanently deleted.")
+                    st.rerun()
+                else:
+                    st.error("Could not delete the voice. Please try again.")
+            st.caption("If you don't delete it, iRaaya removes it automatically after 7 days.")
+
+
+st.sidebar.caption(f"🗣️ {selected_language} · {voice_name_shown} · {speed} speed")
+st.sidebar.button("Change language or voice", icon=":material/tune:", width="stretch",
+                  on_click=go, args=(SETTINGS,), key="sb_settings")
 
 st.sidebar.divider()
 st.sidebar.caption(
@@ -1220,7 +1222,7 @@ def document_view():
     st.button("💬 Ask a question about it", type="primary", on_click=go, args=(ASK,))
 
 
-def metric_delta(value, text="vs previous period"):
+def metric_delta(value, text="vs before"):
     return None if value is None else f"{value:+.1f}% {text}"
 
 
@@ -1266,6 +1268,226 @@ if home_tab.open:
         home()
 
 # ---------- Tab 1: My business ----------
+def clear_biz_filters():
+    for col in FILTER_COLUMNS:
+        st.session_state.pop(f"f_{col}", None)
+
+
+def biz_controls():
+    """Period buttons and filter chips at the top of My business.
+    Returns (start, end, choices, label)."""
+    min_d, max_d = FULL_DF.Date.min().date(), FULL_DF.Date.max().date()
+    if st.session_state.get("biz_period") not in BUSINESS_PERIODS:
+        st.session_state.biz_period = "Last 30 days"
+    period = st.segmented_control("Time period", BUSINESS_PERIODS, key="biz_period", persist_state="session",
+                                  width="stretch", label_visibility="collapsed") or "Last 30 days"
+    chosen = None
+    if period == "Choose dates":
+        saved = st.session_state.get("biz_dates")
+        if not (isinstance(saved, (list, tuple)) and len(saved) == 2 and min_d <= saved[0] <= saved[1] <= max_d):
+            st.session_state.biz_dates = (max(min_d, max_d - timedelta(days=29)), max_d)
+        picked = st.date_input("From – to", key="biz_dates", min_value=min_d, max_value=max_d,
+                               persist_state="session")
+        chosen = (picked if isinstance(picked, (list, tuple)) and len(picked) == 2
+                  else (picked[0], picked[0]) if isinstance(picked, (list, tuple)) else (picked, picked))
+    start, end = period_range(FULL_DF, period, chosen)
+
+    picks = {}
+    with st.container(horizontal=True, key="biz_filters"):
+        for col, label in FILTER_COLUMNS.items():
+            values = sorted(FULL_DF[col].dropna().astype(str).unique()) if col in FULL_DF.columns else []
+            if len(values) < 2 or set(values) == {ALL}:
+                continue
+            current = [v for v in st.session_state.get(f"f_{col}", []) if v in values]
+            shown = "All" if not current else current[0] if len(current) == 1 else f"{len(current)} chosen"
+            with st.popover(f"{label}: {shown}", icon=":material/filter_list:"):
+                picks[col] = st.multiselect(label, values, key=f"f_{col}", persist_state="session",
+                                            placeholder=f"All {label.lower()}")
+            picks.setdefault(col, current)
+        if any(picks.values()):
+            st.button("Clear filters", icon=":material/close:", on_click=clear_biz_filters, type="tertiary")
+    days = (end - start).days + 1
+    if period == "All time":
+        label = f"All your sales: {start:%d %b %Y} – {end:%d %b %Y}"
+    elif period == "Choose dates":
+        label = f"{start:%d %b %Y} – {end:%d %b %Y}"
+    else:
+        label = f"{start:%d %b} – {end:%d %b %Y} (the latest {period.split(' ', 1)[1]} in your file)"
+    return start, end, picks, label
+
+
+def money_table(table: pd.DataFrame, key: str, name_col: str, title: str):
+    """A sortable table of products or places; tapping a row opens it."""
+    cfg = {
+        name_col: st.column_config.TextColumn(title),
+        "Sales": st.column_config.NumberColumn(f"Sales{f' ({SYM})' if SYM else ''}", format="localized"),
+        "Share": st.column_config.ProgressColumn("Share of sales", format="%.0f%%", min_value=0, max_value=100),
+        "Units": st.column_config.NumberColumn("Units sold", format="localized"),
+        "Transactions": st.column_config.NumberColumn("Sales count", format="localized"),
+        "Change": st.column_config.NumberColumn("Change vs before", format="%+.1f%%"),
+    }
+    event = st.dataframe(table, hide_index=True, width="stretch", column_config=cfg, key=key,
+                         on_select="rerun", selection_mode="single-row")
+    rows = event.selection.rows if event and event.selection else []
+    return table.iloc[rows[0]][name_col] if rows else None
+
+
+def detail_view(col: str, name: str, now: pd.DataFrame, prev: pd.DataFrame, label: str):
+    """Everything about one product or one place."""
+    word = "product" if col == "Product" else "place"
+    sub, sub_prev = now[now[col] == name], prev[prev[col] == name] if not prev.empty else prev
+    st.markdown(f"### {'📦' if col == 'Product' else '📍'} {escape_html(name)}")
+    st.caption(label)
+    c = card_numbers(sub, sub_prev)
+    more = more_cards(sub, sub_prev)
+    total = now.Total_Revenue.sum() or 1
+    m = st.columns(4)
+    m[0].metric("💰 Sales", money(c["total"]), metric_delta(c["total_change"]))
+    m[1].metric("📊 Share of all sales", f"{c['total'] / total * 100:.0f}%")
+    m[2].metric("🧾 Sales count", f"{c['transactions']:,}", metric_delta(c["transactions_change"]))
+    if more["units"] is not None:
+        m[3].metric("📦 Units sold", f"{more['units']:,.0f}", metric_delta(more["units_change"]))
+    else:
+        m[3].metric("🧮 Average sale", money(more["avg_sale"]), metric_delta(more["avg_sale_change"]))
+    span = (sub.Date.max() - sub.Date.min()).days if len(sub) else 0
+    show_chart(revenue_by_month(sub, [], SYM, NSTYLE) if span > 62 else revenue_trend(sub, SYM, NSTYLE),
+               f"d_trend_{word}")
+    other, other_word = ("Region", "places") if col == "Product" else ("Product", "products")
+    c1, c2 = st.columns(2)
+    if sub[other].nunique() > 1:
+        with c1:
+            show_chart(regional_performance(sub, SYM, NSTYLE, growth_by(sub, sub_prev, other))
+                       if other == "Region" else top_products(sub, SYM, NSTYLE), f"d_other_{word}")
+    with c2:
+        show_chart(weekday_chart(by_weekday(sub), SYM, NSTYLE), f"d_week_{word}")
+
+
+def business_page():
+    if COMPANY:
+        st.subheader(f"🏢 {COMPANY}")
+    data_preview()
+    has_places = FULL_DF.Region.nunique() > 1 and set(FULL_DF.Region.unique()) != {ALL}
+    has_products = FULL_DF.Product.nunique() > 1 and set(FULL_DF.Product.unique()) != {ALL}
+    views = ["Overview"] + (["Products"] if has_products else []) + (["Places"] if has_places else []) + ["All my sales"]
+    if st.session_state.get("biz_view") not in views:
+        st.session_state.biz_view = "Overview"
+    view = st.segmented_control("Show", views, key="biz_view", persist_state="session",
+                                label_visibility="collapsed") or "Overview"
+    start, end, picks, label = biz_controls()
+    now = apply_filters(FULL_DF, start, end, picks)
+    prev = fair_previous(FULL_DF, start, end, picks)
+    ps, pe = previous_range(start, end)
+    compare = (f"Compared with {ps:%d %b} – {pe:%d %b %Y}." if not prev.empty
+               else "No ▲▼ changes: your file doesn't go back far enough to compare with the time before.")
+    st.caption(f"📅 {label} · {compare}")
+    if now.empty:
+        st.warning("No sales match this period and these filters. Try a longer period or clear the filters.")
+        return
+
+    if view == "Products":
+        table = breakdown(now, prev, "Product")
+        name = money_table(table, "prod_table", "Product", "Product")
+        st.caption("👆 Tap a row, or choose below, to look closer at a product. Tap a column name to sort.")
+        name = name or st.selectbox("Look closer at", list(table["Product"]), index=None,
+                                    placeholder="Choose a product…", key="focus_product")
+        if name:
+            detail_view("Product", name, now, prev, label)
+        return
+    if view == "Places":
+        table = breakdown(now, prev, "Region")
+        name = money_table(table, "place_table", "Region", "Place")
+        st.caption("👆 Tap a row, or choose below, to look closer at a place. Tap a column name to sort.")
+        name = name or st.selectbox("Look closer at", list(table["Region"]), index=None,
+                                    placeholder="Choose a place…", key="focus_place")
+        if name:
+            detail_view("Region", name, now, prev, label)
+        return
+    if view == "All my sales":
+        query = st.text_input("Search", placeholder="Search a product, place, payment… (e.g. UPI)",
+                              key="sales_search", icon=":material/search:")
+        rows = now.sort_values("Date", ascending=False)
+        if query.strip():
+            text = rows.drop(columns="Date").astype(str).apply(lambda c: c.str.contains(query.strip(), case=False, regex=False))
+            rows = rows[text.any(axis=1)]
+        st.caption(f"**{len(rows):,}** sales · total **{money(rows.Total_Revenue.sum())}** · newest first. "
+                   "Tap a column name to sort.")
+        shown = rows.assign(Date=rows.Date.dt.strftime("%d %b %Y"))
+        st.dataframe(shown, hide_index=True, width="stretch", height=480,
+                     column_config={"Total_Revenue": st.column_config.NumberColumn(
+                         f"Sales{f' ({SYM})' if SYM else ''}", format="localized")})
+        st.download_button("⬇️ Download these sales (CSV)",
+                           rows.assign(Date=rows.Date.dt.strftime("%Y-%m-%d")).to_csv(index=False).encode("utf-8-sig"),
+                           "iraaya_sales.csv", "text/csv")
+        return
+
+    # ----- Overview -----
+    c = card_numbers(now, prev)
+    more = more_cards(now, prev)
+    r1 = st.columns(4)
+    r1[0].metric("💰 Total sales", money(c["total"]), metric_delta(c["total_change"]))
+    r1[1].metric("🧾 Sales count", f"{c['transactions']:,}", metric_delta(c["transactions_change"]))
+    r1[2].metric("🧮 Average sale", money(more["avg_sale"]), metric_delta(more["avg_sale_change"]),
+                 help="Total sales ÷ number of sales.")
+    if more["units"] is not None:
+        r1[3].metric("📦 Units sold", f"{more['units']:,.0f}", metric_delta(more["units_change"]))
+    else:
+        r1[3].metric("📈 Average month", money(c["avg_monthly"]))
+    r2 = st.columns(4)
+    if c["best_product"] not in (None, ALL):
+        r2[0].metric("🏆 Best product", c["best_product"], f"{c['best_product_share']:.0f}% of sales",
+                     delta_color="off", delta_arrow="off", help=str(c["best_product"]))
+    if more.get("place"):
+        r2[1].metric("📍 Best place", more["place"][0], f"{more['place'][1]:.0f}% of sales",
+                     delta_color="off", delta_arrow="off")
+    if more.get("best_day"):
+        r2[2].metric("⭐ Best day", f"{more['best_day'][0]:%d %b %Y}", money(more["best_day"][1]),
+                     delta_color="off", delta_arrow="off")
+    if more.get("payment"):
+        r2[3].metric("💳 Most used payment", more["payment"][0], f"{more['payment'][1]:.0f}% of sales",
+                     delta_color="off", delta_arrow="off")
+    elif more.get("customer"):
+        r2[3].metric("👥 Main customers", more["customer"][0], f"{more['customer'][1]:.0f}% of sales",
+                     delta_color="off", delta_arrow="off")
+
+    span = (end - start).days
+    anomalies = analyse(now)["anomalies"] if span > 62 else []
+    if span > 62:
+        show_chart(revenue_by_month(now, [a["month"] for a in anomalies], SYM, NSTYLE), "ch_month")
+    show_chart(revenue_trend(now, SYM, NSTYLE), "ch_trend")
+    has_p, has_r = now.Product.nunique() > 1, now.Region.nunique() > 1
+    cols = st.columns(2) if has_p and has_r else [st.container()]
+    if has_p:
+        with cols[0]:
+            show_chart(top_products(now, SYM, NSTYLE), "ch_products")
+    if has_r:
+        with cols[-1]:
+            show_chart(regional_performance(now, SYM, NSTYLE, growth_by(now, prev, "Region")), "ch_regions")
+    if now.Date.dt.normalize().nunique() >= 7:
+        show_chart(weekday_chart(by_weekday(now), SYM, NSTYLE), "ch_weekday")
+    donuts = [(col, title) for col, title in (("Payment_Method", "💳 How customers pay"),
+                                              ("Customer_Type", "👥 Who buys"))
+              if col in now.columns and now[col].nunique() > 1]
+    if donuts:
+        cols = st.columns(len(donuts))
+        for col_box, (col, title) in zip(cols, donuts):
+            with col_box:
+                show_chart(share_donut(now, col, title, SYM, NSTYLE), f"ch_{col}")
+    if has_p and span > 62:
+        show_chart(product_comparison(now, SYM, NSTYLE), "ch_compare")
+    st.caption(SHARE_TIP)
+
+    if anomalies:
+        st.subheader("⚠️ Unusual months")
+        for a in anomalies:
+            text = (f"**{pd.Period(a['month']).strftime('%B %Y')}**: sales were "
+                    f"{abs(a['difference_pct'])}% {'below' if a['type'] == 'low' else 'above'} "
+                    f"what the trend expected ({money(a['revenue'])} vs {money(a['expected'])})")
+            if a["type"] == "low":
+                st.error("📉 " + text)
+            else:
+                st.success("🎉 " + text)
+
+
 if tab1.open:
     with tab1:
         if is_document():
@@ -1274,75 +1496,7 @@ if tab1.open:
             st.markdown("#### 👋 Let's look at your business. How would you like to start?")
             start_options()
         else:
-            if COMPANY:
-                st.subheader(f"🏢 {COMPANY}")
-            data_preview()
-            show_filter_tags("the cards and charts")
-            if df.empty:
-                st.warning("No sales match these filters. Try a wider date range or reset the filters.")
-            else:
-                prev = previous_period(FULL_DF, date_start, date_end, choices)
-                c = card_numbers(df, prev)
-                ps, pe = previous_range(date_start, date_end)
-                prev_note = (f"Arrows compare with {ps:%d %b %Y} – {pe:%d %b %Y}."
-                             if not prev.empty else "No earlier data to compare with, so no arrows.")
-
-                r1 = st.columns(3)
-                r1[0].metric("💰 Total revenue", money(c["total"]), metric_delta(c["total_change"]),
-                             help=f"{money(c['total'])} · {prev_note}")
-                r1[1].metric("📅 Best month", c["best_month"].strftime("%b %Y") if c["best_month"] else "—",
-                             money(c["best_month_revenue"]), delta_color="off", delta_arrow="off")
-                r1[2].metric("🏆 Best product", c["best_product"] if c["best_product"] != ALL else "—",
-                             f"{c['best_product_share']:.0f}% of revenue" if c["best_product"] != ALL else None,
-                             delta_color="off", delta_arrow="off", help=str(c["best_product"]))
-                r2 = st.columns(3)
-                r2[0].metric("🧾 Transactions", f"{c['transactions']:,}", metric_delta(c["transactions_change"]))
-                r2[1].metric("📈 Average monthly revenue", money(c["avg_monthly"]),
-                             metric_delta(c["avg_monthly_change"]),
-                             help=f"Average over {c['months']} month(s) in the selected period.")
-                mom = c["mom"]
-                r2[2].metric("🔁 Month over month",
-                             f"{mom['pct']:+.1f}%" if mom and mom["pct"] is not None else "—",
-                             mom["label"] if mom else "Needs 2+ months",
-                             delta_color=("green" if mom and (mom["pct"] or 0) >= 0 else "red") if mom else "off",
-                             delta_arrow=("up" if mom and (mom["pct"] or 0) >= 0 else "down") if mom else "off",
-                             help=("The latest month looked incomplete, so the last full month is used."
-                                   if mom and mom["skipped_partial_month"] else None))
-                st.caption(prev_note)
-
-                anomalies = A["anomalies"]
-                show_chart(revenue_by_month(df, [a["month"] for a in anomalies], SYM, NSTYLE), "ch_month")
-                has_products = df.Product.nunique() > 1
-                has_regions = df.Region.nunique() > 1
-                cols = st.columns(2) if has_products and has_regions else [st.container()]
-                if has_products:
-                    with cols[0]:
-                        show_chart(top_products(df, SYM, NSTYLE), "ch_products")
-                if has_regions:
-                    with cols[-1]:
-                        show_chart(regional_performance(df, SYM, NSTYLE, growth_by(df, prev, "Region")),
-                                   "ch_regions")
-                show_chart(revenue_trend(df, SYM, NSTYLE), "ch_trend")
-                if has_products:
-                    show_chart(product_comparison(df, SYM, NSTYLE), "ch_compare")
-                st.caption(SHARE_TIP)
-
-                if anomalies:
-                    st.subheader("⚠️ Unusual months")
-                    for a in anomalies:
-                        text = (f"**{pd.Period(a['month']).strftime('%B %Y')}**: revenue was "
-                                f"{abs(a['difference_pct'])}% {'below' if a['type'] == 'low' else 'above'} "
-                                f"what the trend expected ({money(a['revenue'])} vs {money(a['expected'])})")
-                        if a["type"] == "low":
-                            st.error("📉 " + text)
-                        else:
-                            st.success("🎉 " + text)
-
-                st.download_button(
-                    "⬇️ Download this data (clean CSV)",
-                    df.assign(Date=df.Date.dt.strftime("%Y-%m-%d")).to_csv(index=False).encode("utf-8-sig"),
-                    f"iraaya_data{'_filtered' if FILTERED else ''}.csv", "text/csv",
-                )
+            business_page()
 
 # ---------- Tab 2: Ask iRaaya ----------
 DOC_QUICK_QUESTIONS = {
@@ -1557,7 +1711,7 @@ if tab2.open:
                     st.rerun()
 
 # ---------- Summary ----------
-PERIODS = ["Today", "This week", "This month", "Choose dates"]
+PERIODS = ["Today", "Latest day", "This week", "This month", "Choose dates"]
 
 
 def show_latest(start, end):
@@ -1604,13 +1758,18 @@ if sum_tab.open:
             st.button("🏠 Go to Home", on_click=go, args=(HOME,))
         else:
             st.subheader("📅 Summary")
-            st.session_state.setdefault("sum_period", "Today")
-            period = st.segmented_control("Which period?", PERIODS, key="sum_period",
-                                          width="stretch") or "Today"
             today = user_now().date()
             min_d, max_d = FULL_DF.Date.min().date(), FULL_DF.Date.max().date()
+            if st.session_state.get("sum_period") not in PERIODS:
+                # Open on a day that has sales: today if it has any, otherwise the latest day
+                has_today = (FULL_DF.Date.dt.date == today).any()
+                st.session_state.sum_period = "Today" if has_today else "Latest day"
+            period = st.segmented_control("Which period?", PERIODS, key="sum_period",
+                                          width="stretch") or "Latest day"
             if period == "Today":
                 start, end, label = today, today, f"today, {today:%d %B %Y}"
+            elif period == "Latest day":
+                start, end, label = max_d, max_d, f"{max_d:%A %d %B %Y} (the latest day in your file)"
             elif period == "This week":
                 start, end = today - timedelta(days=today.weekday()), today
                 label = f"this week, {start:%d %b} – {end:%d %b %Y}"
@@ -1691,15 +1850,20 @@ if tab3.open:
         elif A is None:
             st.warning("No sales match the current filters. Reset the filters in the sidebar.")
         else:
-            show_filter_tags("insights, forecast and reports")
-            if st.button("✨ Generate iRaaya Insights", type="primary"):
+            auto = (GROQ_KEY and not st.session_state.insights
+                    and st.session_state.get("insights_for") != (st.session_state.data_key, selected_language))
+            if auto or st.button("🔄 Refresh insights" if st.session_state.insights else "✨ Generate iRaaya Insights",
+                                 type="secondary" if st.session_state.insights else "primary"):
+                st.session_state.insights_for = (st.session_state.data_key, selected_language)
                 try:
-                    with st.spinner("Analysing your business..."):
+                    with st.spinner("iRaaya is looking at your business…"):
                         st.session_state.insights = generate_insights(data_context(), GROQ_KEY, selected_language)
                     if not st.session_state.insights:
                         st.warning("iRaaya couldn't produce insights this time. Please try again.")
                 except Exception as e:
                     show_error(e)
+                if auto and st.session_state.insights:
+                    st.rerun()      # show them with the Refresh button
 
             if st.session_state.insights:
                 st.subheader("iRaaya Insights")
@@ -1812,8 +1976,8 @@ if tab4.open:
                    f"{fmt_compact(3977970, SYM, NSTYLE)}")
 
         st.subheader("🗣️ Language, style and voice")
-        st.caption("Change these in the sidebar. Everything you choose — language, style, voice, "
-                   "speed, currency, company — is remembered on this device and used next time.")
+        voice_settings()
+        st.caption("Everything you choose here is remembered on this device and used next time.")
         if st.button("↺ Reset settings to defaults"):
             for key, value in SETTING_DEFAULTS.items():
                 st.session_state[key] = value

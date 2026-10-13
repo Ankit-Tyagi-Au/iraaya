@@ -35,9 +35,9 @@ def _nice_step(span: float) -> float:
     return 10 * power
 
 
-def money_ticks(low: float, high: float, symbol: str, style: str):
+def money_ticks(low: float, high: float, symbol: str, style: str, from_zero: bool = True):
     """Axis ticks written the same way as the labels (₹10L, $2M, 1,5M €)."""
-    low, high = min(0.0, low), max(high, 1.0)
+    low, high = (min(0.0, low) if from_zero else low), max(high, 1.0)
     step = _nice_step(high - low)
     start = math.floor(low / step) * step
     vals = [start + i * step for i in range(int((high - start) / step) + 2)]
@@ -149,8 +149,9 @@ def revenue_trend(df: pd.DataFrame, symbol: str = "", style: str = "intl"):
     fig.update_xaxes(title_text="")
     lo, hi = float(daily.min()) if len(daily) else 0, float(daily.max()) if len(daily) else 0
     _style(fig, symbol, style, high=hi, headroom=1.08)
-    vals, text = money_ticks(0, hi * 1.08, symbol, style)
-    fig.update_yaxes(tickvals=vals, ticktext=text, range=[max(0, lo * 0.85), hi * 1.08])
+    bottom = max(0, lo * 0.85)
+    vals, text = money_ticks(bottom, hi * 1.08, symbol, style, from_zero=False)
+    fig.update_yaxes(tickvals=vals, ticktext=text, range=[bottom, hi * 1.08])
     return fig
 
 
@@ -253,6 +254,11 @@ def figure_data_text(fig, max_points: int = 40) -> str:
     """The numbers behind a chart, as short text (for "Explain this")."""
     lines = []
     for trace in fig.data:
+        if trace.type == "pie":
+            total = sum(trace.values) or 1
+            lines.append("Share of sales: " + "; ".join(
+                f"{l}: {v:,.0f} ({v / total * 100:.0f}%)" for l, v in zip(trace.labels, trace.values)))
+            continue
         xs = list(trace.x) if trace.x is not None else []
         ys = list(trace.y) if trace.y is not None else []
         if not xs or not ys:
@@ -268,3 +274,32 @@ def figure_data_text(fig, max_points: int = 40) -> str:
             pts.append(f"{x}: {y}")
         lines.append(f"{name}: " + "; ".join(pts))
     return "\n".join(lines)
+
+
+def weekday_chart(avg: pd.Series, symbol: str = "", style: str = "intl"):
+    """Average sales on each day of the week; the best day in aqua."""
+    best = avg.idxmax() if len(avg) else None
+    fig = go.Figure(go.Bar(
+        x=list(avg.index), y=list(avg.values),
+        marker_color=[AQUA if d == best else OCEAN for d in avg.index],
+        text=[fmt_compact(v, symbol, style) for v in avg.values], textposition="outside", cliponaxis=False,
+        customdata=[fmt_money(v, symbol, style) for v in avg.values],
+        hovertemplate="<b>%{x}</b><br>Average %{customdata}<extra></extra>", name="Average sales",
+    ))
+    fig.update_layout(title="🗓️ Average sales by day of the week", showlegend=False)
+    fig.update_xaxes(title_text="")
+    return _style(fig, symbol, style, y_title="", high=float(avg.max()) if len(avg) else 0, headroom=1.18)
+
+
+def share_donut(df: pd.DataFrame, column: str, title: str, symbol: str = "", style: str = "intl"):
+    """Share of sales for each value of a column (payment method, customer type)."""
+    s = df.groupby(column).Total_Revenue.sum().sort_values(ascending=False)
+    fig = go.Figure(go.Pie(
+        labels=list(s.index), values=list(s.values), hole=0.55, sort=False,
+        marker=dict(colors=PALETTE[:len(s)]), textinfo="percent",
+        customdata=[fmt_money(v, symbol, style) for v in s.values],
+        hovertemplate="<b>%{label}</b><br>%{customdata} · %{percent}<extra></extra>",
+    ))
+    fig.update_layout(title=title, height=380, margin=dict(l=10, r=10, t=60, b=10),
+                      legend=dict(orientation="h", y=-0.08), separators=plotly_separators(style))
+    return fig

@@ -31,10 +31,13 @@ in any language.
   and Payment method are used when present)
 - Data preview after upload: rows, date range, products, regions, missing values,
   how each column was read
-- Dashboard: 6 key-number cards with changes vs the previous period, 5 charts,
-  unusual-month alerts, clean CSV download
-- Filters: date range, product, region, customer type, payment method
-- Company name, 31 currencies and 4 number formats (Settings tab)
+- My business: Overview, Products, Places and All my sales; time buttons (last 7/30/90 days,
+  12 months, all time, chosen dates) always compared with the time before; filters on the page;
+  8 cards (sales, sales count, average sale, units, best product/place/day, payment);
+  charts incl. day of the week, payment methods and customer types; tap a product or place
+  to see its own page; search, sort and download every sale
+- Settings page: company name, 31 currencies, 4 number formats, monthly target, language,
+  answer style and voice
 - Ask by voice (stops when you pause) or text, in 13 languages, 3 answer styles
 - "Explain this chart" under every chart, with read-aloud; save any chart as a picture
 - Example questions that use your own products and places
