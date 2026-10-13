@@ -12,9 +12,9 @@ import streamlit as st
 
 COPY_HTML = '<button class="copy" type="button"></button>'
 COPY_CSS = """
-.copy { background: transparent; color: #94a3b8; border: 1px solid #334155;
+.copy { background: transparent; color: var(--muted, #5A6B85); border: 1px solid var(--line, #DCE4EE); font-family: inherit;
         border-radius: 8px; padding: 3px 10px; font-size: 13px; cursor: pointer; }
-.copy:hover { color: #e2e8f0; border-color: #0ea5e9; }
+.copy:hover { color: var(--ink, #0B2545); border-color: var(--acc, #12C2B0); }
 """
 COPY_JS = """
 export default function (component) {

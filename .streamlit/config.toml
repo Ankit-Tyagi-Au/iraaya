@@ -1,10 +1,31 @@
+# iRaaya Ocean: day (light) and night (dark) looks. The app follows the
+# visitor's device setting.
 [theme]
-base = "dark"
-primaryColor = "#0ea5e9"
-backgroundColor = "#0f172a"
-secondaryBackgroundColor = "#1e293b"
-textColor = "#e2e8f0"
-font = "sans serif"
+font = "Plus Jakarta Sans:https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap, sans-serif"
+baseRadius = "medium"
+chartCategoricalColors = ["#3A73C4", "#12B3A2", "#F2A93B", "#7C5CD6", "#5BB8F0", "#C27BA0"]
+
+[theme.light]
+primaryColor = "#0B8A7E"
+backgroundColor = "#F4F7FB"
+secondaryBackgroundColor = "#E8EEF5"
+textColor = "#0B2545"
+linkColor = "#0A8F82"
+borderColor = "#DCE4EE"
+
+[theme.light.sidebar]
+backgroundColor = "#FFFFFF"
+
+[theme.dark]
+primaryColor = "#12A898"
+backgroundColor = "#08111F"
+secondaryBackgroundColor = "#111C2F"
+textColor = "#EEF3F9"
+linkColor = "#2EE0CC"
+borderColor = "#1E2B42"
+
+[theme.dark.sidebar]
+backgroundColor = "#0B1628"
 
 [server]
 maxUploadSize = 50

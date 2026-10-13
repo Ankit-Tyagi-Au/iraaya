@@ -1,4 +1,7 @@
-"""Plotly charts for the iRaaya dashboard (dark theme).
+"""Plotly charts for the iRaaya dashboard.
+
+Colours come from the iRaaya Ocean palette; backgrounds, text and grid
+lines come from Streamlit's theme, so charts suit both day and night mode.
 
 Every chart takes the currency symbol and number style so labels read
 naturally anywhere in the world (₹39.8L, $3.9M, 1.234 €...).
@@ -12,9 +15,12 @@ import plotly.graph_objects as go
 
 from formatting import fmt_compact, fmt_money, plotly_separators
 
-BG = "#1e293b"
-PALETTE = ["#0ea5e9", "#10b981", "#818cf8", "#f59e0b", "#f472b6", "#94a3b8"]
-ANOMALY_COLOR = "#ef4444"
+# iRaaya Ocean: always used in this order, so a product keeps its colour
+OCEAN, AQUA, SUNRISE = "#3A73C4", "#12B3A2", "#F2A93B"
+PALETTE = [OCEAN, AQUA, SUNRISE, "#7C5CD6", "#5BB8F0", "#C27BA0"]
+ANOMALY_COLOR = "#E5484D"
+MODEBAR = {"displaylogo": False, "toImageButtonOptions": {"format": "png", "scale": 2, "filename": "iraaya_chart"},
+           "modeBarButtonsToRemove": ["select2d", "lasso2d", "autoScale2d"]}
 HEIGHT = 450
 
 
@@ -41,17 +47,12 @@ def money_ticks(low: float, high: float, symbol: str, style: str):
 def _style(fig, symbol: str = "", style: str = "intl", y_title: str = "Revenue",
            money_axis: str = "y", low: float = 0, high: float = None, headroom: float = 1.12):
     fig.update_layout(
-        plot_bgcolor=BG,
-        paper_bgcolor=BG,
         height=HEIGHT,
         margin=dict(l=10, r=10, t=60, b=10),
         legend_title_text="",
-        hoverlabel=dict(bgcolor="#0f172a"),
         separators=plotly_separators(style),
         title_font_size=17,
     )
-    fig.update_xaxes(gridcolor="#334155")
-    fig.update_yaxes(gridcolor="#334155")
     axis = fig.update_yaxes if money_axis == "y" else fig.update_xaxes
     if high is not None:
         vals, text = money_ticks(low, high * headroom, symbol, style)
@@ -83,8 +84,7 @@ def revenue_by_month(df: pd.DataFrame, anomaly_months: list = None,
     fig = px.bar(
         monthly, x="Name", y="Revenue", color="Status", text="Label",
         title="📅 Revenue by month",
-        template="plotly_dark",
-        color_discrete_map={"Normal": "#0ea5e9", "Unusual month": ANOMALY_COLOR},
+        color_discrete_map={"Normal": OCEAN, "Unusual month": ANOMALY_COLOR},
         custom_data=["Full", "Change"],
     )
     fig.update_traces(
@@ -112,7 +112,7 @@ def top_products(df: pd.DataFrame, symbol: str = "", style: str = "intl"):
     fig = px.bar(
         data, x="Revenue", y="Product", orientation="h", text="Label",
         title="🏆 Products by revenue (share of total)",
-        template="plotly_dark", color_discrete_sequence=["#10b981"],
+        color_discrete_sequence=[OCEAN],
         custom_data=["Full", "Share"],
     )
     fig.update_traces(
@@ -134,17 +134,17 @@ def revenue_trend(df: pd.DataFrame, symbol: str = "", style: str = "intl"):
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=daily.index, y=daily.values, name="Revenue", mode="lines",
-        line=dict(color="#38bdf8", width=1.5),
+        line=dict(color=OCEAN, width=1.5),
         customdata=[fmt_money(v, symbol, style) for v in daily.values],
         hovertemplate="%{x|%d %b %Y}<br>%{customdata}<extra>Revenue</extra>",
     ))
     fig.add_trace(go.Scatter(
         x=average.index, y=average.values, name="30-day average", mode="lines",
-        line=dict(color="#f59e0b", width=3),
+        line=dict(color=SUNRISE, width=3),
         customdata=[fmt_money(v, symbol, style) for v in average.values],
         hovertemplate="%{x|%d %b %Y}<br>%{customdata}<extra>30-day average</extra>",
     ))
-    fig.update_layout(title="📈 Revenue trend with 30-day average", template="plotly_dark",
+    fig.update_layout(title="📈 Revenue trend with 30-day average",
                       legend=dict(orientation="h", y=1.08, x=1, xanchor="right"))
     fig.update_xaxes(title_text="")
     lo, hi = float(daily.min()) if len(daily) else 0, float(daily.max()) if len(daily) else 0
@@ -175,7 +175,7 @@ def regional_performance(df: pd.DataFrame, symbol: str = "", style: str = "intl"
     fig = px.bar(
         data, x="Region", y="Revenue", color="Region", text="Label",
         title="🌍 Revenue by region" + (" (growth vs previous period)" if growth else ""),
-        template="plotly_dark", color_discrete_sequence=PALETTE,
+        color_discrete_sequence=PALETTE,
         custom_data=["Full", "Growth"],
     )
     fig.update_traces(
@@ -197,7 +197,7 @@ def product_comparison(df: pd.DataFrame, symbol: str = "", style: str = "intl"):
     fig = px.line(
         monthly.sort_values("Month"), x="Name", y="Revenue", color="Product", markers=True,
         title="📊 Products compared month by month",
-        template="plotly_dark", color_discrete_sequence=PALETTE, custom_data=["Full"],
+        color_discrete_sequence=PALETTE, custom_data=["Full"],
     )
     fig.update_traces(hovertemplate="<b>%{fullData.name}</b><br>%{x}<br>%{customdata[0]}<extra></extra>")
     fig.update_xaxes(type="category", categoryorder="array",
@@ -238,12 +238,33 @@ def table_charts(rows: list, limit: int = 3) -> list:
                 return f"{v:+,.4g}%"
             return f"{v:,.0f}" if abs(v) >= 100 else f"{v:,.4g}"
         chart["_text"] = chart[col].map(show)
-        fig = px.bar(chart, x=label, y=col, text="_text", template="plotly_dark",
+        fig = px.bar(chart, x=label, y=col, text="_text",
                      title=f"📊 {col} by {label}", color_discrete_sequence=[PALETTE[len(figs) % len(PALETTE)]])
         fig.update_traces(textposition="outside", cliponaxis=False)
         lo, hi = chart[col].min(), chart[col].max()
-        fig.update_layout(plot_bgcolor=BG, paper_bgcolor=BG, height=380, showlegend=False,
+        fig.update_layout(height=380, showlegend=False,
                           margin=dict(l=10, r=10, t=60, b=10), yaxis_title="", xaxis_title="")
-        fig.update_yaxes(gridcolor="#334155", range=[min(0, lo * 1.2), max(0, hi * 1.2) or 1])
+        fig.update_yaxes(range=[min(0, lo * 1.2), max(0, hi * 1.2) or 1])
         figs.append(fig)
     return figs
+
+
+def figure_data_text(fig, max_points: int = 40) -> str:
+    """The numbers behind a chart, as short text (for "Explain this")."""
+    lines = []
+    for trace in fig.data:
+        xs = list(trace.x) if trace.x is not None else []
+        ys = list(trace.y) if trace.y is not None else []
+        if not xs or not ys:
+            continue
+        step = max(1, len(xs) // max_points)
+        name = trace.name or "values"
+        pts = []
+        for x, y in list(zip(xs, ys))[::step]:
+            x = x.strftime("%d %b %Y") if hasattr(x, "strftime") else x
+            y = y.strftime("%d %b %Y") if hasattr(y, "strftime") else y
+            if isinstance(y, (int, float)):
+                y = f"{y:,.0f}" if abs(y) >= 100 else f"{y:,.2f}".rstrip("0").rstrip(".")
+            pts.append(f"{x}: {y}")
+        lines.append(f"{name}: " + "; ".join(pts))
+    return "\n".join(lines)

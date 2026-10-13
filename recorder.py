@@ -22,14 +22,14 @@ CSS = """
 .rec { font-family: inherit; }
 #rec-btn {
   width: 100%; padding: 18px 16px; border: none; border-radius: 14px;
-  background: #0ea5e9; color: #fff; font-size: 17px; font-weight: 600;
-  cursor: pointer;
+  background: var(--navy, #0B2545); color: #fff; font-size: 17px; font-weight: 700;
+  cursor: pointer; font-family: inherit;
 }
-#rec-btn.live { background: #ef4444; animation: pulse 1.2s infinite; }
-#rec-btn.busy { background: #334155; cursor: default; }
-#rec-btn.speaking { background: #10b981; }
+#rec-btn.live { background: var(--down, #E5484D); animation: pulse 1.2s infinite; }
+#rec-btn.busy { background: var(--muted, #5A6B85); cursor: default; }
+#rec-btn.speaking { background: var(--acc-text, #0A8F82); }
 @keyframes pulse { 50% { opacity: .75; } }
-#rec-status { margin-top: 8px; font-size: 13px; color: #94a3b8; text-align: center; }
+#rec-status { margin-top: 8px; font-size: 13px; color: var(--muted, #5A6B85); text-align: center; }
 """
 
 JS = """

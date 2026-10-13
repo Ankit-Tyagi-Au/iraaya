@@ -7,6 +7,7 @@ import groq
 from groq import Groq
 
 from prompts import (
+    get_chart_explain_prompt,
     get_document_prompt,
     get_glance_prompt,
     get_period_summary_prompt,
@@ -224,3 +225,10 @@ def summarise_period(data_context: str, period: str, api_key: str,
     """A short spoken-friendly summary of one period (a day, week, month...)."""
     return _chat(api_key, [{"role": "user", "content": get_period_summary_prompt(
         data_context, period, language, mode)}], temperature=0.3, max_tokens=500)
+
+
+def explain_chart(chart_title: str, chart_data: str, currency_note: str, api_key: str,
+                  language: str = "English", mode: str = "Simple") -> str:
+    """What a chart shows, in a few plain sentences."""
+    return _chat(api_key, [{"role": "user", "content": get_chart_explain_prompt(
+        chart_title, chart_data, currency_note, language, mode)}], temperature=0.3, max_tokens=350)

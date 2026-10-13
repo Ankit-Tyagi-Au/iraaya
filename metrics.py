@@ -110,3 +110,97 @@ def growth_by(current: pd.DataFrame, previous: pd.DataFrame, column: str) -> dic
     now = current.groupby(column).Total_Revenue.sum()
     before = previous.groupby(column).Total_Revenue.sum()
     return {k: _change(v, before.get(k)) for k, v in now.items()}
+
+
+# ---------- Home screen: snapshot, 3 things to know, monthly target ----------
+
+def _daily(df: pd.DataFrame) -> pd.Series:
+    return df.groupby(df.Date.dt.normalize()).Total_Revenue.sum().sort_index()
+
+
+def day_snapshot(df: pd.DataFrame, today) -> dict:
+    """Sales on `today` (or, if there are none, on the latest day in the
+    file) compared with a usual day of the same weekday: the median of
+    that weekday over the 8 weeks before. pct is None without history."""
+    daily = _daily(df)
+    if daily.empty:
+        return None
+    today = pd.Timestamp(today).normalize()
+    is_today = today in daily.index
+    day = today if is_today else daily.index.max()
+    earlier = daily[(daily.index < day) & (daily.index >= day - pd.Timedelta(weeks=8))]
+    same_weekday = earlier[earlier.index.dayofweek == day.dayofweek]
+    usual = float(same_weekday.median()) if len(same_weekday) >= 2 else None
+    total = float(daily[day])
+    return {"day": day, "is_today": is_today, "total": total, "usual": usual,
+            "pct": _change(total, usual) if usual else None}
+
+
+def _window_change(df: pd.DataFrame, col: str, end: pd.Timestamp, days: int = 7):
+    """Per value of col: (change %, revenue now) for the last `days` days
+    ending at `end` vs the `days` before."""
+    now = df[(df.Date > end - pd.Timedelta(days=days)) & (df.Date <= end + pd.Timedelta(days=1))]
+    before = df[(df.Date > end - pd.Timedelta(days=2 * days)) & (df.Date <= end - pd.Timedelta(days=days))]
+    a, b = now.groupby(col).Total_Revenue.sum(), before.groupby(col).Total_Revenue.sum()
+    out = {}
+    for key in a.index.union(b.index):
+        n, p = float(a.get(key, 0)), float(b.get(key, 0))
+        if p > 0:
+            out[key] = (_change(n, p), n)
+    return out
+
+
+def home_insights(df: pd.DataFrame, fmt_money=lambda v: f"{v:,.0f}", all_label: str = "All") -> list:
+    """Up to 3 plain-language facts worked out from the data (no AI, so
+    always accurate): the product that moved most this week, the place
+    that moved most, and the best day of the week.
+    Returns [{"kind": "up"|"down"|"tip", "text": str}]."""
+    daily = _daily(df)
+    if len(daily) < 14:
+        return []
+    end = daily.index.max()
+    facts = []
+    for col, word in (("Product", ""), ("Region", "in ")):
+        if col not in df.columns or df[col].nunique() < 2 or set(df[col].unique()) == {all_label}:
+            continue
+        changes = _window_change(df, col, end)
+        # Ignore tiny sellers: a jump from 1 sale to 3 isn't news
+        total_now = sum(n for _, n in changes.values()) or 1
+        big = {k: v for k, v in changes.items() if v[1] / total_now >= 0.05 and v[0] is not None}
+        if not big:
+            continue
+        key, (pct, _) = max(big.items(), key=lambda kv: abs(kv[1][0]))
+        if abs(pct) < 5:
+            continue
+        up = pct > 0
+        subject = f"{key} sales are" if col == "Product" else f"Sales {word}{key} are"
+        facts.append({"kind": "up" if up else "down",
+                      "text": f"{subject} {'up' if up else 'down'} {abs(pct):.0f}% in the last 7 days"})
+    recent = daily[daily.index > end - pd.Timedelta(weeks=12)]
+    by_weekday = recent.groupby(recent.index.dayofweek).mean()
+    if len(by_weekday) >= 5:
+        best = int(by_weekday.idxmax())
+        names = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        facts.append({"kind": "tip",
+                      "text": f"{names[best]} is your best day (about {fmt_money(by_weekday.max())} "
+                              f"on average), so get ready on {names[(best - 1) % 7]}"})
+    return facts[:3]
+
+
+def target_progress(df: pd.DataFrame, target: float, today) -> dict:
+    """Progress towards a monthly sales target. Uses the current month when
+    the file has sales in it, otherwise the latest month in the file
+    (which is then finished, so nothing is 'still needed')."""
+    if not target or df.empty:
+        return None
+    today = pd.Timestamp(today).normalize()
+    latest = df.Date.max()
+    month = today.to_period("M") if (df.Date.dt.to_period("M") == today.to_period("M")).any() \
+        else latest.to_period("M")
+    sold = float(df[df.Date.dt.to_period("M") == month].Total_Revenue.sum())
+    current = month == today.to_period("M")
+    days_left = (month.days_in_month - today.day) if current else 0
+    remaining = max(target - sold, 0)
+    return {"month": month, "sold": sold, "target": float(target), "pct": sold / target * 100,
+            "current": current, "days_left": days_left,
+            "per_day": remaining / days_left if current and days_left > 0 and remaining else None}

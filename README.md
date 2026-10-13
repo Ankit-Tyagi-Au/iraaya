@@ -15,7 +15,11 @@ to be understood clearly,
 in any language.
 
 ## Features
-- Home screen with big buttons, and 3 simple ways to start: your sales file, a sample, or any other file
+- iRaaya Ocean design: day and night look that follows your device, works on computer and phone
+  (tab bar on computers, an icon bar at the bottom on phones)
+- Home: today's sales vs a usual day, a big "What would you like to know?" voice card,
+  things to know (worked out from your data) and a monthly target with progress
+- 3 simple ways to start: your sales file, a sample, or any other file
 - Upload sales data: CSV or Excel (.xlsx, .xls), or a PDF/Word file with a sales table
 - Any other file (PDF, Word, text, any table) becomes a short summary, checked key numbers
   (with page and sentence) and charts of its tables
@@ -32,6 +36,8 @@ in any language.
 - Filters: date range, product, region, customer type, payment method
 - Company name, 31 currencies and 4 number formats (Settings tab)
 - Ask by voice (stops when you pause) or text, in 13 languages, 3 answer styles
+- "Explain this chart" under every chart, with read-aloud; save any chart as a picture
+- Example questions that use your own products and places
 - Answers from your real data, including individual records ("What happened on 15 April?")
 - Voice: free or premium voice, speed, preview, voice cloning with privacy protections
 - Chat: timestamps, voice on every answer, copy buttons, save as text or PDF
@@ -102,3 +108,7 @@ after a few weeks without visits.)
    GROQ_API_KEY = "your_key"
    ELEVENLABS_API_KEY = "your_key"
    ```
+
+## Tests
+Run `python tests/test_app_v1.py`, `python tests/test_app_v1b.py` and `python tests/test_summary.py`
+(they need GROQ_API_KEY in .env, as some checks ask the AI).

@@ -128,7 +128,7 @@ def forecast_chart(
         y=high_y + low_y[::-1],
         fill="toself",
         mode="lines",
-        fillcolor="rgba(16, 185, 129, 0.15)",
+        fillcolor="rgba(18, 179, 162, 0.15)",
         line=dict(width=0),
         hoverinfo="skip",
         name="Likely range",
@@ -139,7 +139,7 @@ def forecast_chart(
         y=hist_y,
         name="Actual Revenue",
         line=dict(
-            color="#0ea5e9",
+            color="#3A73C4",
             width=2
         ),
         mode="lines+markers",
@@ -152,7 +152,7 @@ def forecast_chart(
         y=fc_y,
         name="Forecast",
         line=dict(
-            color="#10b981",
+            color="#12B3A2",
             width=2,
             dash="dash"
         ),
@@ -163,9 +163,6 @@ def forecast_chart(
 
     fig.update_layout(
         title="🔮 Revenue forecast (next 3 months)",
-        template="plotly_dark",
-        plot_bgcolor="#1e293b",
-        paper_bgcolor="#1e293b",
         xaxis_title="",
         yaxis_title="Revenue",
         height=450,
@@ -179,11 +176,10 @@ def forecast_chart(
         type="category",
         categoryorder="array",
         categoryarray=hist_x + fc_x[1:],
-        gridcolor="#334155",
     )
     from charts import money_ticks
     top = max(max(high_y), max(hist_y)) * 1.08
     vals, text = money_ticks(0, top, symbol, style)
-    fig.update_yaxes(tickvals=vals, ticktext=text, range=[0, top], gridcolor="#334155")
+    fig.update_yaxes(tickvals=vals, ticktext=text, range=[0, top])
 
     return fig

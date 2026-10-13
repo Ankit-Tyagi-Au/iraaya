@@ -34,6 +34,8 @@ from analyser import (
 )
 from browser_tools import copy_button, device_storage
 from charts import (
+    MODEBAR,
+    figure_data_text,
     table_charts,
     product_comparison,
     regional_performance,
@@ -55,13 +57,17 @@ from insights import (
     IRaayaError,
     ask_document,
     document_glance,
+    explain_chart,
     summarise_period,
     ask_iraaya,
     generate_insights,
     generate_whatsapp_summary,
 )
 from languages import LANGUAGES
-from metrics import FILTER_COLUMNS, apply_filters, card_numbers, growth_by, previous_period, previous_range
+from metrics import (
+    FILTER_COLUMNS, apply_filters, card_numbers, day_snapshot, growth_by, home_insights,
+    previous_period, previous_range, target_progress,
+)
 from pdf_report import conversation_text, generate_conversation_pdf, generate_pdf
 from recorder import voice_recorder
 from voice import (
@@ -117,79 +123,161 @@ st.set_page_config(
 st.logo(str(LOGO), size="large")
 
 # ---------- Look and feel ----------
-st.markdown("""
+# iRaaya Ocean: 60% calm background, 30% deep navy, 10% aqua. The colour
+# names below switch between day and night with the visitor's device.
+OCEAN_LIGHT = """--ink:#0B2545; --muted:#5A6B85; --card:#FFFFFF; --line:#E3E9F1; --page:#F4F7FB;
+  --navy:#0B2545; --navy2:#13315C; --ontop:#A9BCD6; --acc:#12C2B0; --acc-text:#0A8F82;
+  --acc-soft:#DDF8F4; --on-acc:#062A26; --up:#16A34A; --down:#E5484D; --shadow:rgba(11,37,69,.08);"""
+OCEAN_DARK = """--ink:#EEF3F9; --muted:#93A4BD; --card:#111C2F; --line:#1E2B42; --page:#08111F;
+  --navy:#13315C; --navy2:#1A3D70; --ontop:#B9CBE3; --acc:#2EE0CC; --acc-text:#2EE0CC;
+  --acc-soft:rgba(46,224,204,.13); --on-acc:#062A26; --up:#4ADE80; --down:#FF6B6B; --shadow:rgba(0,0,0,.35);"""
+st.markdown(f"""
 <style>
-/* Cards: subtle border and shadow */
+:root {{ {OCEAN_LIGHT} }}
+@media (prefers-color-scheme: dark) {{ :root {{ {OCEAN_DARK} }} }}
+""" + """
+/* Number cards */
 div[data-testid="stMetric"] {
-  background: #1e293b; border: 1px solid #334155; border-radius: 14px;
-  padding: 14px 16px; box-shadow: 0 4px 14px rgba(0,0,0,.25);
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 14px 16px; box-shadow: 0 2px 10px var(--shadow);
 }
-div[data-testid="stMetricValue"] { font-size: 1.7rem; }
-/* Chat: you on the right in blue, iRaaya on the left in green */
+div[data-testid="stMetricValue"] { font-size: 1.6rem; font-weight: 800; }
+/* Chat: you on the right in navy, iRaaya on the left on a card */
 div[data-testid="stChatMessage"] { width: 88% !important; border-radius: 16px; }
 div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatarUser"]) {
-  flex-direction: row-reverse; background: #1e3a8a; margin-left: auto !important;
+  flex-direction: row-reverse; background: var(--navy); margin-left: auto !important;
   border-radius: 16px 16px 4px 16px;
 }
-div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatarUser"]) p { text-align: right; }
+div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatarUser"]) p { text-align: right; color: #fff; }
 div[data-testid="stChatMessage"]:not(:has(div[data-testid="stChatMessageAvatarUser"])) {
-  background: #064e3b; margin-right: auto !important; border-radius: 16px 16px 16px 4px;
+  background: var(--card); border: 1px solid var(--line); margin-right: auto !important;
+  border-radius: 16px 16px 16px 4px;
 }
-.msg-time { font-size: .72rem; color: #94a3b8; }
-.tag { display: inline-block; background: #0c4a6e; color: #e0f2fe; border-radius: 999px;
-       padding: 2px 10px; margin: 2px 4px 2px 0; font-size: .8rem; }
-.hero { text-align: center; padding: 10px 0 0 0; }
-.hero svg { width: 110px; height: 110px; }
-.hero h1 { font-size: 2.6rem; margin: 6px 0 0 0; }
-.step { background: #1e293b; border: 1px solid #334155; border-radius: 14px; padding: 16px; height: 100%; }
-.step b { color: #38bdf8; font-size: 1.05rem; }
-/* A livelier background: soft glows in the logo's colours, drifting slowly */
+.msg-time { font-size: .72rem; color: var(--muted); }
+div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatarUser"]) .msg-time { color: var(--ontop); }
+.tag { display: inline-block; background: var(--acc-soft); color: var(--acc-text); border-radius: 999px;
+       padding: 2px 10px; margin: 2px 4px 2px 0; font-size: .8rem; font-weight: 600; }
+/* A calm page with one soft aqua glow at the top */
 [data-testid="stApp"] {
-  background:
-    radial-gradient(900px 520px at 8% -8%, rgba(14,165,233,.20), transparent 60%),
-    radial-gradient(760px 480px at 105% 12%, rgba(236,90,154,.14), transparent 60%),
-    radial-gradient(900px 600px at 45% 115%, rgba(16,185,129,.14), transparent 60%),
-    #0f172a;
-  background-size: 140% 140%;
-  animation: drift 28s ease-in-out infinite alternate;
+  background: radial-gradient(900px 420px at 50% -12%, color-mix(in srgb, var(--acc) 14%, transparent), transparent 70%), var(--page);
 }
-@keyframes drift { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
-@media (prefers-reduced-motion: reduce) { [data-testid="stApp"] { animation: none; } }
 [data-testid="stHeader"] { background: transparent; }
-[data-testid="stSidebar"] { background: rgba(15, 23, 42, .82); backdrop-filter: blur(8px); }
-/* Big, friendly tiles on the Home screen */
-.st-key-tiles button {
-  min-height: 118px; border-radius: 20px; border: 1px solid rgba(255,255,255,.08);
-  font-size: 1.15rem; font-weight: 600; white-space: pre-line; line-height: 1.35;
-  box-shadow: 0 8px 24px rgba(0,0,0,.25); transition: transform .12s ease, box-shadow .12s ease;
+[data-testid="stToolbarActions"] { display: none; }     /* "Fork" / GitHub links */
+[data-testid="stFileUploaderDropzone"] { border: 1.5px dashed color-mix(in srgb, var(--acc) 60%, var(--line)); border-radius: 14px; }
+
+/* ----- Tabs: a navy bar on every page except Home ----- */
+.st-key-main_tab [role="tablist"] {
+  background: var(--navy); border-radius: 14px; padding: 6px; gap: 4px; overflow-x: auto;
 }
-.st-key-tiles button:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,.35); }
-.st-key-tiles button p { font-size: 1.2rem; white-space: normal; }
-.st-key-tiles [data-testid="stCaptionContainer"] { text-align: center; margin-top: -6px; }
-.st-key-tile_business button { background: linear-gradient(135deg, #0369a1, #0ea5e9); }
-.st-key-tile_ask button      { background: linear-gradient(135deg, #047857, #10b981); }
-.st-key-tile_summary button  { background: linear-gradient(135deg, #6d28d9, #818cf8); }
-.st-key-tile_tips button     { background: linear-gradient(135deg, #b45309, #f59e0b); }
-.st-key-tile_settings button { background: linear-gradient(135deg, #334155, #64748b); }
-.st-key-tile_new button      { background: linear-gradient(135deg, #be185d, #ec5a9a); }
+.st-key-main_tab [role="tab"] { border-radius: 10px; padding: 6px 12px; color: var(--ontop); }
+.st-key-main_tab [role="tab"] p { color: inherit; font-weight: 600; }
+.st-key-main_tab [role="tab"][aria-selected="true"] { background: var(--acc); color: var(--on-acc); }
+.st-key-main_tab [role="tab"][aria-selected="true"] p { font-weight: 800; }
+.st-key-main_tab .react-aria-SelectionIndicator, .st-key-main_tab [data-baseweb="tab-highlight"],
+.st-key-main_tab [data-baseweb="tab-border"] { display: none !important; }
+
+/* ----- Home ----- */
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.25rem; color: var(--ink); }
+.brand svg { width: 34px; height: 34px; }
+.welcome { text-align: center; padding: 18px 0 6px; }
+.welcome svg { width: 92px; height: 92px; }
+.welcome h1 { font-size: clamp(2.6rem, 7vw, 4rem); font-weight: 800; margin: 4px 0 0; padding: 0; letter-spacing: -.02em; color: var(--ink); }
+.welcome h1 [data-testid="stHeaderActionElements"] { display: none; }
+.welcome .tagline { font-size: 1.25rem; font-weight: 700; color: var(--acc-text); margin: 0; }
+.welcome .lede { font-size: 1.02rem; color: var(--muted); max-width: 46ch; margin: 12px auto 0; line-height: 1.55; }
+.tryask { position: relative; margin: 20px auto 6px; max-width: 560px; background: var(--navy); color: #fff;
+  border-radius: 999px; padding: 12px 12px 12px 24px; display: flex; align-items: center; gap: 14px; text-align: left; }
+.tryask .lbl { font-size: .7rem; letter-spacing: .08em; color: var(--ontop); font-weight: 700; }
+.tryask .qs { position: relative; height: 1.5em; flex: 1; }
+.tryask .qs span { position: absolute; inset: 0; font-weight: 600; opacity: 0; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; animation: cycle 15s infinite; }
+.tryask .qs span:nth-child(2) { animation-delay: 3s; } .tryask .qs span:nth-child(3) { animation-delay: 6s; }
+.tryask .qs span:nth-child(4) { animation-delay: 9s; } .tryask .qs span:nth-child(5) { animation-delay: 12s; }
+@keyframes cycle { 0% { opacity: 0; } 3% { opacity: 1; } 18% { opacity: 1; } 21% { opacity: 0; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .tryask .qs span { animation: none; } .tryask .qs span:first-child { opacity: 1; } }
+.bubble { width: 44px; height: 44px; flex: none; border-radius: 50%; background: var(--acc); color: var(--on-acc);
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+.snap { padding: 6px 0 4px; }
+.snap .who { font-size: .9rem; font-weight: 700; color: var(--muted); }
+.snap .big { font-size: clamp(1.9rem, 4.5vw, 2.6rem); font-weight: 800; color: var(--ink); line-height: 1.2; margin-top: 2px; }
+.snap .delta { font-size: 1rem; font-weight: 800; margin-left: 8px; white-space: nowrap; }
+.snap .file { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+.up { color: var(--up); } .down { color: var(--down); }
+/* Big clickable cards: the picture is HTML, a see-through button on top does the click */
+.st-key-hero_ask, .st-key-card_business, .st-key-card_summary { position: relative; }
+.st-key-go_ask, .st-key-go_business, .st-key-go_summary { position: absolute; inset: 0; z-index: 3; margin: 0 !important;
+  width: 100% !important; height: 100% !important; }
+.st-key-go_ask div, .st-key-go_business div, .st-key-go_summary div { width: 100% !important; height: 100% !important; }
+.st-key-go_ask button, .st-key-go_business button, .st-key-go_summary button {
+  width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.hero-card { background: var(--navy); color: #fff; border-radius: 20px; padding: 22px 22px 22px 26px; display: flex;
+  align-items: center; justify-content: space-between; gap: 14px; position: relative; overflow: hidden;
+  transition: transform .12s ease; }
+.hero-card::before { content: ""; position: absolute; right: -50px; top: -70px; width: 220px; height: 220px;
+  border-radius: 50%; background: var(--navy2); }
+.hero-card > * { position: relative; }
+.hero-card .h { font-size: 1.45rem; font-weight: 800; }
+.hero-card .s { font-size: .9rem; color: var(--ontop); margin-top: 4px; }
+.mic { width: 64px; height: 64px; flex: none; border-radius: 50%; background: var(--acc); color: var(--on-acc);
+  display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+  box-shadow: 0 0 0 9px color-mix(in srgb, var(--acc) 24%, transparent); }
+.st-key-hero_ask:hover .hero-card, .st-key-card_business:hover .tile, .st-key-card_summary:hover .tile { transform: translateY(-2px); }
+.tile { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px; display: flex;
+  align-items: center; gap: 14px; box-shadow: 0 2px 10px var(--shadow); transition: transform .12s ease; }
+.ico { width: 46px; height: 46px; flex: none; border-radius: 13px; background: var(--acc-soft); color: var(--acc-text);
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+.tile .t { font-size: 1.1rem; font-weight: 800; color: var(--ink); }
+.tile .d { font-size: .85rem; color: var(--muted); }
+.st-key-slim button { background: var(--card); border: 1px solid var(--line); border-radius: 12px; min-height: 48px;
+  color: var(--ink); font-weight: 700; justify-content: flex-start; }
+.st-key-slim button span[role="img"] { color: var(--acc-text); }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; height: 100%; }
+.panel h4 { margin: 0 0 10px; padding: 0; font-size: 1rem; font-weight: 800; color: var(--ink); }
+.panel ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.panel li { display: flex; gap: 10px; align-items: flex-start; font-size: .93rem; color: var(--ink); line-height: 1.45; }
+.panel li b { flex: none; width: 26px; height: 26px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .85rem; }
+.panel li b.up { background: color-mix(in srgb, var(--up) 15%, transparent); }
+.panel li b.down { background: color-mix(in srgb, var(--down) 15%, transparent); }
+.panel li b.tip { background: var(--acc-soft); }
+.bar { height: 12px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 18%, transparent); overflow: hidden; margin: 8px 0; }
+.bar i { display: block; height: 100%; border-radius: 999px; background: var(--acc); }
+.panel .big { font-size: 1.5rem; font-weight: 800; color: var(--ink); }
+.panel .note { font-size: .85rem; color: var(--muted); }
 /* The three ways to start */
 .st-key-opt_sales, .st-key-opt_sample, .st-key-opt_any {
-  background: rgba(30, 41, 59, .75); border-radius: 18px !important; min-height: 100%;
+  background: var(--card); border-radius: 18px !important; min-height: 100%; box-shadow: 0 2px 10px var(--shadow);
 }
-.st-key-opt_sales { border-top: 4px solid #0ea5e9 !important; }
-.st-key-opt_sample { border-top: 4px solid #10b981 !important; }
-.st-key-opt_any { border-top: 4px solid #ec5a9a !important; }
-[data-testid="stFileUploaderDropzone"] { border: 2px dashed #38bdf8; border-radius: 14px; }
-/* Phones: full-width buttons, readable text, less side space */
+/* Phones */
 @media (max-width: 640px) {
   div.stButton > button, div.stDownloadButton > button { width: 100%; }
+  .st-key-topbar div.stButton > button { width: auto; }
   div[data-testid="stChatMessage"] { width: 96% !important; }
-  div[data-testid="stMetricValue"] { font-size: 1.4rem; }
-  .hero h1 { font-size: 2rem; }
-  .st-key-tiles button { min-height: 76px; }
+  div[data-testid="stMetricValue"] { font-size: 1.35rem; }
+  .hero-card .h { font-size: 1.2rem; }
+  .mic { width: 54px; height: 54px; font-size: 1.5rem; }
+  /* Tabs become an icon bar at the bottom of the screen, mic in the middle */
+  .st-key-main_tab [role="tablist"] {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 999; border-radius: 0; justify-content: space-around;
+    background: var(--card); border-top: 1px solid var(--line); padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px));
+    overflow: visible;
+  }
+  .st-key-main_tab [role="tab"] { flex: 1; justify-content: center; padding: 6px 2px; color: var(--muted); background: transparent !important; }
+  .st-key-main_tab [role="tab"] p { font-size: 10px !important; line-height: 1.15; text-align: center;
+    white-space: normal; font-weight: 700; }
+  .st-key-main_tab [role="tab"] p span[role="img"] { display: block !important; margin: 0 auto 2px;
+    font-size: 24px !important; line-height: 1; vertical-align: top !important; }
+  .st-key-main_tab [role="tab"][aria-selected="true"] { color: var(--acc-text); }
+  .st-key-main_tab [role="tab"]:nth-child(3) p span[role="img"] {
+    background: var(--acc); color: var(--on-acc); border-radius: 50%; width: 46px; height: 46px; display: flex !important;
+    align-items: center; justify-content: center; margin: -24px auto 2px; box-shadow: 0 0 0 5px var(--card); }
+  [data-testid="stMainBlockContainer"] { padding-bottom: 96px; }
 }
 </style>
 """, unsafe_allow_html=True)
+_theme = getattr(st.context.theme, "type", None)
+if _theme in ("light", "dark"):     # the theme chosen in the app wins over the device setting
+    st.markdown(f"<style>:root {{ {OCEAN_DARK if _theme == 'dark' else OCEAN_LIGHT} }}</style>",
+                unsafe_allow_html=True)
 
 # ---------- Session state ----------
 DEFAULTS = {
@@ -229,6 +317,7 @@ SETTING_DEFAULTS = {
     "number_style": "1,234,567.89 (International)",
     "date_order": "Day/Month (most of the world)",
     "company": "",
+    "target": 0.0,           # monthly sales target (0 = none)
 }
 DATE_ORDERS = {"Day/Month (most of the world)": "day-first", "Month/Day (USA)": "month-first"}
 
@@ -499,8 +588,16 @@ compact = lambda v: fmt_compact(v, SYM, NSTYLE)
 COMPANY = st.session_state.company.strip()
 
 
+SCORE_HELP = ("The iRaaya Score (0–100) starts at 50. It goes up when sales are growing (comparing your "
+              "first and last 3 months, up to +25) and steady from month to month (up to +15), and when "
+              "you sell 4 or more products (+10). It goes down when sales are falling (−15) or very "
+              "uneven (−10). 80+ is Excellent, 60+ Good, 40+ Average, below 40 Needs attention.")
+
+
 # ---------- Navigation ----------
-TAB_LABELS = ["🏠 Home", "📊 My business", "💬 Ask iRaaya", "📅 Summary", "💡 Tips & reports", "⚙️ Settings"]
+TAB_LABELS = [":material/home: Home", ":material/bar_chart: My business", ":material/mic: Ask iRaaya",
+              ":material/calendar_month: Summary", ":material/lightbulb: Tips & reports",
+              ":material/settings: Settings"]
 HOME, BUSINESS, ASK, SUMMARY, TIPS, SETTINGS = TAB_LABELS
 
 
@@ -581,7 +678,7 @@ A = analyse(df) if df is not None and not df.empty else None
 if A:
     health = A["health"]
     st.sidebar.metric("iRaaya Score", f"{health['score']}/100", health["label"],
-                      delta_color=health["color"], delta_arrow="off")
+                      delta_color=health["color"], delta_arrow="off", help=SCORE_HELP)
 elif df is not None and df.empty:
     st.sidebar.warning("No sales match these filters. Try a wider date range or reset the filters.")
 
@@ -789,6 +886,9 @@ if st.session_state.get("main_tab") not in TAB_LABELS:
     st.session_state.pop("main_tab", None)
 # on_change="rerun": only the open tab's content runs (faster), and the open
 # tab is remembered
+if st.session_state.get("main_tab", HOME) == HOME:
+    # Home has its own big buttons, so the tab bar is hidden there
+    st.markdown('<style>.st-key-main_tab [role="tablist"] { display: none; }</style>', unsafe_allow_html=True)
 home_tab, tab1, tab2, sum_tab, tab3, tab4 = st.tabs(TAB_LABELS, key="main_tab", on_change="rerun")
 
 
@@ -827,22 +927,22 @@ def start_options():
     """The three ways to begin — in plain words, no technical knowledge needed."""
     c1, c2, c3 = st.columns(3)
     with c1.container(border=True, key="opt_sales"):
-        st.markdown("### 📊 My sales file")
+        st.markdown("#### :material/table_chart: My sales file")
         st.caption("Your sales from Excel, your billing machine, shop software or accountant. "
                    "It just needs a **date** and an **amount**.")
         handle_upload(st.file_uploader("Choose your sales file", type=["csv", "xlsx", "xls"],
                                        key="up_sales"))
     with c2.container(border=True, key="opt_sample"):
-        st.markdown("### ✨ Just looking?")
+        st.markdown("#### :material/auto_awesome: Just looking?")
         st.caption("See iRaaya work with a sample shop's sales — nothing to upload.")
-        if st.button("✨ Try with sample data", type="primary", width="stretch"):
+        if st.button("Try with sample data", type="primary", width="stretch", icon=":material/play_arrow:"):
             load_sample()
             st.session_state._goto = BUSINESS
             st.rerun()
-        st.download_button("⬇️ Download the sample file", SAMPLE_FILE.read_bytes(),
-                           "sample_data.csv", "text/csv", width="stretch")
+        st.download_button("Download the sample file", SAMPLE_FILE.read_bytes(), "sample_data.csv",
+                           "text/csv", width="stretch", icon=":material/download:")
     with c3.container(border=True, key="opt_any"):
-        st.markdown("### 📄 Any other file")
+        st.markdown("#### :material/description: Any other file")
         st.caption("A PDF or Word document, a price list, stock sheet, report or notes. "
                    "iRaaya shows it visually and answers questions about it.")
         handle_upload(st.file_uploader("Choose any file", type=ANY_TYPES, key="up_any"))
@@ -861,38 +961,104 @@ def start_options():
                    "and charts, and you can ask questions by voice — in your language.")
 
 
-def home():
-    greeting = f"Hello{', ' + COMPANY if COMPANY else ''} 👋"
-    st.markdown(
-        f'<div class="hero">{LOGO_SVG}<h1>{escape_html(greeting)}</h1>'
-        "<p>Your business, explained simply — in any language.</p></div>",
-        unsafe_allow_html=True,
-    )
-    if st.session_state.data_key is None:
-        st.markdown("#### How would you like to start?")
-        start_options()
+TRY_ASKING = [
+    "Which product sold most last month?",
+    "How were sales this week?",
+    "बिक्री पिछले महीने से कम क्यों है?",
+    "Which branch is growing fastest?",
+    "¿Cuál fue mi mejor día?",
+]
+def set_target():
+    """Popover callback: save the monthly target typed on Home."""
+    st.session_state.target = float(st.session_state.get("target_entry") or 0)
+
+
+def top_bar():
+    with st.container(horizontal=True, vertical_alignment="center", horizontal_alignment="distribute",
+                      key="topbar"):
+        st.markdown(f'<div class="brand">{LOGO_SVG}iRaaya</div>', unsafe_allow_html=True, width="content")
+        st.button("Settings", icon=":material/settings:", key="home_settings", on_click=go, args=(SETTINGS,),
+                  type="tertiary")
+
+
+def big_card(key: str, target: str, label: str, html: str):
+    """A whole card that opens a page when tapped."""
+    with st.container(key=key):
+        st.markdown(html, unsafe_allow_html=True)
+        st.button(label, key=key.replace("card_", "go_").replace("hero_", "go_"), on_click=go, args=(target,))
+
+
+def snapshot():
+    """Top of Home: the most useful number first, instead of a greeting."""
+    who = COMPANY or "Your business"
+    today = user_now().date()
+    name = escape_html(st.session_state.data_name or "")
+    if FULL_DF is None:
+        kind = "table" if st.session_state.doc_kind == "table" else "document"
+        pages = st.session_state.doc_pages
+        st.markdown(
+            f'<div class="snap"><div class="who">{escape_html(who)} · {today:%A %d %b}</div>'
+            f'<div class="big">📄 {escape_html(st.session_state.doc_name or "")}</div>'
+            f'<div class="file">Your {kind}{f" · {pages} pages" if pages else ""}</div></div>',
+            unsafe_allow_html=True)
         return
-    name = st.session_state.data_name
-    what = (f"{len(FULL_DF):,} sales" if FULL_DF is not None
-            else "a table" if st.session_state.doc_kind == "table" else "a document")
-    st.success(f"📂 You're looking at **{name}** ({what}). What would you like to do?")
-    tiles = [
-        ("tile_business", "📊  My business", "Cards & charts", BUSINESS),
-        ("tile_ask", "💬  Ask iRaaya", "Speak or type a question", ASK),
-        ("tile_summary", "📅  Summary", "Today, this week, this month", SUMMARY),
-        ("tile_tips", "💡  Tips & reports", "Advice, forecast, PDF, WhatsApp", TIPS),
-        ("tile_settings", "⚙️  Settings", "Business name, currency", SETTINGS),
-        ("tile_new", "📂  New file", "Look at a different file", None),
-    ]
-    with st.container(key="tiles"):
-        for row in (tiles[:3], tiles[3:]):
-            cols = st.columns(3)
-            for col, (key, label, sub, target) in zip(cols, row):
-                if target:
-                    col.button(label, key=key, width="stretch", on_click=go, args=(target,))
-                elif col.button(label, key=key, width="stretch"):
-                    st.session_state.show_new_file = True
-                col.caption(sub)
+    snap = day_snapshot(FULL_DF, today)
+    if snap["is_today"]:
+        when, head = f"{today:%A %d %b}", f"Today {money(snap['total'])}"
+    else:
+        when = f"{today:%A %d %b} · no sales in your file today"
+        head = f"{snap['day']:%a %d %b %Y}: {money(snap['total'])}"
+    delta = ""
+    if snap["pct"] is not None:
+        up = snap["pct"] >= 0
+        delta = (f'<span class="delta {"up" if up else "down"}">{"▲" if up else "▼"} {abs(snap["pct"]):.0f}% '
+                 f'vs a usual {snap["day"]:%A}</span>')
+    latest = "" if snap["is_today"] else " (the latest day in your file)"
+    st.markdown(
+        f'<div class="snap"><div class="who">{escape_html(who)} · {when}</div>'
+        f'<div class="big">{escape_html(head)}{delta}</div>'
+        f'<div class="file">📂 {name} · {len(FULL_DF):,} sales{latest}</div></div>',
+        unsafe_allow_html=True)
+
+
+def things_to_know():
+    facts = home_insights(FULL_DF, money, ALL)
+    icon = {"up": ("▲", "up"), "down": ("▼", "down"), "tip": ("💡", "tip")}
+    if facts:
+        items = "".join(f'<li><b class="{icon[f["kind"]][1]}">{icon[f["kind"]][0]}</b>{escape_html(f["text"])}</li>'
+                        for f in facts)
+    else:
+        items = "<li><b class=\"tip\">💡</b>Add a file with at least 2 weeks of daily sales to see what's changing.</li>"
+    st.markdown(f'<div class="panel"><h4>Things to know</h4><ul>{items}</ul></div>', unsafe_allow_html=True)
+
+
+def target_panel():
+    target = float(st.session_state.target or 0)
+    prog = target_progress(FULL_DF, target, user_now().date()) if target else None
+    if prog:
+        pct = prog["pct"]
+        if prog["current"]:
+            note = (f"{prog['days_left']} day{'s' if prog['days_left'] != 1 else ''} left · about "
+                    f"{money(prog['per_day'])} a day needed" if prog["per_day"] else
+                    "Target reached — well done! 🎉" if pct >= 100 else "Last day of the month")
+        else:
+            note = f"{prog['month'].strftime('%B %Y')} is the latest month in your file"
+        st.markdown(
+            f'<div class="panel"><h4>Monthly target · {prog["month"].strftime("%B %Y")}</h4>'
+            f'<div class="big">{money(prog["sold"])} <span class="note">of {money(target)}</span></div>'
+            f'<div class="bar"><i style="width:{min(pct, 100):.0f}%"></i></div>'
+            f'<div class="note"><b>{pct:.0f}% there</b> · {note}</div></div>', unsafe_allow_html=True)
+    else:
+        st.markdown('<div class="panel"><h4>Monthly target</h4><div class="note">Set a sales goal for the '
+                    'month and iRaaya shows how close you are, and how much you need each day.</div></div>',
+                    unsafe_allow_html=True)
+    with st.popover("Change target" if target else "Set a monthly target", icon=":material/flag:", width="stretch"):
+        st.number_input(f"Monthly sales target{f' ({SYM})' if SYM else ''}", min_value=0.0, step=1000.0,
+                        value=target, key="target_entry")
+        st.button("Save target", type="primary", on_click=set_target, width="stretch")
+
+
+def new_file_box():
     if st.session_state.get("show_new_file"):
         with st.container(border=True, key="new_file"):
             st.markdown("#### 📂 Look at a different file")
@@ -901,6 +1067,51 @@ def home():
             if st.button("Cancel"):
                 st.session_state.show_new_file = False
                 st.rerun()
+
+
+def home():
+    top_bar()
+    if st.session_state.data_key is None:
+        questions = "".join(f"<span>“{escape_html(q)}”</span>" for q in TRY_ASKING)
+        st.markdown(
+            f'<div class="welcome">{LOGO_SVG}<h1>iRaaya</h1><p class="tagline">Your business voice</p>'
+            '<p class="lede">Add your sales file, then ask anything by voice or text, in any language. '
+            'iRaaya answers with numbers, charts and plain words.</p>'
+            f'<div class="tryask"><div style="flex:1;min-width:0"><div class="lbl">TRY ASKING</div>'
+            f'<div class="qs">{questions}</div></div><div class="bubble">💬</div></div></div>',
+            unsafe_allow_html=True)
+        st.write("")
+        start_options()
+        return
+    snapshot()
+    doc = FULL_DF is None
+    big_card("hero_ask", ASK, "Ask iRaaya",
+             '<div class="hero-card"><div><div class="h">What would you like to know'
+             f'{" about it" if doc else ""}?</div><div class="s">Tap here and ask by voice or text, '
+             'in any language</div></div><div class="mic">🎤</div></div>')
+    c1, c2 = st.columns(2)
+    with c1:
+        big_card("card_business", BUSINESS, "My business",
+                 '<div class="tile"><div class="ico">📊</div><div><div class="t">'
+                 f'{"Your file" if doc else "My business"}</div><div class="d">'
+                 f'{"Summary, key numbers and charts" if doc else "Cards and charts"}</div></div></div>')
+    with c2:
+        big_card("card_summary", SUMMARY, "Summary",
+                 '<div class="tile"><div class="ico">📅</div><div><div class="t">Summary</div>'
+                 '<div class="d">Today, this week, this month</div></div></div>')
+    with st.container(key="slim"):
+        s1, s2, s3 = st.columns(3)
+        s1.button("Tips & reports", icon=":material/lightbulb:", width="stretch", on_click=go, args=(TIPS,), key="slim_tips")
+        s2.button("Settings", icon=":material/settings:", width="stretch", on_click=go, args=(SETTINGS,), key="slim_settings")
+        if s3.button("New file", icon=":material/upload_file:", width="stretch", key="slim_new"):
+            st.session_state.show_new_file = True
+    new_file_box()
+    if not doc:
+        p1, p2 = st.columns(2)
+        with p1:
+            things_to_know()
+        with p2:
+            target_panel()
 
 
 def data_preview():
@@ -995,7 +1206,8 @@ def document_view():
             st.markdown(f"**📊 Table {n}{where} as charts**")
             cols = st.columns(min(len(figs), 2))
             for i, fig in enumerate(figs):
-                cols[i % len(cols)].plotly_chart(fig, width="stretch", key=f"tbl_{n}_{i}")
+                with cols[i % len(cols)]:
+                    show_chart(fig, f"tbl_{n}_{i}")
             charted += 1
         with st.expander(f"See table {n}{where}"):
             head, body = t["rows"][0], t["rows"][1:]
@@ -1010,6 +1222,42 @@ def document_view():
 
 def metric_delta(value, text="vs previous period"):
     return None if value is None else f"{value:+.1f}% {text}"
+
+
+SHARE_TIP = ("📷 To share a chart as a picture: hover over it (or tap it on a phone), then tap the "
+             "camera icon at its top right. Send the saved picture on WhatsApp or email.")
+
+
+def show_chart(fig, key: str):
+    """A chart with an "Explain this chart" button under it."""
+    st.plotly_chart(fig, width="stretch", key=key, config=MODEBAR)
+    title = re.sub(r"^\W+", "", str(fig.layout.title.text or "this chart")).strip()
+    data_text = figure_data_text(fig)
+    if not data_text:
+        return
+    ekey = hashlib.md5(f"{title}|{data_text}|{selected_language}|{selected_mode}".encode()).hexdigest()
+    store = st.session_state.setdefault("chart_explain", {})
+    text = store.get(ekey)
+    if text is None and st.button("Explain this chart", key=f"ex_{key}", icon=":material/forum:",
+                                  type="tertiary"):
+        note = (f"All money values are in {currency[1]}." if currency
+                else "No currency is set: don't use a currency symbol.")
+        try:
+            with st.spinner("iRaaya is reading the chart…"):
+                text = explain_chart(title, data_text, note, GROQ_KEY, selected_language, selected_mode)
+            store[ekey] = text
+        except Exception as e:
+            show_error(e)
+    if text:
+        with st.container(border=True):
+            st.markdown(f"**{title}:** {text}")
+            c1, c2 = st.columns(2)
+            if c1.button("🔊 Read it to me", key=f"read_ex_{key}", width="stretch"):
+                audio = speak(text)
+                if audio:
+                    st.audio(audio, format="audio/mp3", autoplay=True)
+            with c2:
+                copy_button(text, key=f"copy_ex_{key}", label="📋 Copy")
 
 
 # ---------- Home ----------
@@ -1063,21 +1311,21 @@ if tab1.open:
                 st.caption(prev_note)
 
                 anomalies = A["anomalies"]
-                st.plotly_chart(revenue_by_month(df, [a["month"] for a in anomalies], SYM, NSTYLE),
-                                width="stretch")
+                show_chart(revenue_by_month(df, [a["month"] for a in anomalies], SYM, NSTYLE), "ch_month")
                 has_products = df.Product.nunique() > 1
                 has_regions = df.Region.nunique() > 1
                 cols = st.columns(2) if has_products and has_regions else [st.container()]
                 if has_products:
                     with cols[0]:
-                        st.plotly_chart(top_products(df, SYM, NSTYLE), width="stretch")
+                        show_chart(top_products(df, SYM, NSTYLE), "ch_products")
                 if has_regions:
                     with cols[-1]:
-                        st.plotly_chart(regional_performance(df, SYM, NSTYLE, growth_by(df, prev, "Region")),
-                                        width="stretch")
-                st.plotly_chart(revenue_trend(df, SYM, NSTYLE), width="stretch")
+                        show_chart(regional_performance(df, SYM, NSTYLE, growth_by(df, prev, "Region")),
+                                   "ch_regions")
+                show_chart(revenue_trend(df, SYM, NSTYLE), "ch_trend")
                 if has_products:
-                    st.plotly_chart(product_comparison(df, SYM, NSTYLE), width="stretch")
+                    show_chart(product_comparison(df, SYM, NSTYLE), "ch_compare")
+                st.caption(SHARE_TIP)
 
                 if anomalies:
                     st.subheader("⚠️ Unusual months")
@@ -1097,13 +1345,6 @@ if tab1.open:
                 )
 
 # ---------- Tab 2: Ask iRaaya ----------
-QUICK_QUESTIONS = {
-    "Best month?": "What was my best month?",
-    "Top product?": "Which product sells most?",
-    "Growth trend?": "What is my growth trend?",
-    "Any anomalies?": "Were there any unusual months?",
-    "What to focus on?": "What should I focus on next?",
-}
 DOC_QUICK_QUESTIONS = {
     "Summary?": "Summarise this document in a few sentences.",
     "Key points?": "What are the key points?",
@@ -1111,6 +1352,24 @@ DOC_QUICK_QUESTIONS = {
     "Amounts?": "What amounts, prices or totals are mentioned?",
     "Actions?": "What actions or next steps does it ask for?",
 }
+
+
+def personal_questions(data: pd.DataFrame) -> dict:
+    """Quick questions that use the owner's own products, places and months."""
+    qs = {}
+    latest = data.Date.max()
+    products = data.groupby("Product").Total_Revenue.sum().sort_values(ascending=False)
+    if len(products) > 1 and products.index[0] != ALL:
+        top = products.index[0]
+        qs[f"How did {top} do in {latest:%B}?"] = f"How did {top} do in {latest:%B %Y}?"
+    places = data.groupby("Region").Total_Revenue.sum().sort_values(ascending=False)
+    if len(places) > 1 and places.index[0] != ALL:
+        qs[f"Is {places.index[0]} growing?"] = f"Is {places.index[0]} growing?"
+    if len(products) > 2 and products.index[-1] != ALL:
+        qs[f"Why is {products.index[-1]} selling least?"] = f"Why is {products.index[-1]} selling least?"
+    qs["What was my best month?"] = "What was my best month?"
+    qs["What should I focus on next?"] = "What should I focus on next?"
+    return dict(list(qs.items())[:5])
 
 
 def is_own_echo(heard: str) -> bool:
@@ -1215,12 +1474,12 @@ if tab2.open:
                                        key=f"voice_q_{st.session_state.voice_q_n}")
             recording = spoken or ((basic.getvalue(), "question.wav") if basic else None)
 
-            quick = DOC_QUICK_QUESTIONS if is_document() else QUICK_QUESTIONS
-            st.caption("Or tap a quick question, or type below:")
-            cols = st.columns(len(quick))
-            for col, (label, q) in zip(cols, quick.items()):
-                if col.button(label, width="stretch"):
-                    st.session_state.pending_question = (q, False)
+            quick = DOC_QUICK_QUESTIONS if is_document() else personal_questions(df)
+            st.caption("Or tap a question, or type below:")
+            with st.container(horizontal=True, key="quick_qs"):
+                for n, (label, q) in enumerate(quick.items()):
+                    if st.button(label, key=f"qq_{n}"):
+                        st.session_state.pending_question = (q, False)
             typed = st.chat_input("Type your question...", key="ask_input")
             if typed and typed.strip():
                 st.session_state.pending_question = (typed.strip(), False)
@@ -1400,10 +1659,10 @@ if sum_tab.open:
                     m[3].metric("📆 Average per sales day", money(c["total"] / max(days, 1)),
                                 f"{days} day(s) with sales", delta_color="off", delta_arrow="off")
                 if period_df.Date.dt.date.nunique() > 1:
-                    st.plotly_chart(revenue_by_month(period_df, [], SYM, NSTYLE) if (end - start).days > 62
-                                    else revenue_trend(period_df, SYM, NSTYLE), width="stretch", key="sum_chart")
+                    show_chart(revenue_by_month(period_df, [], SYM, NSTYLE) if (end - start).days > 62
+                               else revenue_trend(period_df, SYM, NSTYLE), "sum_chart")
                 elif period_df.Product.nunique() > 1:
-                    st.plotly_chart(top_products(period_df, SYM, NSTYLE), width="stretch", key="sum_chart")
+                    show_chart(top_products(period_df, SYM, NSTYLE), "sum_chart")
 
                 skey = f"{start}_{end}_{selected_language}_{selected_mode}_{sorted((k, tuple(v)) for k, v in choices.items() if v)}"
                 written = st.session_state.period_summaries.get(skey)
@@ -1467,8 +1726,8 @@ if tab3.open:
             if forecast_data is None:
                 st.info("At least 3 months of data are needed for a forecast.")
             else:
-                st.plotly_chart(forecast_chart(forecast_data["historical"], forecast_data["forecast"],
-                                               SYM, NSTYLE), width="stretch")
+                show_chart(forecast_chart(forecast_data["historical"], forecast_data["forecast"],
+                                          SYM, NSTYLE), "ch_forecast")
                 cols = st.columns(4)
                 for col, f in zip(cols, forecast_data["forecast"]):
                     col.metric(pd.Period(f["date"]).strftime("%b %Y"), money(f["predicted_revenue"]),
@@ -1489,7 +1748,8 @@ if tab3.open:
             st.divider()
             st.subheader("💊 Business Health Score")
             st.metric("iRaaya Score", f"{health['score']}/100", health["label"],
-                      delta_color=health["color"], delta_arrow="off")
+                      delta_color=health["color"], delta_arrow="off", help=SCORE_HELP)
+            st.caption("ⓘ " + SCORE_HELP)
             for factor in health["factors"]:
                 st.write(f"• {factor}")
 
@@ -1558,6 +1818,20 @@ if tab4.open:
             for key, value in SETTING_DEFAULTS.items():
                 st.session_state[key] = value
             st.rerun()
+
+        st.subheader("🎯 Monthly target")
+        st.number_input(f"Monthly sales target{f' ({SYM})' if SYM else ''}", min_value=0.0, step=1000.0,
+                        key="target", persist_state="session",
+                        help="Shown on the Home screen with how much you still need each day. 0 = no target.")
+
+        st.subheader("📱 iRaaya on your phone")
+        with st.expander("Put iRaaya on your home screen, like an app"):
+            st.markdown(
+                "- **iPhone / iPad (Safari):** open iRaaya, tap **Share** (the square with an arrow) → "
+                "**Add to Home Screen** → **Add**.\n"
+                "- **Android (Chrome):** open iRaaya, tap **⋮** (top right) → **Add to Home screen** "
+                "or **Install app**.\n"
+                "- Then open iRaaya from the water-drop icon on your home screen, like any other app.")
 
         st.subheader("🔒 Your data")
         st.caption("iRaaya keeps your data, conversation and settings only in this browser on this "
