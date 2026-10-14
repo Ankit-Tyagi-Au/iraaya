@@ -165,6 +165,9 @@ div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatarUser"])
   background: radial-gradient(900px 420px at 50% -12%, color-mix(in srgb, var(--acc) 14%, transparent), transparent 70%), var(--page);
 }
 [data-testid="stHeader"] { background: transparent; }
+/* Less empty space at the top, and no gaps from invisible style blocks */
+[data-testid="stMainBlockContainer"] { padding-top: 2.75rem; }
+[data-testid="stElementContainer"]:has([data-testid="stMarkdownContainer"] > style:only-child) { display: none; }
 [data-testid="stToolbarActions"] { display: none; }     /* "Fork" / GitHub links */
 [data-testid="stFileUploaderDropzone"] { border: 1.5px dashed color-mix(in srgb, var(--acc) 60%, var(--line)); border-radius: 14px; }
 
@@ -890,7 +893,8 @@ if st.session_state.get("main_tab") not in TAB_LABELS:
 # tab is remembered
 if st.session_state.get("main_tab", HOME) == HOME:
     # Home has its own big buttons, so the tab bar is hidden there
-    st.markdown('<style>.st-key-main_tab [role="tablist"] { display: none; }</style>', unsafe_allow_html=True)
+    st.markdown('<style>.st-key-main_tab [role="tablist"] { display: none; } '
+                '.st-key-main_tab [role="tabpanel"] { padding-top: 0; }</style>', unsafe_allow_html=True)
 home_tab, tab1, tab2, sum_tab, tab3, tab4 = st.tabs(TAB_LABELS, key="main_tab", on_change="rerun")
 
 
